@@ -16,22 +16,23 @@ services:
       # host : container
     ports: 
       - 5000:5000
-    environment: 
-        PORT: 5000
-        FLASK_DEBUG: 1
-    # secrets:
-    #   - my_secret
+    environment:
+      - DB_USER=${DB_USER}
+      - DB_PWD=${DB_PWD}
+      - DB_NAME=${DB_NAME}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
 
   # app:
   #   build: ./app
 
   db:
-    image: mysql
+    image: mysql:5.7
     # restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
     ports:
-      - "3307:3307"
+      - "3306:3306"
     volumes:
       - db-data:/var/lib/mysql
 
@@ -42,10 +43,6 @@ services:
       - PMA_ARBITRARY=1
     ports:
       - 8080:80
-
-# secrets:
-#   my_secret:
-#     file: ./backend/.env
 
 volumes:
   db-data:

@@ -4,3 +4,4 @@ mysqlclient
 requests
 # line-bot-sdk 
 mysql-connector-python
+Flask-SQLAlchemy
