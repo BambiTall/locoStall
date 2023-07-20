@@ -5,9 +5,8 @@ COPY . /app
 # 容器內執行 python 的路徑
 WORKDIR /app
 
-# flask 主程式檔名是 main.py 檔案，不能加空格
-# ENV FLASK_APP=main.py
-ENV FLASK_APP=api.py
+# flask 主程式檔名是 __init__.py
+ENV FLASK_APP=__init__.py
 
 # 讓其他人都可以連入 flask
 ENV FLASK_RUN_HOST=0.0.0.0

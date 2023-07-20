@@ -1,0 +1,22 @@
+from flask import Flask
+from flask_cors import CORS
+import os
+from .extentions import db
+
+# import blueprint
+from .routes.user import user_bp
+
+def create_app():
+    app = Flask(__name__)
+
+    # db setting
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql+pymysql://{os.environ["DB_USER"]}:{os.environ["DB_PWD"]}@{os.environ["DB_HOST"]}:{os.environ["DB_PORT"]}/{os.environ["DB_NAME"]}'
+    app.config['SQLALCHEMY_TRACK_MODIFICATION'] = False
+    
+    # register blueprint
+    app.register_blueprint(user_bp)
+
+    db.init_app(app)
+    CORS(app)
+    
+    return app
