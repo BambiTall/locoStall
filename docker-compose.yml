@@ -1,19 +1,8 @@
 version: "3"
 
 services:
-  # web:
-  #   # 資料夾路徑
-  #   build: ./frontend
-  #   ports:
-  #     # host : container
-  #     - 5173:3000
-  #   volumes:
-  #     - "./frontend:/project"
-  #     - "/node_modules"
-
   api:
     build: ./backend
-      # host : container
     ports: 
       - 5000:5000
     environment:
@@ -23,27 +12,6 @@ services:
       - DB_HOST=${DB_HOST}
       - DB_PORT=${DB_PORT}
       - API_BASE=${API_BASE}
-
-  # app:
-  #   build: ./app
-
-  db:
-    image: mysql:5.7
-    # restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-    ports:
-      - "3306:3306"
     volumes:
-      - db-data:/var/lib/mysql
+      - ./backend:/app
 
-  admin:
-    image: phpmyadmin
-    # restart: always
-    environment:
-      - PMA_ARBITRARY=1
-    ports:
-      - 8080:80
-
-volumes:
-  db-data:
