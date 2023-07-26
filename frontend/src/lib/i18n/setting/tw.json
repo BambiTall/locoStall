@@ -1,0 +1,80 @@
+{
+    "setting" : {
+        "head" : {
+            "title": "設定"
+        },
+        "body" : {
+            "list" : {
+                "site" : "網站",
+                "style" : "樣式",
+                "user" : "用戶",
+                "product" : "商品",
+                "booking" : "預約",
+                "news" : "新聞",
+                "works" : "作品集",
+                "blog" : "部落格",
+                "widget" : "小組件",
+                "mail" : "信箱",
+                "shipment" : "物流",
+                "payments" : "金流",
+                "retargeting" : "在行銷",
+                "rewards" : "紅利點數",
+                "checkout" : "結帳",
+                "shopping" : "購物"
+            }
+        },
+        "user" :{
+            "title" : "用戶"
+        },
+        "product" :{
+            "title" : "商品",
+            "block_title" :{
+                "list" : "列表",
+                "detail" : "資訊頁面"
+            } 
+        },
+        "booking" :{
+            "title" : "預約",
+            "block_title" :{
+                "list" : "列表",
+                "detail" : "資訊頁面"
+            } 
+        },
+        "news" :{
+            "title" : "新聞",
+            "block_title" :{
+                "list" : "列表",
+                "detail" : "資訊頁面"
+            } 
+        },
+        "works" :{
+            "title" : "作品集",
+            "block_title" :{
+                "list" : "列表",
+                "detail" : "資訊頁面"
+            } 
+        },
+        "blog" :{
+            "title" : "部落格",
+            "block_title" :{
+                "list" : "列表",
+                "detail" : "資訊頁面"
+            } 
+        },
+        "shopping" :{
+            "title" : "購物",
+            "block_title" :{
+                "customer" : "顧客",
+                "bag" : "購物袋",
+                "checkout" : "結帳"
+            } 
+        },
+        "shipment" :{
+            "title" : "物流",
+            "block_title" :{
+                "canal" : "運送方式",
+                "logistics" : "物流"
+            }
+        }
+    }
+}

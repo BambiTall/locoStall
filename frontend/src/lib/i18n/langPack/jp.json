@@ -1,0 +1,10 @@
+{
+    "index": {
+        "shop_list": "店舗リスト"
+    },
+    "signup": "サインアップ",
+    "login": "ログイン",
+    "logout": "ログアウト",
+    "email": "メールアドレス",
+    "password": "パスワード"
+}

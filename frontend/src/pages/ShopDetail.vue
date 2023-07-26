@@ -1,10 +1,11 @@
 <script setup>
 import axios from 'axios';
-import { reactive, ref, computed, onMounted } from 'vue';
+import { reactive, ref, computed, onMounted, onBeforeMount } from 'vue';
 import { useStore } from "vuex";
 import { useRouter, useRoute } from "vue-router";
+import api from '@/axios/api.js';
 
-const shops = ref([])
+const shopDetail = ref()
 
 const route = useRoute()
 const router = useRouter()
@@ -13,33 +14,56 @@ const store = useStore()
 const lang = route.params.lang;
 const id = route.params.id;
 
-onMounted(()=>{
-  var url = `http://localhost:5000/api/${lang}/shop/${id}`
+const getShopDetail = async(id)=>{
+  try {
+    const res = await api.get(`${lang}/shop/${id}`);
+    shopDetail.value = res.data;
+    console.log('getShopDetail res',res);
+    shopDetail.value.menu.map((item) => {
+      item.qty = 0
+    })
+  } catch (error) {
+    console.error(error);
+  }
+}
 
-  axios.get(url).then(function (response) {
-    shops.value = response.data
-    
-    for(let i=0; i<shops.value[0].menu.length; i++){
-      shops.value[0].menu[i].buy = 0;
-    }
 
-  }).catch(function (response) {
-      console.log(response);
-  })
-})
+onBeforeMount(async () => {
+  try {
+    await Promise.all([
+      getShopDetail(id)
+    ]);
+  } catch (error) {
+    console.error(error);
+  }
+});
+
 
 const total = ref(0)
 const valChange = () => {
-    total.value = 0
-    for(let i=0; i<shops.value[0].menu.length; i++){
-      total.value += Number(shops.value[0].menu[i].buy) * shops.value[0].menu[i].price;
-    }
+  total.value = 0
+  for(let i=0; i<shopDetail.value.menu.length; i++){
+    total.value += Number(shopDetail.value.menu[i].qty) * shopDetail.value.menu[i].price;
+  }
 }
 
 const goPayment = () => {
-  console.log('goPayment');
   // 把訂單內容存進 store
-  store.dispatch("order", shops.value[0].menu);
+  let orderList = []
+
+  shopDetail.value.menu.map((i)=>{
+    console.log('i.qty',i.qty);
+    
+    if(i.qty > 0){
+      orderList.push({
+        name: i.name,
+        prod_id: i.prod_id,
+        qty: i.qty,
+        price: i.price
+      })
+    }
+  })
+  store.dispatch("order", orderList);
 
   router.push({ name: 'Payment', params: { lang: lang } })
 
@@ -49,26 +73,35 @@ const goPayment = () => {
 </script>
 
 <template>
-  <div class="_shopDetail">
-    <div v-for="item,idx in shops" :key="idx">
-      <h1 class="_shopDetail_name">{{ item.name }}</h1>
+  <div class="_shopDetail" v-if="shopDetail">
+
+  <a-row>
+    <a-col :sm="{ span: 24 }" :md="{ span: 8 }">
+      <h1 class="_shopDetail_name">{{ shopDetail.name }}</h1>
+      <a-rate v-model:value="shopDetail.rating" allow-half disabled />
+      <p>description: {{ shopDetail.description }}</p>
+    </a-col>
+
+    <a-col :sm="{ span: 24 }" :md="{ span: 16 }">
       <ul class="_shopDetail_menu">
-        <li class="_shopDetail_menu__item" v-for="i,index in item.menu" :key="index">
+        <li class="_shopDetail_menu__item" v-for="item,index in shopDetail.menu" :key="index">
           <div class="_shopDetail_menu__left">
-            <img class="_shopDetail_menu__img" v-if="!item.img" alt="" src="@/assets/default.jpg" />
+            <img class="_shopDetail_menu__img" v-if="!shopDetail.img" alt="" src="@/assets/default.jpg" />
+            <div class="_shopDetail_menu__infoIcon">
+              <i class="las la-info-circle"></i>
+            </div>
           </div>
           <div class="_shopDetail_menu__right">
-            <p class="_shopDetail_menu__name">{{ i.name }}</p>
-            <!-- {{ i.description }} -->
+            <p class="_shopDetail_menu__name">{{ item.name }}</p>
             <div class="_shopDetail_order">
               <div class="_shopDetail_order__price">
                 <span class="_shopDetail_order__currency">NTD</span>
-                <span class="_shopDetail_order__num">{{ i.price }}</span>
+                <span class="_shopDetail_order__num">{{ item.price }}</span>
               </div>
               
               <div class="_shopDetail_count">
                 <a-input-group compact>
-                  <a-select class="_shopDetail_count__num" v-model:value="i.buy" @change="valChange()">
+                  <a-select class="_shopDetail_count__num" v-model:value="item.qty" @change="valChange()">
                     <a-select-option value="0">0</a-select-option>
                     <a-select-option v-for="n in 20" :value="n">{{ n }}</a-select-option>
                   </a-select>
@@ -78,14 +111,16 @@ const goPayment = () => {
           </div>
         </li>
       </ul>
+    </a-col>
+  </a-row>
 
-      <a-button class="_bigBtn" @click="goPayment" type="primary" block>
-       <div class="_bigBtn_wrap">
-          <div>Total<span class="_bigBtn_total">{{ total }}</span></div>
-          Continue
-        </div>
-      </a-button>
+  <a-button class="_bigBtn" @click="goPayment" type="primary" block>
+    <div class="_bigBtn_wrap">
+      <div>Total<span class="_bigBtn_total">{{ total }}</span></div>
+      Continue
     </div>
+  </a-button>
+
   </div>
 </template>
 
@@ -118,6 +153,7 @@ const goPayment = () => {
 }
 ._shopDetail_menu__left{
   flex: 1;
+  position: relative;
 }
 ._shopDetail_menu__right{
   flex: 3;
@@ -126,6 +162,16 @@ const goPayment = () => {
 }
 ._shopDetail_menu__img{
   width: 100%;
+}
+._shopDetail_menu__infoIcon{
+  position: absolute;
+  right: .5rem;
+  bottom: .5rem;
+  color: white;
+
+  i {
+    font-size: 2rem;
+  }
 }
 ._shopDetail_menu__name{
   font-size: 1rem;
@@ -163,4 +209,6 @@ const goPayment = () => {
   font-weight: bold;
   margin-left: .5rem;
 }
+
+
 </style>

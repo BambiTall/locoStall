@@ -1,0 +1,80 @@
+{
+    "setting" : {
+        "head" : {
+            "title": "SETTING"
+        },
+        "body" : {
+            "list" : {
+                "site" : "Site",
+                "style" : "Style",
+                "user" : "User",
+                "product" : "Product",
+                "booking" : "Booking",
+                "news" : "News",
+                "works" : "Works",
+                "blog" : "Blog",
+                "widget" : "Widget",
+                "mail" : "Mail",
+                "shipment" : "Shipment",
+                "payments" : "Payments",
+                "retargeting" : "Retargeting",
+                "rewards" : "Rewards",
+                "checkout" : "Checkout",
+                "shopping" : "Shopping"
+            }
+        },
+        "user" :{
+            "title" : "User"
+        },
+        "product" :{
+            "title" : "Product",
+            "block_title" :{
+                "list" : "List",
+                "detail" : "Detail"
+            } 
+        },
+        "booking" :{
+            "title" : "Booking",
+            "block_title" :{
+                "list" : "List",
+                "detail" : "Detail"
+            } 
+        },
+        "news" :{
+            "title" : "News",
+            "block_title" :{
+                "list" : "List",
+                "detail" : "Detail"
+            } 
+        },
+        "works" :{
+            "title" : "Works",
+            "block_title" :{
+                "list" : "List",
+                "detail" : "Detail"
+            } 
+        },
+        "blog" :{
+            "title" : "Blog",
+            "block_title" :{
+                "list" : "List",
+                "detail" : "Detail"
+            } 
+        },
+        "shopping" :{
+            "title" : "Shopping",
+            "block_title" :{
+                "customer" : "Customer",
+                "bag" : "Bag",
+                "checkout" : "checkout"
+            } 
+        },
+        "shipment" :{
+            "title" : "Shipment",
+            "block_title" :{
+                "canal" : "Canal",
+                "logistics" : "Logistics"
+            }
+        }
+    }
+}

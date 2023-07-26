@@ -3,43 +3,75 @@ import axios from 'axios';
 import { reactive, ref, computed, onMounted } from 'vue';
 // import { useStore } from "vuex";
 import { useRouter, useRoute } from "vue-router";
+import api from '@/axios/api.js';
 
 const shopList = ref([])
 const route = useRoute()
 const lang = route.params.lang;
 
-onMounted(()=>{
-  var url = `http://localhost:5000/api/${lang}/shops`
+// i18n
+import { useI18n } from "vue-i18n";
+const { t, locale } = useI18n({ useScope: "global" });
 
-  axios.get(url).then(function (response) {
-    shopList.value = response.data
-  }).catch(function (response) {
-      console.log(response);
-  })
-})
+const getShopList = async()=>{
+  try {
+    const res = await api.get(`${lang}/shops`);
+    shopList.value = res.data;
+    
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+
+onMounted(async () => {
+  try {
+    await Promise.all([
+      getShopList(),
+    ]);
+  } catch (error) {
+    console.error(error);
+  }
+});
 </script>
 
 <template>
-  <h1>SHOP LIST</h1>
-  
-  <ul class="_shopList">
-    <li class="_shopList_item" v-for="shop,idx in shopList" :key="idx">
-      <router-link class="_shopList_item__a" :to="`/${lang}/shop/${shop.shop_id}`">{{ shop.name }}</router-link>
-    </li>
-  </ul>
+  <a-typography-title>{{ t('index.shop_list') }} </a-typography-title>
+  <a-row :gutter="[20, 20]">
+    <a-col :xs="12" :sm="8" :md="6" :lg="4" :xl="4" v-for="shop,idx in shopList" :key="idx">
+      <router-link :to="`/${lang}/shop/${shop.shop_id}`">
+        <a-card hoverable class="_shopList_item">
+            <template #cover>
+              <img
+                alt="example"
+                src="@/assets/default.jpg"
+              />
+            </template>
+            <template class="ant-card-actions" #actions>
+              Know more
+            </template>
+              <a-card-meta :title="shop.name" :description="shop.description">
+              </a-card-meta>
+        </a-card>
+      </router-link>
+    </a-col>
+  </a-row>
 
 </template>
 
 <style scoped lang="scss">
-._shopList_item{
-  padding: .5rem 0;
-}
-._shopList_item__a{
-  color: $color-gray-1;
-  transition: .2s;
-  
-  &:hover{
-    color: $color-blue;
+._shopList{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 2%;
+
+  > a{
+    display: flex;
+    flex-basis: 18% !important;
   }
+}
+._shopList_item{
+  width: 100%;
 }
 </style>
