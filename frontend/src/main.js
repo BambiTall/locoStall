@@ -3,7 +3,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from '../src/router'
 import Vuex from 'vuex';
-import { store } from './store/store'
+import store from './store/store'
 import Antd from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.css';
 import i18n from '@/lib/i18n/lang'

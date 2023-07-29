@@ -1,17 +1,14 @@
 import { createStore } from 'vuex'
 import { ref,reactive } from "vue";
+import i18n from '@/lib/i18n/lang'
 
-export const store = createStore({
+const store = createStore({
     state () {
         return {
-            currLang: 'zh',
+            currLang: i18n.global.locale,
             login: ref(false),
             order: [],
             langList:[
-                {
-                    value: 'disabled',
-                    label: 'Please Select your native Language',
-                },
                 {
                     value: 'en',
                     label: 'English',
@@ -21,9 +18,10 @@ export const store = createStore({
                 },{
                     value: 'zh',
                     label: '中文',
-                },
+                }
             ],
-            currUser: {}
+            currUser: {},
+            currOrder: {}
         }
     },
     getters:{
@@ -38,6 +36,9 @@ export const store = createStore({
         },
         login:state=>{
             return state.login
+        },
+        currOrder:state => {
+            return state.currOrder
         },
     },
     actions:{
@@ -58,6 +59,9 @@ export const store = createStore({
         },
         setCurrUser:({commit}, data)=>{
             commit("setCurrUser", data)
+        },
+        setCurrOrder:({commit}, data)=>{
+            commit("setCurrOrder", data)
         },
     },
     mutations:{
@@ -83,9 +87,12 @@ export const store = createStore({
             localStorage.setItem('currLang', lang);
         },
         setCurrUser:(state, data)=>{
-            console.log('@store setCurrUser data',data);
-            
             state.currUser = data;
+        },
+        setCurrOrder:(state, data)=>{
+            state.currOrder = data;
         },
     }
 })
+
+export default store;

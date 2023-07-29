@@ -2,38 +2,37 @@
 import { reactive, ref, computed, onMounted, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter, useRoute } from "vue-router";
+import { useI18n } from "vue-i18n";
 import Logo from "../assets/locoStall_logo.vue";
 
+const store = useStore();
+const route = useRoute();
+const router = useRouter();
+
+// getters
+const isLogin = computed(() => store.getters.login);
+const langOptions = ref(store.getters.langList)
+
+// local storage
+let urlLang = ref(localStorage.getItem('currLang'));
+
 // i18n
-import { useI18n } from "vue-i18n";
 const i18n = useI18n();
 const { t, locale, availableLocales } = useI18n({ useScope: "global" });
+
+let localeOptions = {}
+
+langOptions.value.map((item)=>{
+  localeOptions[item.value] = item.label
+})
+
 const localeTrans={
-  "locale": {
-    "en": "English",
-    "jp": "日本語",
-    "tw": "中文",
-  }
+  "locale": localeOptions
 }
+
 for(var k in availableLocales){
-  i18n.mergeLocaleMessage(availableLocales[k], localeTrans);  
+  i18n.mergeLocaleMessage(availableLocales[k], localeTrans);
 }
-// const switchLang = () => {
-//   router.push({ name: 'Login' })
-// }
-
-// vuex
-const store = useStore();
-const router = useRouter()
-
-const isLogin = computed(() => store.getters.login);
-const currLang = computed(() => store.getters.currLang);
-// const currLang = ref(store.getters.currLang);
-// const isLogin = ref(store.getters.login);
-// console.log('currLang',currLang.value);
-
-// let lsLang = localStorage.getItem('currLang');
-
 
 const login = () => {
   router.push({ name: 'Login' })
@@ -41,20 +40,21 @@ const login = () => {
 const logout = () => {
   store.dispatch('logout');
 }
-// watch(currLang, (oldValue,newValue) => {
-//   console.log('watch(currLang',oldValue,newValue);
-  
-//   localStorage.setItem('lang', newValue);
-// });
+const handleLangChange = (locale) => {
+  urlLang.value = locale;
+  router.push({ name: route.params.name, params: { lang: locale } }).then(() => {
+    location.reload();
+  });
+}
 
 </script>
 
 <template>
   <ul class="_nav">
-    <router-link to="/" class="_nav_logo"><Logo class="_nav_logo__svg"/></router-link>
+    <router-link :to="'/' + urlLang" class="_nav_logo"><Logo class="_nav_logo__svg"/></router-link>
     <li>
       <a-space>
-        <a-select v-model:value="locale">
+        <a-select v-model:value="locale" @change="handleLangChange(locale)">
           <a-select-option v-for="lang in $i18n.availableLocales" :key="`locale-${lang}`" :value="lang">
             {{ t('locale.'+lang) }}
           </a-select-option>

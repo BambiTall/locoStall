@@ -12,6 +12,7 @@
     "@line/liff": "^2.22.2",
     "ant-design-vue": "^3.2.20",
     "axios": "^1.4.0",
+    "lodash": "^4.17.21",
     "sass": "^1.63.6",
     "sass-loader": "^13.3.2",
     "vue": "^3.3.4",

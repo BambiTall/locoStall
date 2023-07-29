@@ -7,61 +7,70 @@ import { useStore } from "vuex";
 
 const store = useStore();
 const router = useRouter();
-const lsLang = ref(localStorage.getItem('lang'));
-const lsLogin = ref(Boolean(localStorage.getItem('login')));
+
+// local storage
+const localstorage_lang = ref(localStorage.getItem('lang'));
+const localstorage_login = ref(Boolean(localStorage.getItem('login')));
+
+// getters
 const currLang = ref(store.getters.currLang);
-const isLogin = ref(store.getters.login);
 
-// check local storage
-if (lsLang.value && lsLogin.value) {
-  store.dispatch('setCurrLang', lsLang.value);
-  store.dispatch('login');
-} else {
-  store.dispatch('setCurrLang', currLang.value);
-}
+// const checkLocalStorage = async () => {
+//   try {
+//     let useLang = ''
 
-const checkLocalStorage = async () => {
-  console.log('checkLocalStorage currLang', currLang.value);
-  try {
-    if (lsLang.value && lsLogin.value) {
-      // Local Storage 有 Login & Lang
-      store.dispatch('setCurrLang', lsLang.value);
-      store.dispatch('login');
-    } else {
-      store.dispatch('setCurrLang', currLang.value);
-      console.log('設定預設語言 currLang.value:', currLang.value);
-    }
-  } catch (error) {
-    console.error(error);
-  }
-};
+//     if (localstorage_login.value) {
+//       // logged in
+//       if (localstorage_lang.value) {
+//         // lang set
 
-router.beforeEach((to, from) => {
+//         useLang = localstorage_lang.value
+//       } else {
+//         console.log("logged in but lang hasn't been set");
+//       }
+//     } else {
+//       // not logged in
+//       // use default lang
+//       useLang = currLang.value
+//     }
+//     store.dispatch('setCurrLang', useLang);
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
+
+router.beforeEach((to, from, next) => {
+  // console.log('to',to);
+  // console.log('to.params.lang',to.params.lang);
+  
   if (to.fullPath === '/' || to.fullPath === '/undefined' ) {
-    // first time visit
-    router.push({ path: `/${currLang.value}` });
-    console.log('跳轉去 state 的語系', currLang.value);
+    // visit with no lang
+    next({ path: `/${currLang.value}` });
+  } else {
+    // visit with lang
+    store.dispatch('setCurrLang', to.params.lang);
+    next();
   }
 });
 
-const initApp = async () => {
-  try {
-    await checkLocalStorage();
-  } catch (error) {
-    console.error(error);
-  }
-};
+// const initApp = async () => {
+//   try {
+//     await checkLocalStorage();
+//   } catch (error) {
+//     console.error('@initApp', error);
+//   }
+// };
 
 onBeforeMount(() => {
 });
 
-onMounted(async () => {
-  try {
-    await Promise.all([initApp()]);
-  } catch (error) {
-    console.error(error);
-  }
-});
+// onMounted(async () => {
+//   try {
+//     await Promise.all([initApp()]);
+//   } catch (error) {
+//     console.error('onMounted', error);
+//   }
+// });
 </script>
 
 <template>
