@@ -3,15 +3,15 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Login from '../pages/Login.vue';
 import SignUp from '../pages/SignUp.vue';
 import LiffLogin from '../pages/LiffLogin.vue';
-// import User from '../pages/User.vue';
+import User from '../pages/User.vue';
 import ShopDetail from '../pages/ShopDetail.vue';
 import Index from '../pages/Index.vue';
 import Payment from '../pages/Payment.vue';
-// import OrderConfirm from '../pages/OrderConfirm.vue';
+import OrderConfirm from '../pages/OrderConfirm.vue';
 import Sandy from '../pages/Sandy.vue';
 
 // Admin
-// import OrderList from '../pages/admin/OrderList.vue';
+import OrderList from '../pages/admin/OrderList.vue';
 
 // Not Found
 import NotFound from '../pages/NotFound.vue';
@@ -30,7 +30,7 @@ let routes = [
   {
     // /zh/shop/1
     path: '/:lang/shop/:id',
-    name: 'Shop',
+    name: 'ShopDetail',
     component: ShopDetail
   },
   {
@@ -48,11 +48,11 @@ let routes = [
     name: 'SignUp',
     component: SignUp,
   },
-  // {
-  //   path: "/:lang/user",
-  //   name: 'User',
-  //   component: User,
-  // },
+  {
+    path: "/:lang/user",
+    name: 'User',
+    component: User,
+  },
   {
     path: "/:lang/login/liff",
     name: 'LiffLogin',
@@ -63,17 +63,17 @@ let routes = [
     name: 'Payment',
     component: Payment
   },
-  // {
-  //   path: '/:lang/orderConfirm',
-  //   name: 'OrderConfirm',
-  //   component: OrderConfirm
-  // },
+  {
+    path: '/:lang/orderConfirm',
+    name: 'OrderConfirm',
+    component: OrderConfirm
+  },
   // Admin
-  // {
-  //   path: '/:lang/admin/',
-  //   name: 'OrderList',
-  //   component: OrderList
-  // },
+  {
+    path: '/:lang/admin/',
+    name: 'OrderList',
+    component: OrderList
+  },
   {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',

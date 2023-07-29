@@ -31,8 +31,6 @@ const onLoginFailed = errorInfo => {
 const logIn = async( state )=>{
   try {
     const res = await api.post('/user/login', state);
-    console.log('logIn res.data',res.data);
-    store.dispatch('setCurrUser', res.data);
   } catch (error) {
     console.error(error);
   }
@@ -94,12 +92,12 @@ const goSignUp = () => {
 <style scoped lang="scss">
 ._login_form{
   width: 90%;
-  max-width: $form-max-widh;
+  max-width: $form-max-width;
   margin: auto;
 }
 ._login_signin{
   width: 90%;
-  max-width: $form-max-widh;
+  max-width: $form-max-width;
   margin: auto;
 
   button{

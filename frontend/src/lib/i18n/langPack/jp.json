@@ -6,5 +6,7 @@
     "login": "ログイン",
     "logout": "ログアウト",
     "email": "メールアドレス",
-    "password": "パスワード"
+    "password": "パスワード",
+    "nativeLang":"母国語",
+    "submit":"送る"
 }

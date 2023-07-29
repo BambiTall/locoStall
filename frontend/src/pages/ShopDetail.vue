@@ -6,6 +6,8 @@ import { useRouter, useRoute } from "vue-router";
 import api from '@/axios/api.js';
 
 const shopDetail = ref()
+const isShow = ref(false)
+const currCard = ref(0)
 
 const route = useRoute()
 const router = useRouter()
@@ -18,7 +20,6 @@ const getShopDetail = async(id)=>{
   try {
     const res = await api.get(`${lang}/shop/${id}`);
     shopDetail.value = res.data;
-    console.log('getShopDetail res',res);
     shopDetail.value.menu.map((item) => {
       item.qty = 0
     })
@@ -47,13 +48,16 @@ const valChange = () => {
   }
 }
 
+const showCard = (id) => {
+  currCard.value = id;
+  isShow.value = true;
+}
 const goPayment = () => {
   // 把訂單內容存進 store
+  let orderData = {}
   let orderList = []
 
   shopDetail.value.menu.map((i)=>{
-    console.log('i.qty',i.qty);
-    
     if(i.qty > 0){
       orderList.push({
         name: i.name,
@@ -63,10 +67,13 @@ const goPayment = () => {
       })
     }
   })
-  store.dispatch("order", orderList);
+  
+  orderData.shop_id = id;
+  orderData.orderList = orderList;
+
+  store.dispatch("order", orderData);
 
   router.push({ name: 'Payment', params: { lang: lang } })
-
 }
 
 
@@ -87,9 +94,26 @@ const goPayment = () => {
         <li class="_shopDetail_menu__item" v-for="item,index in shopDetail.menu" :key="index">
           <div class="_shopDetail_menu__left">
             <img class="_shopDetail_menu__img" v-if="!shopDetail.img" alt="" src="@/assets/default.jpg" />
-            <div class="_shopDetail_menu__infoIcon">
+            
+            <!-- product intro card -->
+            <a-button type="text" shape="circle" @click="showCard(index)" class="_shopDetail_menu__infoIcon">
               <i class="las la-info-circle"></i>
+            </a-button>
+
+            <div class="_shopDetail_prodIntro" :class="currCard == index && isShow ? 'show' : ''"  @click="isShow = false">
+              <a-card hoverable class="_shopDetail_prodIntro__card">
+                <template #cover>
+                  <i class="las la-times _shopDetail_prodIntro__close"></i>
+                  <img alt="example" src="@/assets/default.jpg" />
+                </template>
+                <a-card-meta :title="item.name">
+                  <template #description>
+                    <p>{{ item.description }}</p>
+                  </template>
+                </a-card-meta>
+              </a-card>
             </div>
+
           </div>
           <div class="_shopDetail_menu__right">
             <p class="_shopDetail_menu__name">{{ item.name }}</p>
@@ -165,13 +189,50 @@ const goPayment = () => {
 }
 ._shopDetail_menu__infoIcon{
   position: absolute;
-  right: .5rem;
-  bottom: .5rem;
+  right: 0;
+  bottom: 0;
   color: white;
 
   i {
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
+}
+
+._shopDetail_prodIntro{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba($color: #000000, $alpha: .5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+  transition: .2s all ease-in;
+
+  &.show{
+    opacity: 1;
+    pointer-events: initial;
+  }
+}
+._shopDetail_prodIntro__card{
+  overflow: hidden;
+  border-radius: 2rem;
+  border: none;
+  width: 90%;
+  max-width: 350px;
+}
+._shopDetail_prodIntro__close{
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  font-size: 2rem;
+  display: inline;
+  width: 2rem;
+  color: white;
 }
 ._shopDetail_menu__name{
   font-size: 1rem;
@@ -185,7 +246,7 @@ const goPayment = () => {
   display: flex;
 
   input{
-    color: $color-blue;
+    color: $color-primary;
     font-weight: bold;
     max-width: 3rem;
     text-align: center;

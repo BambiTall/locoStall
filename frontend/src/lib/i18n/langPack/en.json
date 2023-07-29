@@ -7,6 +7,8 @@
     "logout":"Log out",
     "email":"E-mail",
     "password":"Password",
+    "nativeLang":"Native Language",
+    "submit":"Submit",
 
 
     "navigation" : {

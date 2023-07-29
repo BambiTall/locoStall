@@ -5,18 +5,15 @@ import { useStore } from "vuex";
 import { useRouter, useRoute } from "vue-router";
 import api from '@/axios/api.js';
 
-// i18n
-import { useI18n } from "vue-i18n";
-const { t, locale } = useI18n({ useScope: "global" });
-
 const router = useRouter()
 const store = useStore();
-const isLogin = computed(() => store.getters.login);
 
-// const lang = route.params.lang;
+const isLogin = computed(() => store.getters.login);
+const currUser = computed(() => store.getters.currUser);
+
 const formState = reactive({
   mail: '',
-  nLang: '',
+  nLang: 'disabled',
   password: '',
   displayName: '',
   password: ''
@@ -27,39 +24,30 @@ const langOptions = ref(store.getters.langList)
 const onFinish = values => {
   signIn( values );
   store.dispatch('login');
-  router.push({ name: 'User' })
 };
 const onFinishFailed = errorInfo => {
   console.log('Failed:', errorInfo);
 };
 
-const signIn = async( state )=>{
-  try {
-    const res = await api.post('/user', state);
-    store.dispatch('setCurrLang', res.data.native_lang);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-const goLogin = () => {
-  router.push({ name: 'Login' })
-};
+onMounted(()=>{
+  // console.log('@Page/User currUser', currUser.value);
+})
 </script>
 
 <template>
-  <a-typography-title style="text-align: center;">{{ t('signup') }}</a-typography-title>
+  <!-- currUser: {{ currUser }}
+  isLogin: {{ isLogin }} -->
+  <a-typography-title>User page</a-typography-title>
   <a-form
     :model="formState"
-    layout="vertical"
     name="basic"
-    class="_signup_form"
+    :label-col="{ span: 8 }"
+    :wrapper-col="{ span: 16 }"
     autocomplete="off"
     @finish="onFinish"
     @finishFailed="onFinishFailed"
   >
     <a-form-item
-      v-if="isLogin"
       label="Display name"
       name="displayName"
     >
@@ -67,54 +55,36 @@ const goLogin = () => {
     </a-form-item>
 
     <a-form-item
-      :label="t('email')"
+      label="E-mail"
       name="mail"
       :rules="[{ required: true, message: 'Please input your e-mail!' }]"
     >
       <a-input v-model:value="formState.mail" />
     </a-form-item>
 
-
     <a-form-item
-      :label="t('nativeLang')"
+      label="Native Language"
       name="nLang"
       :rules="[{ required: true, message: 'Please input your native Language!' }]"
     >
-      <a-select
-      ref="select"
-      v-model:value="formState.nLang"
-      :options="langOptions"
-      >
-      <a-select-option value="en">English</a-select-option>
-      </a-select>
+    <a-select v-model:value="formState.nLang" :options="langOptions"></a-select>
+
     </a-form-item>
 
     <a-form-item
-      :label="t('password')"
+      label="Password"
       name="password"
       :rules="[{ required: true, message: 'Please input your password!' }]"
     >
       <a-input-password v-model:value="formState.password" />
     </a-form-item>
-    
-    <a-form-item>
-      <a-row :gutter="20">
-        <a-col :span="12"><a-button type="link" block @click="goLogin"><i class="las la-arrow-left"></i>Back to log in</a-button></a-col>
-        <a-col :span="12"><a-button type="primary" shape="round" block size="large" html-type="submit">{{ t('submit') }}</a-button></a-col>
-      </a-row>
+
+    <a-form-item :wrapper-col="{ offset: 8, span: 16 }">
+      <a-button type="primary" html-type="submit">Edit</a-button>
     </a-form-item>
   </a-form>
+
 </template>
 
 <style scoped lang="scss">
-._signup_form{
-  width: 90%;
-  max-width: $form-max-width;
-  margin: auto;
-}
-._signup_btn{
-  bottom {
-    flex: 1 !important;
-  }
-}
 </style>
