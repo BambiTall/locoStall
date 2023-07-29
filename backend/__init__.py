@@ -6,6 +6,8 @@ from .extentions import db
 # import blueprint
 from .routes.user import user_bp
 from .routes.shop import shop_bp
+from .routes.orders import orders_bp
+from .routes.menu import menu_bp
 
 def create_app():
     app = Flask(__name__)
@@ -17,6 +19,8 @@ def create_app():
     # register blueprint
     app.register_blueprint(user_bp)
     app.register_blueprint(shop_bp)
+    app.register_blueprint(orders_bp)
+    app.register_blueprint(menu_bp)
 
     db.init_app(app)
     CORS(app)

@@ -16,7 +16,9 @@ def get_user_list():
 @user_bp.route(f'{os.environ["API_BASE"]}/user/<int:user_id>', methods=['GET', 'POST'])
 def get_user_detail(user_id):
     user = db.get_or_404(User, user_id)
-    return { "message" : "OK", "data" : user.json() }
+    return {
+        "data" : user.json()
+    }
 
 # Add user
 @user_bp.route(f'{os.environ["API_BASE"]}/user', methods=['POST'])
@@ -24,7 +26,9 @@ def add_web_user():
     data = request.get_json()
     db_user = User.query.filter_by(mail=data['mail']).first()
     if db_user is not None:
-        return { "error" : 'email 已註冊' }, 500
+        return {
+            "message": "E-mail 已註冊"
+        }, 500
     else:
         user = User(
             mail = data['mail'],
@@ -34,7 +38,9 @@ def add_web_user():
         db.session.add(user)
         db.session.commit()
 
-        return user.json()
+        return {
+            "data" : user.json()
+        }
 
 # User log in
 @user_bp.route(f'{os.environ["API_BASE"]}/user/login', methods=['POST'])
@@ -43,6 +49,10 @@ def user_log_in():
     
     db_user = User.query.filter_by(mail=data['mail']).first()
     if db_user is not None and db_user.password == data['password']:
-        return { "message" :  "登入成功" }, 200
+        return {
+            "message" :  "Success"
+        }
     else:
-        return { "error" : 'mail 或 password 錯誤' }
+        return {
+            "message": "E-mail 或 password 錯誤"
+        }, 400
