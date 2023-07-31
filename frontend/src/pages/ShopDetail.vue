@@ -154,6 +154,7 @@ const goPayment = () => {
   left: 0;
   bottom: 0;
   height: 3.5rem;
+  z-index: 5;
 }
 ._bigBtn_wrap{
   display: flex;
@@ -208,7 +209,7 @@ const goPayment = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1;
+  z-index: 100;
   opacity: 0;
   pointer-events: none;
   transition: .2s all ease-in;

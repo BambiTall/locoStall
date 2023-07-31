@@ -71,26 +71,55 @@ onBeforeMount(() => {
 //     console.error('onMounted', error);
 //   }
 // });
+
+// custom theme
+const theme = {
+  token: {
+    colorPrimary: '#6d9eed',
+    colorBgLayout: '#ffffff'
+  },
+};
 </script>
 
 <template>
+  <a-config-provider :theme="theme">
    <a-layout>
-    <a-layout-header :style="{ position: 'fixed', zIndex: 1, width: '100%' }">      
-      <Navigation />
-    </a-layout-header>
-    <a-layout-content :style="{ marginTop: '64px' }" class="_body">
-      <router-view/>
-    </a-layout-content>
-    <a-layout-footer :style="{ textAlign: 'center' }">
-      © locoStall 2023
-    </a-layout-footer>
-  </a-layout>
+      <a-layout-header class="_header">      
+        <Navigation />
+      </a-layout-header>
+      <a-layout-content class="_body">
+        <router-view/>
+      </a-layout-content>
+      <a-layout-footer class="_footer">
+        © locoStall 2023
+      </a-layout-footer>
+    </a-layout>
+  </a-config-provider>
 </template>
 
 <style lang="scss">
 @import "../src/assets/scss/style.scss";
 
+._header{
+  position: fixed;
+  z-index: 2;
+  width: 100%;
+  background-color: white !important;
+  padding: 0 $padding-s !important;
+
+}
 ._body{
-  padding: 50px;
+  padding: 0 $padding-s !important;
+  margin-top: 5rem !important;
+}
+
+._footer{
+  text-align: center;
+}
+
+@media(min-width: $breakpoint-s){
+  ._header, ._body{
+    padding: 0 $padding-m !important;
+  }
 }
 </style>

@@ -6,5 +6,20 @@ $color-gray-2: #D2D2D2;
 $color-gray-3: #EBEBEB;
 $color-gray-4: #F8F8F8;
 
+// ant-design breakpoint
+// xs: '480px',
+// sm: '576px',
+// md: '768px',
+// lg: '992px',
+// xl: '1200px',
+// xxl: '1600px',
+// xxxl: '2000px',
+
+$breakpoint-m: 768px;
+$breakpoint-s: 480px;
+
+$padding-m: 2rem;
+$padding-s: 5%; 
+
 $form-max-width: 800px;
 $card-width: 90%; 
