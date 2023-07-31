@@ -37,8 +37,8 @@ const logIn = async( state )=>{
 }
 
 
-const lineLogin = values => {
-  alert('Line log in')
+const lineLogin = () => {
+  router.push({ name: 'LiffLogin' })
 };
 
 const goSignUp = () => {

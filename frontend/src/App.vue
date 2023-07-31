@@ -102,6 +102,8 @@ const theme = {
 
 ._header{
   position: fixed;
+  display: flex;
+  justify-content: space-between;
   z-index: 2;
   width: 100%;
   background-color: white !important;
@@ -109,8 +111,7 @@ const theme = {
 
 }
 ._body{
-  padding: 0 $padding-s !important;
-  margin-top: 5rem !important;
+  padding: 7rem $padding-s 0 !important;
 }
 
 ._footer{
@@ -118,7 +119,7 @@ const theme = {
 }
 
 @media(min-width: $breakpoint-s){
-  ._header, ._body{
+  ._header{
     padding: 0 $padding-m !important;
   }
 }

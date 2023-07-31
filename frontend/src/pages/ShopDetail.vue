@@ -82,14 +82,14 @@ const goPayment = () => {
 <template>
   <div class="_shopDetail" v-if="shopDetail">
 
-  <a-row>
-    <a-col :sm="{ span: 24 }" :md="{ span: 8 }">
+  <a-row :gutter="20">
+    <a-col :sm="{ span: 24 }" :md="{ span: 6 }">
       <h1 class="_shopDetail_name">{{ shopDetail.name }}</h1>
-      <a-rate v-model:value="shopDetail.rating" allow-half disabled />
-      <p>description: {{ shopDetail.description }}</p>
+      <a-rate class="_shopDetail_rate" v-model:value="shopDetail.rating" allow-half disabled />
+      <p class="_shopDetail_des">{{ shopDetail.description }}</p>
     </a-col>
 
-    <a-col :sm="{ span: 24 }" :md="{ span: 16 }">
+    <a-col :sm="{ span: 24 }" :md="{ span: 18 }">
       <ul class="_shopDetail_menu">
         <li class="_shopDetail_menu__item" v-for="item,index in shopDetail.menu" :key="index">
           <div class="_shopDetail_menu__left">
@@ -135,15 +135,16 @@ const goPayment = () => {
           </div>
         </li>
       </ul>
+    
+      <a-button class="_bigBtn" @click="goPayment" type="primary" block>
+        <div class="_bigBtn_wrap">
+          <div>Total<span class="_bigBtn_total">{{ total }}</span></div>
+          Continue
+        </div>
+      </a-button>
     </a-col>
   </a-row>
 
-  <a-button class="_bigBtn" @click="goPayment" type="primary" block>
-    <div class="_bigBtn_wrap">
-      <div>Total<span class="_bigBtn_total">{{ total }}</span></div>
-      Continue
-    </div>
-  </a-button>
 
   </div>
 </template>
@@ -171,10 +172,17 @@ const goPayment = () => {
   font-weight: bold;
   margin-bottom: 1rem;
 }
+._shopDetail_menu{
+  display: flex;
+  flex-wrap: wrap;
+  // gap: 1rem;
+}
 ._shopDetail_menu__item{
   display: flex;
   border-bottom: 1px solid $color-gray-2;
   padding: .75rem 0;
+  flex: 1;
+  flex: 0 0 100%;
 }
 ._shopDetail_menu__left{
   flex: 1;
@@ -245,6 +253,7 @@ const goPayment = () => {
 }
 ._shopDetail_count{
   display: flex;
+  margin-right: 1rem;
 
   input{
     color: $color-primary;
@@ -272,5 +281,17 @@ const goPayment = () => {
   margin-left: .5rem;
 }
 
+._shopDetail_rate{
+  margin-bottom: 1.25rem;
+}
+._shopDetail_des{
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
 
+@media(min-width: $breakpoint-m){
+  ._shopDetail_menu__item{
+    flex: 0 0 50%;
+  }
+}
 </style>
