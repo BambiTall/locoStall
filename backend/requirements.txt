@@ -2,6 +2,8 @@ flask
 flask_restful
 mysqlclient
 requests
-# line-bot-sdk 
+line-bot-sdk 
 mysql-connector-python
 Flask-SQLAlchemy
+urllib3==1.26.7
+# torchvision
