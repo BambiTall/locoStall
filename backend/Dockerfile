@@ -1,4 +1,6 @@
-FROM python:3.7.2-stretch
+FROM python:3.8.17-bullseye
+
+RUN apt-get update && apt-get install -y openssl && apt-get upgrade -y libssl-dev
 
 # 容器內執行 python 的路徑
 WORKDIR /app

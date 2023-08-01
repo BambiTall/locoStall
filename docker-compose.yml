@@ -12,6 +12,8 @@ services:
       - DB_HOST=${DB_HOST}
       - DB_PORT=${DB_PORT}
       - API_BASE=${API_BASE}
+      - AI_HOST=${AI_HOST}
+      - AI_PORT=${AI_PORT}
     volumes:
       - ./backend:/app
 
