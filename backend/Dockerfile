@@ -7,10 +7,7 @@ WORKDIR /app
 
 COPY ./requirements.txt /app
 
-RUN pip install -r requirements.txt && \
-    pip install python-dotenv && \
-    pip install flask-cors && \
-    pip install pymysql
+RUN pip install -r requirements.txt
 
 # flask 主程式檔名是 __init__.py
 ENV FLASK_APP=__init__.py

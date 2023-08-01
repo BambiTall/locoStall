@@ -5,5 +5,8 @@ requests
 line-bot-sdk 
 mysql-connector-python
 Flask-SQLAlchemy
-urllib3==1.26.7
+pymysql
+flask-cors
+python-dotenv
+# urllib3==1.26.7
 # torchvision
