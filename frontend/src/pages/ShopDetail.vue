@@ -84,8 +84,14 @@ const goPayment = () => {
 
   <a-row :gutter="20">
     <a-col :sm="{ span: 24 }" :md="{ span: 6 }">
+      <img
+        v-if="shopDetail.cover"
+        :alt="shopDetail.name"
+        :src="shopDetail.cover"
+      />
       <h1 class="_shopDetail_name">{{ shopDetail.name }}</h1>
-      <a-rate class="_shopDetail_rate" v-model:value="shopDetail.rating" allow-half disabled />
+      <a-rate class="_shopDetail_rate" v-model:value="shopDetail.rating" allow-half disabled /> 
+      <span class="_shopDetail_rateNum">{{ shopDetail.rating }}</span>
       <p class="_shopDetail_des">{{ shopDetail.description }}</p>
     </a-col>
 
@@ -125,7 +131,7 @@ const goPayment = () => {
               
               <div class="_shopDetail_count">
                 <a-input-group compact>
-                  <a-select class="_shopDetail_count__num" v-model:value="item.qty" @change="valChange()">
+                  <a-select size="large" class="_shopDetail_count__num" v-model:value="item.qty" @change="valChange()">
                     <a-select-option value="0">0</a-select-option>
                     <a-select-option v-for="n in 20" :value="n">{{ n }}</a-select-option>
                   </a-select>
@@ -156,6 +162,7 @@ const goPayment = () => {
   bottom: 0;
   height: 3.5rem;
   z-index: 5;
+  border-radius: 0;
 }
 ._bigBtn_wrap{
   display: flex;
@@ -176,25 +183,38 @@ const goPayment = () => {
   display: flex;
   flex-wrap: wrap;
   // gap: 1rem;
+  gap: 4%;
+  flex-direction: column;
 }
 ._shopDetail_menu__item{
   display: flex;
-  border-bottom: 1px solid $color-gray-2;
-  padding: .75rem 0;
+  margin-bottom: 1rem;
+  border-radius: $border-radius;
+  overflow: hidden;
   flex: 1;
-  flex: 0 0 100%;
+  box-shadow: 0 0.5rem 1rem #00000026;
+  background-color: white;
+
+  &.buy{
+  box-shadow: 0 0.5rem 1rem $color-primary;
+  }
 }
 ._shopDetail_menu__left{
-  flex: 1;
+  flex: 2;
   position: relative;
 }
 ._shopDetail_menu__right{
   flex: 3;
-  padding-left: 1rem;
+  padding: 1rem;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 ._shopDetail_menu__img{
   width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 ._shopDetail_menu__infoIcon{
   position: absolute;
@@ -213,7 +233,7 @@ const goPayment = () => {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba($color: #000000, $alpha: .5);
+  background-color: rgba($color: $color-primary, $alpha: .8);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -246,6 +266,8 @@ const goPayment = () => {
 ._shopDetail_menu__name{
   font-size: 1rem;
   font-weight: bold;
+  margin-bottom: .5rem;
+  line-height: 1.5;
 }
 ._shopDetail_order{
   display: flex;
@@ -253,22 +275,12 @@ const goPayment = () => {
 }
 ._shopDetail_count{
   display: flex;
-  margin-right: 1rem;
-
-  input{
-    color: $color-primary;
-    font-weight: bold;
-    max-width: 3rem;
-    text-align: center;
-    border: none;
-    font-size: 1.5rem;
-  }
 }
 ._shopDetail_count__num{
     font-size: 1.2rem;
 }
 ._shopDetail_order__currency{
-  transform: translateY(-5px);
+  // transform: translateY(-5px);
 }
 ._shopDetail_order__price{
   display: flex;
@@ -284,14 +296,23 @@ const goPayment = () => {
 ._shopDetail_rate{
   margin-bottom: 1.25rem;
 }
+._shopDetail_rateNum{
+  margin-left: 1rem;
+}
 ._shopDetail_des{
   margin-bottom: 1.5rem;
   line-height: 1.5;
 }
 
 @media(min-width: $breakpoint-m){
+  ._shopDetail_menu{
+    flex-direction: row;
+  }
   ._shopDetail_menu__item{
-    flex: 0 0 50%;
+    flex: 0 0 48%;
+  }
+  ._shopDetail_menu__name{
+    font-size: 1.25rem;
   }
 }
 </style>

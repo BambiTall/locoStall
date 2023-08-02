@@ -63,6 +63,11 @@ const handleLangChange = (locale) => {
     <div class="_nav_hamburger" @click="showMenu">
       <i class="las la-bars"></i>
     </div>
+    <!-- <div class="_nav_center" >
+      <router-link :to="'/' + urlLang + '/admin'" class="_nav_logo">
+      order list
+      </router-link>
+    </div> -->
     <div class="_nav_right" :class="isShowMenu ? 'show' : ''">
       <a-space class="_nav_right__setting">
         <a-select v-model:value="locale" class="_nav_right__lang" @change="handleLangChange(locale)">

@@ -38,20 +38,21 @@ onMounted(async () => {
 <template>
   <a-typography-title>{{ t('index.shop_list') }} </a-typography-title>
   <a-row :gutter="[20, 20]">
-    <a-col :xs="24" :sm="6" :md="6" :lg="6" v-for="shop,idx in shopList" :key="idx">
+    <a-col :xs="24" :sm="6" :md="6" :lg="6" :xl="4" v-for="shop,idx in shopList" :key="idx">
       <router-link :to="`/${lang}/shop/${shop.shop_id}`">
         <a-card hoverable class="_shopList_item">
-            <template #cover>
-              <img
-                alt="example"
-                src="@/assets/default.jpg"
-              />
-            </template>
-            <template class="ant-card-actions" #actions>
-              Know more
-            </template>
-              <a-card-meta :title="shop.name" :description="shop.description">
-              </a-card-meta>
+          <template #cover>
+            <img v-if="shop.cover"
+              :alt="shop.name"
+              :src="shop.cover"
+            />
+            <img v-else
+              alt="locoStall"
+              src="@/assets/default.jpg"
+            />
+          </template>
+          <a-card-meta :style="{ height: '6rem' }" :title="shop.name" :description="shop.description">
+          </a-card-meta>
         </a-card>
       </router-link>
     </a-col>
@@ -73,5 +74,6 @@ onMounted(async () => {
 }
 ._shopList_item{
   width: 100%;
+  box-shadow: 0 0.5rem 1rem #00000026;
 }
 </style>
