@@ -84,11 +84,14 @@ const goPayment = () => {
 
   <a-row :gutter="20">
     <a-col :sm="{ span: 24 }" :md="{ span: 6 }">
-      <img
-        v-if="shopDetail.cover"
-        :alt="shopDetail.name"
-        :src="shopDetail.cover"
-      />
+      <div class="_shopDetail_img">
+        <img
+          v-if="shopDetail.cover"
+          :alt="shopDetail.name"
+          :src="shopDetail.cover"
+          style="width: 100%; height: 100%; object-fit: cover;"
+        />
+      </div>
       <h1 class="_shopDetail_name">{{ shopDetail.name }}</h1>
       <a-rate class="_shopDetail_rate" v-model:value="shopDetail.rating" allow-half disabled /> 
       <span class="_shopDetail_rateNum">{{ shopDetail.rating }}</span>
@@ -173,6 +176,12 @@ const goPayment = () => {
   font-size: 1.5rem;
   margin-left: .25rem;
   font-weight: bold;
+}
+._shopDetail_img{
+  height: 250px;
+  overflow: hidden;
+  border-radius: $border-radius;
+  margin-bottom: 1rem;
 }
 ._shopDetail_name{
   font-size: 2rem;

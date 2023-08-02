@@ -107,7 +107,7 @@ const theme = {
 
 }
 ._body{
-  padding: 7rem $padding-s 0 !important;
+  padding: 5rem $padding-s 0 !important;
 }
 
 ._footer{
@@ -117,6 +117,10 @@ const theme = {
 @media(min-width: $breakpoint-s){
   ._header{
     padding: 0 $padding-m !important;
+  }
+
+  ._body{
+    padding-top: 6rem !important;
   }
 }
 </style>
