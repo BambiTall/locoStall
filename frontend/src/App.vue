@@ -76,7 +76,8 @@ onBeforeMount(() => {
 const theme = {
   token: {
     colorPrimary: '#6d9eed',
-    colorBgLayout: '#ffffff'
+    // colorBgLayout: '#ffffff',
+    borderRadius: 30
   },
 };
 </script>
