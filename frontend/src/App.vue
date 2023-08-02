@@ -40,9 +40,6 @@ const currLang = ref(store.getters.currLang);
 // };
 
 router.beforeEach((to, from, next) => {
-  // console.log('to',to);
-  // console.log('to.params.lang',to.params.lang);
-  
   if (to.fullPath === '/' || to.fullPath === '/undefined' ) {
     // visit with no lang
     next({ path: `/${currLang.value}` });
@@ -53,24 +50,22 @@ router.beforeEach((to, from, next) => {
   }
 });
 
-// const initApp = async () => {
-//   try {
-//     await checkLocalStorage();
-//   } catch (error) {
-//     console.error('@initApp', error);
-//   }
-// };
-
 onBeforeMount(() => {
 });
 
-// onMounted(async () => {
-//   try {
-//     await Promise.all([initApp()]);
-//   } catch (error) {
-//     console.error('onMounted', error);
-//   }
-// });
+import liff from "@line/liff";
+
+onMounted(async () => {
+  try {
+    await liff.init({ liffId: "2000144386-Ax8WZ8k2" });
+    // if (!liff.isLoggedIn()){
+    //   liff.login();
+    // }
+    console.log('Liff ready!');
+  } catch (err) {
+    console.log(`liff.state init error ${err}`);
+  }
+})
 
 // custom theme
 const theme = {
