@@ -8,5 +8,3 @@ Flask-SQLAlchemy
 pymysql
 flask-cors
 python-dotenv
-# urllib3==1.26.7
-# torchvision

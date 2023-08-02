@@ -29,7 +29,7 @@ predict_bp = Blueprint('predict_bp', __name__)
 
 
 # Your API route to handle image processing and prediction
-@predict_bp.route('/predict', methods=['POST'])
+@predict_bp.route(f'{os.environ["API_BASE"]}/predict', methods=['POST'])
 def predict():
     try:
         if 'file' not in request.files:
