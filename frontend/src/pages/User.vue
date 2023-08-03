@@ -1,6 +1,6 @@
 <script setup>
 import axios from 'axios';
-import { reactive, ref, computed, onMounted } from 'vue';
+import { reactive, ref, computed, onMounted, onBeforeMount, watch } from 'vue';
 import { useStore } from "vuex";
 import { useRouter, useRoute } from "vue-router";
 import api from '@/axios/api.js';
@@ -10,13 +10,13 @@ const store = useStore();
 
 const isLogin = computed(() => store.getters.login);
 const currUser = computed(() => store.getters.currUser);
+const userData = ref();
 
 const formState = reactive({
   mail: '',
-  nLang: 'disabled',
+  native_lang: '',
   password: '',
-  displayName: '',
-  password: ''
+  display_name: ''
 });
 
 const langOptions = ref(store.getters.langList)
@@ -29,14 +29,34 @@ const onFinishFailed = errorInfo => {
   console.log('Failed:', errorInfo);
 };
 
-onMounted(()=>{
+onBeforeMount(async()=>{
+  try{
+    if(currUser != {}){
+      let res = await api.get(`/user/${currUser.value.id}`);
+
+      console.log('onBeforeMount CHECK CURRUSER');
+      
+      userData.value = res.data;
+      // formState.value = userData.value;
+      Object.assign(formState, res.data);
+    } else {
+      console.log('onBeforeMount currUser === {}');
+      // router.push({ name: 'Login' })
+    }
+    
+  } catch {
+
+  }
   // console.log('@Page/User currUser', currUser.value);
+  // userData.value = res.data
 })
 </script>
 
 <template>
   <!-- currUser: {{ currUser }}
   isLogin: {{ isLogin }} -->
+  <p>currUser: <span v-if="currUser">{{currUser}}</span></p>
+  userData：{{ userData }}
   <a-typography-title>User page</a-typography-title>
   <a-form
     :model="formState"
@@ -49,9 +69,9 @@ onMounted(()=>{
   >
     <a-form-item
       label="Display name"
-      name="displayName"
+      name="display_name"
     >
-      <a-input v-model:value="formState.displayName" />
+      <a-input v-model:value="formState.display_name" />
     </a-form-item>
 
     <a-form-item
@@ -64,10 +84,10 @@ onMounted(()=>{
 
     <a-form-item
       label="Native Language"
-      name="nLang"
+      name="native_lang"
       :rules="[{ required: true, message: 'Please input your native Language!' }]"
     >
-    <a-select v-model:value="formState.nLang" :options="langOptions"></a-select>
+    <a-select v-model:value="formState.native_lang" :options="langOptions"></a-select>
 
     </a-form-item>
 

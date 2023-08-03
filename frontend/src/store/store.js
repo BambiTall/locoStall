@@ -21,7 +21,8 @@ const store = createStore({
                 }
             ],
             currUser: {},
-            currOrder: {}
+            currOrder: {},
+            lineProfile: {}
         }
     },
     getters:{
@@ -39,6 +40,12 @@ const store = createStore({
         },
         currOrder:state => {
             return state.currOrder
+        },
+        currUser:state => {
+            return state.currUser
+        },
+        lineProfile:state => {
+            return state.lineProfile
         },
     },
     actions:{
@@ -62,6 +69,9 @@ const store = createStore({
         },
         setCurrOrder:({commit}, data)=>{
             commit("setCurrOrder", data)
+        },
+        setLineProfile:({commit}, data)=>{
+            commit("setLineProfile", data)
         },
     },
     mutations:{
@@ -87,10 +97,14 @@ const store = createStore({
             localStorage.setItem('currLang', lang);
         },
         setCurrUser:(state, data)=>{
+            // console.log('store setCurrUser', data);
             state.currUser = data;
         },
         setCurrOrder:(state, data)=>{
             state.currOrder = data;
+        },
+        setLineProfile:(state, data)=>{
+            state.lineProfile = data;
         },
     }
 })

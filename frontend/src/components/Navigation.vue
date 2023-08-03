@@ -38,9 +38,11 @@ for(var k in availableLocales){
 
 const login = () => {
   router.push({ name: 'Login' })
+  isShowMenu.value = false;
 }
 const logout = () => {
   store.dispatch('logout');
+  isShowMenu.value = false;
 }
 
 const showMenu = () => {

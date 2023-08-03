@@ -4,7 +4,7 @@ import liff from "@line/liff";
 
 const os = ref('')
 const lang = ref('')
-const idToken = ref('')
+const profile = ref('')
 const decodedIdToken = ref('')
 
 onMounted(()=>{
@@ -14,7 +14,7 @@ onMounted(()=>{
 
   os.value = liff.getOS()
   lang.value = liff.getLanguage()
-  idToken.value = liff.getIDToken()
+  profile.value = liff.getProfile()
   decodedIdToken.value = liff.getDecodedIDToken()
 })
 </script>
@@ -23,7 +23,7 @@ onMounted(()=>{
   LIFF
   <p>os: {{ os }}</p>
   <p>lang: {{ lang }}</p>
-  <p>idToken: {{ idToken }}</p>
+  <p>profile: {{ profile }}</p>
   <p>decodedIdToken: {{ decodedIdToken }}</p>
 </template>
 

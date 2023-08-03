@@ -14,6 +14,8 @@ const store = useStore();
 const isLogin = computed(() => store.getters.login);
 
 // const lang = route.params.lang;
+let userInfo = ref({})
+
 const formState = reactive({
   mail: '',
   password: '',
@@ -21,8 +23,6 @@ const formState = reactive({
 
 const onLogin = values => {
   logIn( values );
-  store.dispatch('login');
-  router.push({ name: 'User' })
 };
 const onLoginFailed = errorInfo => {
   console.log('Login Failed:', errorInfo);
@@ -31,6 +31,17 @@ const onLoginFailed = errorInfo => {
 const logIn = async( state )=>{
   try {
     const res = await api.post('/user/login', state);
+    console.log('logIn res',res);
+    // userInfo.value = {
+    //   id: res.data.id
+    // }
+
+    let user_res = await api.get(`/user/${res.data.id}`);
+    console.log('user_res',user_res);
+      
+    // store.dispatch('setCurrUser', userInfo);
+    // store.dispatch('login');
+    // router.push({ name: 'User' })
   } catch (error) {
     console.error(error);
   }
