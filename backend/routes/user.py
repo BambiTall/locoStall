@@ -72,6 +72,7 @@ def add_web_user():
 
 
 # Update user datas
+# TODO: user's id is vulnerable to haker attacks
 @user_bp.route(f'{os.environ["API_BASE"]}/user/<int:user_id>', methods=['POST'])
 def update_user_datas(user_id):
     data = request.get_json()

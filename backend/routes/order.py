@@ -15,27 +15,25 @@ order_bp = Blueprint('order_bp', __name__)
 # Get order list
 @order_bp.route(f'{os.environ["API_BASE"]}/orders')
 def get_orders_list():
-    order_list = db.session.execute(db.select(Orders).order_by(Orders.id)).scalars()
+    orders = db.session.execute(db.select(Orders).order_by(Orders.id)).scalars()
 
-    return [orders.json() for orders in order_list]
+    return [order.json() for order in orders]
 
 
 # Get user orders
 @order_bp.route(f'{os.environ["API_BASE"]}/orders/user/<int:user_id>')
 def get_user_order_list(user_id):
     orders = Orders.query.filter_by(user_id=user_id)
-    order_list = [order.json for order in orders]
 
-    return jsonify(order_list)
+    return jsonify([order.json for order in orders])
 
 
 # Get shop orders
 @order_bp.route(f'{os.environ["API_BASE"]}/orders/shop/<int:shop_id>')
 def get_user_order_list(shop_id):
     orders = Orders.query.filter_by(shop_id=shop_id)
-    order_list = [order.json for order in orders]
 
-    return jsonify(order_list)
+    return jsonify([order.json for order in orders])
 
 
 # Get order detail
@@ -53,10 +51,10 @@ def get_orders_detail(order_id):
 def add_order():
     data = request.get_json()
 
-    order_list_json = json.dumps(data['order_list'])
+    item_list_json = json.dumps(data['item_list'])
 
     orders = Orders(
-        order_list=order_list_json,
+        item_list=item_list_json,
         user_id=data['user_id'],
         payment=data['payment'],
         shop_id=data['shop_id'],
