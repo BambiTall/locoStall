@@ -75,5 +75,6 @@ def update_order():
     order = db.get_or_404(entity=Orders, ident=data['id'])
     order.state = data['state'] if data['state'] else order.state
     order.updated_at = datetime.utcnow
+    db.session.commit()
 
     return {'message': 'Order state updated successfully'}, 200
