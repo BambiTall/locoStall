@@ -15,10 +15,10 @@ const isLogin = computed(() => store.getters.login);
 
 // const lang = route.params.lang;
 const formState = reactive({
+  display_name: '',
   mail: '',
-  nLang: '',
-  password: '',
-  displayName: '',
+  native_lang: '',
+  line_id: '',
   password: ''
 });
 
@@ -58,13 +58,13 @@ const goLogin = () => {
     @finish="onFinish"
     @finishFailed="onFinishFailed"
   >
-    <a-form-item
+    <!-- <a-form-item
       v-if="isLogin"
       label="Display name"
-      name="displayName"
+      name="display_name"
     >
-      <a-input v-model:value="formState.displayName" />
-    </a-form-item>
+      <a-input v-model:value="formState.display_name" />
+    </a-form-item> -->
 
     <a-form-item
       :label="t('email')"
@@ -72,21 +72,6 @@ const goLogin = () => {
       :rules="[{ required: true, message: 'Please input your e-mail!' }]"
     >
       <a-input v-model:value="formState.mail" />
-    </a-form-item>
-
-
-    <a-form-item
-      :label="t('nativeLang')"
-      name="nLang"
-      :rules="[{ required: true, message: 'Please input your native Language!' }]"
-    >
-      <a-select
-      ref="select"
-      v-model:value="formState.nLang"
-      :options="langOptions"
-      >
-      <a-select-option value="en">English</a-select-option>
-      </a-select>
     </a-form-item>
 
     <a-form-item

@@ -146,7 +146,7 @@ const goPayment = () => {
     
       <a-button class="_bigBtn" @click="goPayment" type="primary" block>
         <div class="_bigBtn_wrap">
-          <div>Total<span class="_bigBtn_total">{{ total }}</span></div>
+          <!-- <div>Total<span class="_bigBtn_total">{{ total }}</span></div> -->
           Continue
         </div>
       </a-button>
@@ -165,12 +165,13 @@ const goPayment = () => {
   height: 3.5rem;
   z-index: 5;
   border-radius: 0;
+  font-size: 1rem;
 }
-._bigBtn_wrap{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+// ._bigBtn_wrap{
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+// }
 ._bigBtn_total{
   font-size: 1.5rem;
   margin-left: .25rem;
@@ -281,7 +282,8 @@ const goPayment = () => {
 ._shopDetail_count{
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  // justify-content: flex-end;
+  justify-content: space-between;
 
   &.show{
     ._shopDetail_count__num{
@@ -343,7 +345,7 @@ const goPayment = () => {
 }
 ._shopDetail_count__num{
   color: $color-primary;
-  width: 50px;
+  max-width: 4rem;
   font-size: 2rem;
   text-align: center;
   font-weight: bold;

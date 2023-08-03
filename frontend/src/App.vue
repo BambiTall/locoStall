@@ -78,7 +78,7 @@ const theme = {
 
 <template>
   <a-config-provider :theme="theme">
-   <a-layout>
+   <a-layout class="_layout">
       <a-layout-header class="_header">      
         <Navigation />
       </a-layout-header>
@@ -94,7 +94,9 @@ const theme = {
 
 <style lang="scss">
 @import "../src/assets/scss/style.scss";
-
+// ._layout{
+//   height: 100%;
+// }
 ._header{
   position: fixed;
   display: flex;
@@ -107,6 +109,7 @@ const theme = {
 }
 ._body{
   padding: 5rem $padding-s 0 !important;
+  min-height: 100vh !important;
 }
 
 ._footer{
