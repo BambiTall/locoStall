@@ -61,7 +61,6 @@ onMounted(async () => {
     // if (!liff.isLoggedIn()){
     //   liff.login();
     // }
-    console.log('Liff ready!');
   } catch (err) {
     console.log(`liff.state init error ${err}`);
   }

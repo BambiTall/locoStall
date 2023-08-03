@@ -1,23 +1,30 @@
 <script setup>
-// import { onMounted } from 'vue';
-// import liff from "@line/liff";
+import { reactive, ref, computed, onBeforeMount, onMounted, watch } from 'vue';
+import liff from "@line/liff";
 
-// onMounted(async () => {
-//   try {
-//     await liff.init({ liffId: "2000144386-Ax8WZ8k2" });
-//     if (!liff.isLoggedIn()){
-//       liff.login();
-//     }
-      
-//     console.log('Liff logged in!');
-//   } catch (err) {
-//     console.log(`liff.state init error ${err}`);
-//   }
-// })
+const os = ref('')
+const lang = ref('')
+const idToken = ref('')
+const decodedIdToken = ref('')
+
+onMounted(()=>{
+  if (!liff.isLoggedIn()){
+    liff.login();
+  }
+
+  os.value = liff.getOS()
+  lang.value = liff.getLanguage()
+  idToken.value = liff.getIDToken()
+  decodedIdToken.value = liff.getDecodedIDToken()
+})
 </script>
 
 <template>
   LIFF
+  <p>os: {{ os }}</p>
+  <p>lang: {{ lang }}</p>
+  <p>idToken: {{ idToken }}</p>
+  <p>decodedIdToken: {{ decodedIdToken }}</p>
 </template>
 
 <style scoped>
