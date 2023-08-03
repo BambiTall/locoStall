@@ -1,6 +1,6 @@
 <script setup>
 import axios from 'axios';
-import { reactive, ref, computed, onMounted, onBeforeMount } from 'vue';
+import { reactive, ref, computed, onMounted, onBeforeMount, watch } from 'vue';
 import { useStore } from "vuex";
 import { useRouter, useRoute } from "vue-router";
 import api from '@/axios/api.js';
@@ -47,6 +47,11 @@ const valChange = () => {
     total.value += Number(shopDetail.value.menu[i].qty) * shopDetail.value.menu[i].price;
   }
 }
+
+watch(shopDetail.value, (newValue) => {
+  console.log('shopDetail.value new',newValue);
+  
+});
 
 const showCard = (id) => {
   currCard.value = id;
@@ -98,7 +103,7 @@ const goPayment = () => {
       <p class="_shopDetail_des">{{ shopDetail.description }}</p>
     </a-col>
 
-    <a-col :sm="{ span: 24 }" :md="{ span: 18 }">
+    <a-col :sm="{ span: 24 }" :md="{ span: 18 }" style="width: 100%;">
       <ul class="_shopDetail_menu">
         <li class="_shopDetail_menu__item" v-for="item,index in shopDetail.menu" :key="index">
           <div class="_shopDetail_menu__left">
@@ -122,24 +127,18 @@ const goPayment = () => {
                 </a-card-meta>
               </a-card>
             </div>
-
           </div>
+
           <div class="_shopDetail_menu__right">
             <p class="_shopDetail_menu__name">{{ item.name }}</p>
-            <div class="_shopDetail_order">
-              <div class="_shopDetail_order__price">
-                <span class="_shopDetail_order__currency">NTD</span>
-                <span class="_shopDetail_order__num">{{ item.price }}</span>
-              </div>
-              
-              <div class="_shopDetail_count">
-                <a-input-group compact>
-                  <a-select size="large" class="_shopDetail_count__num" v-model:value="item.qty" @change="valChange()">
-                    <a-select-option value="0">0</a-select-option>
-                    <a-select-option v-for="n in 20" :value="n">{{ n }}</a-select-option>
-                  </a-select>
-                </a-input-group>
-              </div>
+            <div class="_shopDetail_order__price">
+              <span class="_shopDetail_order__currency">NTD</span>
+              <span class="_shopDetail_order__num">{{ item.price }}</span>
+            </div>
+            <div class="_shopDetail_count" :class="item.qty > 0 ? 'show' : ''">
+              <span class="_shopDetail_count__btn minus" @click="item.qty > 0 ? item.qty-- : '' "></span>
+              <input class="_shopDetail_count__num" v-model="item.qty" type="text" disabled/>
+              <span class="_shopDetail_count__btn plus" @click="item.qty < 20 ? item.qty++ : '' "></span>
             </div>
           </div>
         </li>
@@ -200,9 +199,10 @@ const goPayment = () => {
   margin-bottom: 1rem;
   border-radius: $border-radius;
   overflow: hidden;
-  flex: 1;
   box-shadow: 0 0.5rem 1rem #00000026;
   background-color: white;
+  // flex-direction: column;
+  // flex: 0 0 48%;
 
   &.buy{
   box-shadow: 0 0.5rem 1rem $color-primary;
@@ -278,15 +278,78 @@ const goPayment = () => {
   margin-bottom: .5rem;
   line-height: 1.5;
 }
-._shopDetail_order{
-  display: flex;
-  align-items: center;
-}
 ._shopDetail_count{
   display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  &.show{
+    ._shopDetail_count__num{
+      opacity: 1;
+      transform: translateX(0);
+    }
+    ._shopDetail_count__btn.minus{
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+}
+._shopDetail_count__btn{
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border-radius: 50%;
+  justify-content: center;
+  color: $color-primary;
+  font-size: 1.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: rgba($color: $color-primary, $alpha: .2);
+  position: relative;
+  transition: .3s all ease;
+
+  &.minus{
+    opacity: 0;
+    transition: .2s all ease;
+    transform: translateX(.5rem);
+
+    &::before{
+      width: 20px;
+      border-bottom: 4px solid $color-primary;
+      content: '';
+      display: block;
+    }
+  }
+  &.plus{
+    &::before{
+      width: 20px;
+      border-bottom: 3px solid $color-primary;
+      content: '';
+      display: block;
+      position: absolute;
+    }
+    &::after{
+      width: 20px;
+      border-bottom: 3px solid $color-primary;
+      transform: rotate(90deg);
+      content: '';
+      display: block;
+    }
+  }
+
+  &:hover{
+    filter: brightness(120%);
+  }
 }
 ._shopDetail_count__num{
-    font-size: 1.2rem;
+  color: $color-primary;
+  width: 50px;
+  font-size: 2rem;
+  text-align: center;
+  font-weight: bold;
+  opacity: 0;
+  transform: translateX(.25rem);
+  transition: .2s all ease;
 }
 ._shopDetail_order__currency{
   // transform: translateY(-5px);
@@ -294,7 +357,8 @@ const goPayment = () => {
 ._shopDetail_order__price{
   display: flex;
   align-items: end;
-  flex: auto;
+  // flex: auto;
+  margin-bottom: 1rem;
 }
 ._shopDetail_order__num{
   font-size: 1.5rem;

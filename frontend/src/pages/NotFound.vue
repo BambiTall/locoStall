@@ -6,7 +6,7 @@
 </script>
 
 <template>
-  NotFound
+  <!-- NotFound -->
 </template>
 
 <style scoped>

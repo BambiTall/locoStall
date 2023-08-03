@@ -86,8 +86,11 @@ onMounted(() => {
     </div>
 
     <div class="_payment_card">
-      Payment
-      <a-radio-group name="radioGroup" v-model:value="payment">
+      <div class="_payment_card__subtitle">
+        Payment
+      </div>
+
+      <a-radio-group name="radioGroup" style="display: flex; justify-content: space-between;" v-model:value="payment">
         <a-radio value="linepay">Line Pay</a-radio>
         <a-radio value="cash">Cash</a-radio>
       </a-radio-group>
@@ -136,5 +139,10 @@ onMounted(() => {
   border-radius: 2rem;
   box-shadow: 0 0.5rem 1rem #00000026;
   margin-bottom: 2rem;
+  background-color: white;
+}
+._payment_card__subtitle{
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
 }
 </style>
