@@ -15,12 +15,17 @@
     "payment":"Payment",
     "orderState":"Order state",
     "customer": "Customer",
+    "total": "Total",
+    "ok": "OK",
+    "prev": "Prev",
+    "next": "Next",
     
     "waiting": "Waiting",
     "cooking": "Cooking",
     "finish": "Finish",
     "cancel": "Cancel",
 
+    "continue": "Continue",
 
     "navigation" : {
         "page": "Page",
@@ -55,7 +60,6 @@
     "duplicate":"Duplicate",
     "add":"Add",
     "url":"URL",
-    "next":"Next",
     "create":"Create",
     "back":"Back",
     "save":"Save",

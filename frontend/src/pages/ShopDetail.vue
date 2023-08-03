@@ -5,6 +5,10 @@ import { useStore } from "vuex";
 import { useRouter, useRoute } from "vue-router";
 import api from '@/axios/api.js';
 
+// i18n
+import { useI18n } from "vue-i18n";
+const { t, locale } = useI18n({ useScope: "global" });
+
 const shopDetail = ref()
 const isShow = ref(false)
 const currCard = ref(0)
@@ -147,7 +151,7 @@ const goPayment = () => {
       <a-button class="_bigBtn" @click="goPayment" type="primary" block>
         <div class="_bigBtn_wrap">
           <!-- <div>Total<span class="_bigBtn_total">{{ total }}</span></div> -->
-          Continue
+          {{ t('continue') }}
         </div>
       </a-button>
     </a-col>
