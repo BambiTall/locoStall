@@ -8,5 +8,16 @@
     "email": "メールアドレス",
     "password": "パスワード",
     "nativeLang":"母国語",
-    "submit":"送る"
+    "submit":"送る",
+    "orderList": "注文リスト",
+    "prodList":"Product list",
+    "orderId": "注文ID",
+    "payment": "支払い",
+    "orderState": "注文状態",
+    "customer": "購入者",
+    
+    "waiting": "確認待ち",
+    "cooking": "調理中",
+    "finish": "完成",
+    "cancel": "キャンセル"
 }

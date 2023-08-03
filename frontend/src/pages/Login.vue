@@ -39,6 +39,9 @@ const logIn = async( state )=>{
     let user_res = await api.get(`/user/${res.data.id}`);
     console.log('user_res',user_res);
       
+    if(user_res.data.type == 'manager'){
+      router.push({ name: 'OrderList' })
+    }
     // store.dispatch('setCurrUser', userInfo);
     // store.dispatch('login');
     // router.push({ name: 'User' })

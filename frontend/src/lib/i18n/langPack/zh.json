@@ -9,6 +9,17 @@
     "password":"密碼",
     "nativeLang":"母語",
     "submit":"送出",
+    "orderList":"訂單列表",
+    "prodList":"商品列表",
+    "orderId":"訂單編號",
+    "payment":"付款方式",
+    "orderState":"訂單狀態",
+    "customer": "訂購者",
+    
+    "waiting": "等待確認",
+    "cooking": "餐點製作中",
+    "finish": "訂單完成",
+    "cancel": "訂單取消",
 
 
 
@@ -29,7 +40,6 @@
     },
     
 
-    "user": "會員",
     "order": "訂單",
     "product": "商品",
     "modalNumber": "商品序號",

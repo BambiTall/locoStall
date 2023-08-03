@@ -1,0 +1,16 @@
+._order{
+    .ant-card-body{
+        padding: 0;
+    }
+}
+
+._order_bottom{
+    .ant-select-selector{
+        background: transparent !important;
+        border: 0 !important;
+        color: white;
+    }
+    .ant-select-selection-item{
+        font-weight: bold;
+    }
+}

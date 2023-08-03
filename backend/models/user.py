@@ -9,6 +9,8 @@ class User(db.Model):
     native_lang = db.Column(db.String(10))
     line_id = db.Column(db.String(1000))
     password = db.Column(db.String(50))
+    type = db.Column(db.String(20))
+    shop_id = db.Column(db.Integer)
 
     def json(self):
         return {
@@ -17,5 +19,7 @@ class User(db.Model):
             'mail': self.mail,
             'native_lang': self.native_lang,
             'line_id': self.line_id,
-            'password': self.password
+            'password': self.password,
+            'type': self.type,
+            'shop_id': self.shop_id
         }

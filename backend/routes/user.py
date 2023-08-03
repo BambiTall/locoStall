@@ -34,15 +34,15 @@ def user_log_in():
 # Get user detail
 @user_bp.route(f'{os.environ["API_BASE"]}/user/<int:user_id>', methods=['GET', 'POST'])
 def get_user_detail(user_id):
-    if user_id == session.get('user_id'):
+    # if user_id == session.get('user_id'):
     # if user_id in session:
         # user = db.get_or_404(User, user_id)
-        db_user = User.query.filter_by(id=session['user_id']).first()
+        db_user = User.query.filter_by(id=user_id).first()
         return db_user.json()
-    else:
-        return {
-            "message": "用戶未登入"
-        }
+    # else:
+    #     return {
+    #         "message": "用戶未登入"
+    #     }
 
 # Add user
 @user_bp.route(f'{os.environ["API_BASE"]}/user', methods=['POST'])
