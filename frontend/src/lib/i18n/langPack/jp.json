@@ -15,9 +15,15 @@
     "payment": "支払い",
     "orderState": "注文状態",
     "customer": "購入者",
+    "total": "総額",
+    "ok": "確認",
+    "prev": "前へ",
+    "next": "次へ",
     
     "waiting": "確認待ち",
     "cooking": "調理中",
     "finish": "完成",
-    "cancel": "キャンセル"
+    "cancel": "キャンセル",
+
+    "continue": "次ぐ"
 }

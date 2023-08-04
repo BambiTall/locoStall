@@ -15,11 +15,17 @@
     "payment":"付款方式",
     "orderState":"訂單狀態",
     "customer": "訂購者",
+    "total": "總金額",
+    "ok": "確認",
+    "prev": "上一步",
+    "next": "下一步",
     
     "waiting": "等待確認",
     "cooking": "餐點製作中",
     "finish": "訂單完成",
     "cancel": "訂單取消",
+
+    "continue": "下一步",
 
 
 
@@ -57,7 +63,6 @@
     "duplicate":"重製",
     "add":"新增",
     "url":"網址",
-    "next":"下一步",
     "create":"建立",
     "back":"返回",
     "save":"儲存",

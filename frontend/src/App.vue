@@ -84,10 +84,11 @@ const theme = {
       </a-layout-header>
       <a-layout-content class="_body">
         <router-view/>
+
+        <a-layout-footer class="_footer">
+          © locoStall 2023
+        </a-layout-footer>
       </a-layout-content>
-      <a-layout-footer class="_footer">
-        © locoStall 2023
-      </a-layout-footer>
     </a-layout>
   </a-config-provider>
 </template>

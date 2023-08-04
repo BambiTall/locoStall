@@ -56,14 +56,14 @@ def get_user_detail(user_id):
 
 # Add user
 @user_bp.route(f'{os.environ["API_BASE"]}/user', methods=['POST'])
-def add_web_user():
+def add_user():
     data = request.get_json()
     db_user = User.query.filter_by(mail=data['mail']).first()
     if db_user is not None:
         return {"message": "E-mail 已註冊"}, 500
     else:
         user = User(
-            mail=data['mail'], native_lang=data['nLang'], password=data['password']
+            mail=data['mail'], password=data['password']
         )
         db.session.add(user)
         db.session.commit()

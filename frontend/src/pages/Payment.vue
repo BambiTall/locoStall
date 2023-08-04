@@ -5,6 +5,10 @@ import { useStore } from "vuex";
 import { useRouter, useRoute } from "vue-router";
 import api from '@/axios/api.js';
 
+// i18n
+import { useI18n } from "vue-i18n";
+const { t, locale } = useI18n({ useScope: "global" });
+
 const store = useStore()
 const route = useRoute()
 const router = useRouter()
@@ -70,7 +74,7 @@ onMounted(() => {
 <template>
   <div class="_payment">
     <div class="_payment_card">
-      <a-typography-title :level="3">Order list</a-typography-title>
+      <a-typography-title :level="3">{{ t('orderList') }}</a-typography-title>
       <div class="_payment_items" v-for="item,idx in orderData.orderList" :key="idx">
         <div class="_payment_item">
           <span class="_payment_item__qty">{{ item.qty }}</span>
@@ -81,13 +85,13 @@ onMounted(() => {
 
       <a-divider class="_payment_divider"></a-divider>
       <div class="_payment_total">
-        <span>Total</span><span>{{ total }}</span>
+        <span>{{ t('total') }}</span><span>{{ total }}</span>
       </div>
     </div>
 
     <div class="_payment_card">
       <div class="_payment_card__subtitle">
-        Payment
+        {{ t('payment') }}
       </div>
 
       <a-radio-group name="radioGroup" style="display: flex; justify-content: space-between;" v-model:value="payment">
@@ -97,8 +101,8 @@ onMounted(() => {
     </div>
 
     <a-row :gutter="20">
-      <a-col :span="12"><a-button @click="goShopDetail" shape="round" block size="large">上一步</a-button></a-col>
-      <a-col :span="12"><a-button @click="sendOrder" type="primary" shape="round" block size="large">確認</a-button></a-col>
+      <a-col :span="12"><a-button @click="goShopDetail" shape="round" block size="large">{{ t('prev') }}</a-button></a-col>
+      <a-col :span="12"><a-button @click="sendOrder" type="primary" shape="round" block size="large">{{ t('ok') }}</a-button></a-col>
     </a-row>
     
   </div>
@@ -106,6 +110,9 @@ onMounted(() => {
 
 <style scoped lang="scss">
 ._payment{
+  max-width: $form-max-width;
+  margin: auto;
+
   * {
     font-weight: bold;
   }
@@ -113,15 +120,16 @@ onMounted(() => {
 ._payment_item{
   display: flex;
   align-items: center;
-
+  margin-bottom: .5rem;
 }
 ._payment_item__qty{
   color: $color-primary;
   font-size: 2rem;
   flex: 1;
+  margin-right: 1rem;
 }
 ._payment_item__name{
-  font-size: 1rem;
+  font-size: 1.25rem;
   flex: 5;
 }
 ._payment_item__subtotal{
