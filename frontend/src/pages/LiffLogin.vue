@@ -14,15 +14,38 @@ onMounted(()=>{
 
   os.value = liff.getOS()
   lang.value = liff.getLanguage()
+  isInClient.value = liff.isInClient()
   profile.value = liff.getProfile()
   decodedIdToken.value = liff.getDecodedIDToken()
+
+  const sendUsertoAdminMessege = () => {
+    // メッセージ送信する
+    liff.sendMessages([{
+        type: "text",
+        text: "ユーザーからメッセージ送信したしん！",
+    }])
+    .then(() => {
+        console.log('Message sent');
+    })
+    .catch((error) => {
+        console.log('Error sending message: ' + error);
+    });
+  };
+
+  const sendAdmintoUserMessege = () => {
+    console.log('sendAdmintoUserMessege');
+    alert('sendAdmintoUserMessege');
+  };
 })
 </script>
 
 <template>
   LIFF
+  <a-button shape="round" block size="large" @click="sendUsertoAdminMessege">ユーザーから管理者へ</a-button>
+  <a-button shape="round" block size="large" @click="sendAdmintoUserMessege">管理者からユーザーへ</a-button>
   <p>os: {{ os }}</p>
   <p>lang: {{ lang }}</p>
+  <p>isInClient: {{ isInClient }}</p>
   <p>profile: {{ profile }}</p>
   <p>decodedIdToken: {{ decodedIdToken }}</p>
 </template>

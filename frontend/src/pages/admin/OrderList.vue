@@ -112,7 +112,7 @@ onMounted(async () => {
   overflow: hidden;
 }
 ._order_top{
-  padding: $padding-m/2 $padding-m;
+  padding: calc($padding-m/2) $padding-m;
 }
 ._order_bottom{
   width: 100%;
