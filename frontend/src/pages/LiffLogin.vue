@@ -27,15 +27,16 @@ const sendUsertoAdminMessege = () => {
       text: "ユーザーからメッセージ送信したしん！",
   }])
   .then(() => {
-      console.log('Message sent');
+    window.alert('Message sent');
+    // console.log('Message sent');
   })
   .catch((error) => {
-      console.log('Error sending message: ' + error);
+    window.alert('Error sending message: ' + error);
+    // console.log('Error sending message: ' + error);
   });
 };
 
 const sendAdmintoUserMessege = () => {
-  console.log('sendAdmintoUserMessege');
   window.alert('sendAdmintoUserMessege');
 };
 </script>
