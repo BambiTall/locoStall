@@ -4,6 +4,7 @@ import liff from "@line/liff";
 
 const os = ref('')
 const lang = ref('')
+const isInClient = ref('')
 const profile = ref('')
 const decodedIdToken = ref('')
 
@@ -17,26 +18,26 @@ onMounted(()=>{
   isInClient.value = liff.isInClient()
   profile.value = liff.getProfile()
   decodedIdToken.value = liff.getDecodedIDToken()
-
-  const sendUsertoAdminMessege = () => {
-    // メッセージ送信する
-    liff.sendMessages([{
-        type: "text",
-        text: "ユーザーからメッセージ送信したしん！",
-    }])
-    .then(() => {
-        console.log('Message sent');
-    })
-    .catch((error) => {
-        console.log('Error sending message: ' + error);
-    });
-  };
-
-  const sendAdmintoUserMessege = () => {
-    console.log('sendAdmintoUserMessege');
-    alert('sendAdmintoUserMessege');
-  };
 })
+
+const sendUsertoAdminMessege = () => {
+  // メッセージ送信する
+  liff.sendMessages([{
+      type: "text",
+      text: "ユーザーからメッセージ送信したしん！",
+  }])
+  .then(() => {
+      console.log('Message sent');
+  })
+  .catch((error) => {
+      console.log('Error sending message: ' + error);
+  });
+};
+
+const sendAdmintoUserMessege = () => {
+  console.log('sendAdmintoUserMessege');
+  window.alert('sendAdmintoUserMessege');
+};
 </script>
 
 <template>
