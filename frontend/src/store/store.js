@@ -22,7 +22,8 @@ const store = createStore({
             ],
             currUser: {},
             currOrder: {},
-            lineProfile: {}
+            lineProfile: {},
+            prevRoute: {}
         }
     },
     getters:{
@@ -46,6 +47,9 @@ const store = createStore({
         },
         lineProfile:state => {
             return state.lineProfile
+        },
+        prevRoute:state => {
+            return state.prevRoute
         },
     },
     actions:{
@@ -73,6 +77,9 @@ const store = createStore({
         setLineProfile:({commit}, data)=>{
             commit("setLineProfile", data)
         },
+        setPrevRoute:({commit}, data)=>{
+            commit("setPrevRoute", data)
+        },
     },
     mutations:{
         order:(state, val)=>{
@@ -91,6 +98,7 @@ const store = createStore({
             state.login = false;
             localStorage.removeItem('login');
             localStorage.removeItem('currLang');
+            localStorage.removeItem('id');
         },
         setCurrLang:(state, lang)=>{
             state.currLang = lang;
@@ -106,6 +114,11 @@ const store = createStore({
         setLineProfile:(state, data)=>{
             state.lineProfile = data;
         },
+        setPrevRoute:(state, data)=>{
+            state.prevRoute = data;
+            // console.log('setPrevRoute state.prevRoute',state.prevRoute);
+        },
+        
     }
 })
 

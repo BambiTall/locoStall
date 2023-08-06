@@ -45,17 +45,6 @@ onBeforeMount(async () => {
 
 
 const total = ref(0)
-const valChange = () => {
-  total.value = 0
-  for(let i=0; i<shopDetail.value.menu.length; i++){
-    total.value += Number(shopDetail.value.menu[i].qty) * shopDetail.value.menu[i].price;
-  }
-}
-
-watch(shopDetail.value, (newValue) => {
-  console.log('shopDetail.value new',newValue);
-  
-});
 
 const showCard = (id) => {
   currCard.value = id;
@@ -151,7 +140,7 @@ const goPayment = () => {
       <a-button class="_bigBtn" @click="goPayment" type="primary" block>
         <div class="_bigBtn_wrap">
           <!-- <div>Total<span class="_bigBtn_total">{{ total }}</span></div> -->
-          {{ t('continue') }}
+          {{ t('next') }}
         </div>
       </a-button>
     </a-col>

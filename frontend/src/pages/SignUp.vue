@@ -15,10 +15,7 @@ const isLogin = computed(() => store.getters.login);
 
 // const lang = route.params.lang;
 const formState = reactive({
-  display_name: '',
   mail: '',
-  native_lang: '',
-  line_id: '',
   password: ''
 });
 
@@ -58,14 +55,6 @@ const goLogin = () => {
     @finish="onFinish"
     @finishFailed="onFinishFailed"
   >
-    <!-- <a-form-item
-      v-if="isLogin"
-      label="Display name"
-      name="display_name"
-    >
-      <a-input v-model:value="formState.display_name" />
-    </a-form-item> -->
-
     <a-form-item
       :label="t('email')"
       name="mail"
@@ -83,10 +72,11 @@ const goLogin = () => {
     </a-form-item>
     
     <a-form-item>
-      <a-row :gutter="20">
-        <a-col :span="12"><a-button type="link" block @click="goLogin"><i class="las la-arrow-left"></i>Back to log in</a-button></a-col>
-        <a-col :span="12"><a-button type="primary" shape="round" block size="large" html-type="submit">{{ t('submit') }}</a-button></a-col>
-      </a-row>
+      <a-button type="primary" shape="round" block size="large" html-type="submit">{{ t('submit') }}</a-button>
+    </a-form-item>
+
+    <a-form-item>
+      <a-button class="_signup_back" type="link" block @click="goLogin"><i class="las la-arrow-left"></i>{{ t('prev') }}</a-button>
     </a-form-item>
   </a-form>
 </template>
@@ -96,6 +86,11 @@ const goLogin = () => {
   width: 90%;
   max-width: $form-max-width;
   margin: auto;
+}
+._signup_back{
+  i {
+    margin-right: 1rem;
+  }
 }
 ._signup_btn{
   bottom {

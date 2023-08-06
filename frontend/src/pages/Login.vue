@@ -1,6 +1,6 @@
 <script setup>
 import axios from 'axios';
-import { reactive, ref, computed, onMounted } from 'vue';
+import { reactive, ref, computed, onMounted, watch ,onBeforeMount } from 'vue';
 import { useStore } from "vuex";
 import { useRouter, useRoute } from "vue-router";
 import api from '@/axios/api.js';
@@ -9,9 +9,11 @@ import api from '@/axios/api.js';
 import { useI18n } from "vue-i18n";
 const { t, locale } = useI18n({ useScope: "global" });
 
+const route = useRoute()
 const router = useRouter()
 const store = useStore();
 const isLogin = computed(() => store.getters.login);
+const prevRoute = ref(store.getters.prevRoute);
 
 // const lang = route.params.lang;
 let userInfo = ref({})
@@ -31,25 +33,24 @@ const onLoginFailed = errorInfo => {
 const logIn = async( state )=>{
   try {
     const res = await api.post('/user/login', state);
-    console.log('logIn res',res);
-    // userInfo.value = {
-    //   id: res.data.id
-    // }
 
-    let user_res = await api.get(`/user/${res.data.id}`);
-    console.log('user_res',user_res);
-      
-    if(user_res.data.type == 'manager'){
-      router.push({ name: 'OrderList' })
-    }
-    // store.dispatch('setCurrUser', userInfo);
-    // store.dispatch('login');
-    // router.push({ name: 'User' })
+    // set user id
+    localStorage.setItem('id', res.data.id);
+    store.dispatch('login');
+
+    let userRes = await api.get(`/user/${res.data.id}`);
+
+    store.dispatch('setCurrUser', userRes.data);
+    store.dispatch('setCurrLang', userRes.data.native_lang);
+    
+    prevRoute.value.params.lang = userRes.data.native_lang
+    
+    router.push( prevRoute.value )
+
   } catch (error) {
     console.error(error);
   }
 }
-
 
 const lineLogin = () => {
   router.push({ name: 'LiffLogin' })

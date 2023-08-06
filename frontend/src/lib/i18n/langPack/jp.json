@@ -5,6 +5,7 @@
     "signup": "サインアップ",
     "login": "ログイン",
     "logout": "ログアウト",
+    "displayName":"名前",
     "email": "メールアドレス",
     "password": "パスワード",
     "nativeLang":"母国語",
@@ -19,6 +20,9 @@
     "ok": "確認",
     "prev": "前へ",
     "next": "次へ",
+    "update": "更新",
+    "profile": "プロフィール",
+    "orderHistory": "注文履歴",
     
     "waiting": "確認待ち",
     "cooking": "調理中",

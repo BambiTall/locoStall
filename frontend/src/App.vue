@@ -15,39 +15,17 @@ const localstorage_login = ref(Boolean(localStorage.getItem('login')));
 // getters
 const currLang = ref(store.getters.currLang);
 
-// const checkLocalStorage = async () => {
-//   try {
-//     let useLang = ''
-
-//     if (localstorage_login.value) {
-//       // logged in
-//       if (localstorage_lang.value) {
-//         // lang set
-
-//         useLang = localstorage_lang.value
-//       } else {
-//         console.log("logged in but lang hasn't been set");
-//       }
-//     } else {
-//       // not logged in
-//       // use default lang
-//       useLang = currLang.value
-//     }
-//     store.dispatch('setCurrLang', useLang);
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
-
 router.beforeEach((to, from, next) => {
-  if (to.fullPath === '/' || to.fullPath === '/undefined' ) {
-    // visit with no lang
-    next({ path: `/${currLang.value}` });
-  } else {
-    // visit with lang
-    store.dispatch('setCurrLang', to.params.lang);
-    next();
+  if( to.name == 'Login' ){
+    let routeObj = {}
+    routeObj.name = from.name
+    routeObj.params = from.params
+    store.dispatch('setPrevRoute', routeObj);
   }
+
+  // visit with lang
+  store.dispatch('setCurrLang', to.params.lang);
+  next();
 });
 
 onBeforeMount(() => {

@@ -3,7 +3,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Login from '../pages/Login.vue';
 import SignUp from '../pages/SignUp.vue';
 import LiffLogin from '../pages/LiffLogin.vue';
-import User from '../pages/User.vue';
+import User from '../pages/user/User.vue';
+import UserOrderHistory from '../pages/user/OrderHistory.vue';
 import ShopDetail from '../pages/ShopDetail.vue';
 import Index from '../pages/Index.vue';
 import Payment from '../pages/Payment.vue';
@@ -19,9 +20,16 @@ import NotFound from '../pages/NotFound.vue';
 // let route_base = 'en'
 // let history = createWebHistory(route_base);
 
+import i18n from '@/lib/i18n/lang'
+
 let history = createWebHistory();
 
 let routes = [
+  {
+    path: '/',
+    name: 'Home',
+    redirect: '/'+ i18n.global.locale.value
+  },
   {
     path: '/:lang',
     name: 'Index',
@@ -49,9 +57,14 @@ let routes = [
     component: SignUp,
   },
   {
-    path: "/:lang/user",
+    path: "/:lang/user/profile",
     name: 'User',
-    component: User,
+    component: User
+  },
+  {
+    path: "/:lang/user/order",
+    name: 'UserOrderHistory',
+    component: UserOrderHistory,
   },
   {
     path: "/:lang/login/liff",
