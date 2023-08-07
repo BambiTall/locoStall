@@ -45,7 +45,7 @@ const goLogin = () => {
 </script>
 
 <template>
-  <a-typography-title style="text-align: center;">{{ t('signup') }}</a-typography-title>
+  <a-typography-title class="_h1">{{ t('signup') }}</a-typography-title>
   <a-form
     :model="formState"
     layout="vertical"

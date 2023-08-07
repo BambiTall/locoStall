@@ -50,7 +50,7 @@ onMounted(async () => {
 <template>
   <div class="_orderConfirm">
     <div class="_orderConfirm_card" v-if="currOrder">
-      <a-typography-title :level="3" style="text-align: center;">Order Confirmed</a-typography-title>
+      <a-typography-title class="_h1">Order Confirmed</a-typography-title>
       <div class="_orderConfirm_no">
         No.<span class="_orderConfirm_no__num">024</span>
       </div>

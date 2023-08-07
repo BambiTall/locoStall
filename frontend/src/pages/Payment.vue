@@ -72,9 +72,9 @@ onMounted(() => {
 </script>
 
 <template>
+  <a-typography-title class="_h2">{{ t('orderList') }}</a-typography-title>
   <div class="_payment">
     <div class="_payment_card">
-      <a-typography-title :level="3">{{ t('orderList') }}</a-typography-title>
       <div class="_payment_items" v-for="item,idx in orderData.orderList" :key="idx">
         <div class="_payment_item">
           <span class="_payment_item__qty">{{ item.qty }}</span>
@@ -94,7 +94,7 @@ onMounted(() => {
         {{ t('payment') }}
       </div>
 
-      <a-radio-group name="radioGroup" style="display: flex; justify-content: space-between;" v-model:value="payment">
+      <a-radio-group class="_payment_card__radio" name="radioGroup" style="display: flex; justify-content: space-between;" v-model:value="payment">
         <a-radio value="linepay">Line Pay</a-radio>
         <a-radio value="cash">Cash</a-radio>
       </a-radio-group>
@@ -131,6 +131,7 @@ onMounted(() => {
 ._payment_item__name{
   font-size: 1.25rem;
   flex: 5;
+  line-height: 1.3;
 }
 ._payment_item__subtotal{
   font-size: 1.5rem;
@@ -152,5 +153,10 @@ onMounted(() => {
 ._payment_card__subtitle{
   font-size: 1.25rem;
   margin-bottom: 1rem;
+}
+._payment_card__radio{
+  label{
+    font-size: 1.25rem;
+  }
 }
 </style>

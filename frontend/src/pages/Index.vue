@@ -36,9 +36,9 @@ onMounted(async () => {
 </script>
 
 <template>
-  <a-typography-title>{{ t('index.shop_list') }} </a-typography-title>
-  <a-row :gutter="[20, 20]">
-    <a-col :xs="24" :sm="6" :md="6" :lg="6" :xl="4" v-for="shop,idx in shopList" :key="idx">
+  <a-typography-title class="_h1">{{ t('index.shop_list') }} </a-typography-title>
+  <a-row :gutter="[10, 20]">
+    <a-col :xs="12" :sm="6" :md="6" :lg="6" :xl="4" v-for="shop,idx in shopList" :key="idx">
       <router-link :to="`/${lang}/shop/${shop.shop_id}`">
         <a-card hoverable class="_shopList_item">
           <template #cover>

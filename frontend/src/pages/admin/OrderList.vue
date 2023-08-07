@@ -35,7 +35,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <a-typography-title :level="4">{{ t('orderList') }}</a-typography-title>
+  <a-typography-title class="_h1">{{ t('orderList') }}</a-typography-title>
   
   <a-row :gutter="[20, 20]" class="_orders">
     <a-col :xs="24" :sm="6" :md="6" :lg="6" v-for="order,idx in orderList" :key="idx">

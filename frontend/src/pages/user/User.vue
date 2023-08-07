@@ -40,7 +40,7 @@ onBeforeMount(async()=>{
 </script>
 
 <template>
-  <a-typography-title>User page</a-typography-title>
+  <a-typography-title class="_h1">User page</a-typography-title>
   <div class="_form">
     <a-form
       :model="formState"

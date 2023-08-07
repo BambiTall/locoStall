@@ -15,7 +15,7 @@ const store = useStore();
 </script>
 
 <template>
-  <a-typography-title>Order History</a-typography-title>
+  <a-typography-title class="_h1">Order History</a-typography-title>
 </template>
 
 <style scoped lang="scss">
