@@ -48,8 +48,8 @@ onMounted(async () => {
 // custom theme
 const theme = {
   token: {
-    colorPrimary: '#6d9eed',
-    // colorBgLayout: '#ffffff',
+    colorPrimary: '#ffc648',
+    colorBgLayout: '#ffffff',
     borderRadius: 30
   },
 };
@@ -83,12 +83,13 @@ const theme = {
   justify-content: space-between;
   z-index: 2;
   width: 100%;
+  // background-color: $color-secondary !important;
   background-color: white !important;
-  padding: 0 $padding-s !important;
+  padding: 0 !important;
 
 }
 ._body{
-  padding: 5rem $padding-s 0 !important;
+  padding: 6rem $padding-s 0 !important;
   min-height: 100vh !important;
 }
 
@@ -97,9 +98,9 @@ const theme = {
 }
 
 @media(min-width: $breakpoint-s){
-  ._header{
-    padding: 0 $padding-m !important;
-  }
+  // ._header{
+  //   padding: 0 $padding-m !important;
+  // }
 
   ._body{
     padding-top: 6rem !important;

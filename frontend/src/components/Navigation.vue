@@ -4,6 +4,7 @@ import { useStore } from 'vuex';
 import { useRouter, useRoute } from "vue-router";
 import { useI18n } from "vue-i18n";
 import Logo from "../assets/locoStall_logo.vue";
+import Logo_mobile from "../assets/locoStall_logo_mobile.vue";
 
 const store = useStore();
 const route = useRoute();
@@ -64,7 +65,10 @@ const handleLangChange = (locale) => {
 
 <template>
   <div class="_nav">
-    <router-link :to="'/' + urlLang" class="_nav_logo"><Logo class="_nav_logo__svg"/></router-link>
+    <router-link :to="'/' + urlLang" class="_nav_logo">
+      <Logo class="_nav_logo__svg"/>
+      <Logo_mobile class="_nav_logo__svg--mobile"/>
+    </router-link>
     
     <div class="_nav_hamburger" @click="showMenu">
       <i class="las la-bars"></i>
@@ -84,9 +88,12 @@ const handleLangChange = (locale) => {
             <i class="lar la-user"></i>
           </a-button>
           <div class="_nav_manage" :class="isShowUserMenu ? 'show' : ''">
-            <a-button type="text" @click="login" class="_nav_manage__link" v-if="!isLogin">
+            <!-- <a-button type="text" @click="login" class="_nav_manage__link" v-if="!isLogin">
                 {{ t('login') }}
-            </a-button>
+            </a-button> -->
+            <div  @click="login" class="_nav_manage__link" v-if="!isLogin">
+              {{ t('login') }}
+            </div>
 
             <template v-else>
               <router-link class="_nav_manage__link" :to="'/' + urlLang+'/user/order'">
@@ -118,6 +125,7 @@ const handleLangChange = (locale) => {
   width: 100%;
   display: flex;
   justify-content: space-between;
+  margin: 0 $padding-s;
 }
 ._nav_logo{
   max-width: 180px;
@@ -125,6 +133,11 @@ const handleLangChange = (locale) => {
 }
 ._nav_logo__svg{
   width: 100%;
+  display: none;
+
+  &--mobile{
+    
+  }
 }
 ._nav_user{
   display: flex;
@@ -132,7 +145,7 @@ const handleLangChange = (locale) => {
   position: relative;
   // border: 1px 0 1px 0;
   // border-style: solid;
-  border: 1px solid $color-gray-3;
+  // border: 1px solid $color-gray-3;
   border-left: 0;
   border-right: 0;
 }
@@ -145,7 +158,6 @@ const handleLangChange = (locale) => {
 }
 ._nav_manage{
   width: 8rem;
-  background: white;
   text-align: center;
   border-radius: $border-radius;
   display: flex;
@@ -159,9 +171,28 @@ const handleLangChange = (locale) => {
     transform: translateX(0);
   }
 }
+._nav_links{
+  a{
+    font-size: 1rem;
+    padding: 1rem;
+    // color: white;
+    color: $color-primary;
+
+    &:hover{
+      background-color: none !important;
+    }
+  }
+}
 ._nav_manage__link{
-  padding: .5rem;
+  cursor: pointer;
   line-height: 1.5;
+  // color: white;
+  color: $color-primary;
+  transition: .2s all ease-in;
+
+  &:hover{
+    color: $color-primary;
+  }
 }
 // hamburger
 ._nav_hamburger{
@@ -173,16 +204,16 @@ const handleLangChange = (locale) => {
 ._nav_hamburger{
   i {
     font-size: 1.5rem;
+    color: $color-primary;
   }
 }
 ._nav_right{
-  background: white;
   position: absolute;
   top: 0;
   right: 0;
   z-index: 50;
   opacity: 0;
-  width: 80%;
+  width: 90%;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -191,6 +222,9 @@ const handleLangChange = (locale) => {
   transition: .2s all ease-in;
   transform: translateX(30px);
   pointer-events: none;
+  background-color: $color-secondary;
+  border-top-left-radius: $border-radius;
+  border-bottom-left-radius: $border-radius;
 
   &.show {
     display: flex;
@@ -210,6 +244,17 @@ const handleLangChange = (locale) => {
 }
 
 @media(min-width: $breakpoint-m){
+  ._nav{
+    margin: 0 $padding-m;
+  }
+
+  ._nav_logo__svg{
+    display: block;
+
+    &--mobile{
+      display: none;
+    }
+  }
   ._nav_hamburger{
     opacity: 0;
   }
@@ -223,9 +268,22 @@ const handleLangChange = (locale) => {
     transform: translateX(0);
     flex-direction: row;
     pointer-events: initial;
+
+    background: none;
   }
   ._nav_links{
     margin-right: 1rem;
+
+    a{
+      color: $color-secondary;
+      border-radius: $border-radius;
+      transition: .2s all ease-in;
+
+      &:hover{
+        color: $color-primary;
+        background-color: $color-secondary;
+      }
+    }
   }
 
   ._nav_right__setting{
@@ -243,6 +301,8 @@ const handleLangChange = (locale) => {
     right: -2.5rem;
     top: 3rem;
     box-shadow: 0 0.5rem 1rem #00000026;
+    background: white;
+    padding: 1rem;
 
     opacity: 0;
     transform: translateY(-10px);
@@ -256,6 +316,10 @@ const handleLangChange = (locale) => {
         pointer-events: initial;
       }
     }
+  }
+
+  ._nav_manage__link{
+    color: $color-secondary;
   }
 }
 </style>

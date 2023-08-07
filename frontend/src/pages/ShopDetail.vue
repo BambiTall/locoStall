@@ -137,12 +137,12 @@ const goPayment = () => {
         </li>
       </ul>
     
-      <a-button class="_bigBtn" @click="goPayment" type="primary" block>
-        <div class="_bigBtn_wrap">
-          <!-- <div>Total<span class="_bigBtn_total">{{ total }}</span></div> -->
+      <div class="_shopDetail_btn">
+        <a-button class="_shopDetail_btn_wrap"  @click="goPayment" type="primary" block>
+          <!-- <div>Total<span class="_shopDetail_btn_total">{{ total }}</span></div> -->
           {{ t('next') }}
-        </div>
-      </a-button>
+        </a-button>
+      </div>
     </a-col>
   </a-row>
 
@@ -151,21 +151,24 @@ const goPayment = () => {
 </template>
 
 <style scoped lang="scss">
-._bigBtn{
+._shopDetail_btn{
   position: fixed;
   left: 0;
   bottom: 0;
-  height: 3.5rem;
-  z-index: 5;
-  border-radius: 0;
-  font-size: 1rem;
+  z-index: 1;
+  padding: 1rem;
+  width: 100%;
 }
-// ._bigBtn_wrap{
-//   display: flex;
-//   justify-content: space-between;
-//   align-items: center;
-// }
-._bigBtn_total{
+._shopDetail_btn_wrap{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 3.5rem;
+  border-radius: 30px;
+  font-size: 1rem;
+  box-shadow: 0 0.5rem 1rem #00000026;
+}
+._shopDetail_btn_total{
   font-size: 1.5rem;
   margin-left: .25rem;
   font-weight: bold;
@@ -236,7 +239,7 @@ const goPayment = () => {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba($color: $color-primary, $alpha: .8);
+  background-color: rgba($color: $color-secondary, $alpha: .9);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -299,7 +302,8 @@ const goPayment = () => {
   font-size: 1.5rem;
   width: 2.5rem;
   height: 2.5rem;
-  background-color: rgba($color: $color-primary, $alpha: .2);
+  // background-color: rgba($color: $color-primary, $alpha: .2);
+  background-color: $color-secondary;
   position: relative;
   transition: .3s all ease;
 
