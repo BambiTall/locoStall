@@ -25,15 +25,15 @@ def get_orders_list():
 def get_user_order_list(user_id):
     orders = Orders.query.filter_by(user_id=user_id)
 
-    return jsonify([order.json for order in orders])
+    return jsonify([order.json() for order in orders])
 
 
 # Get shop orders
 @order_bp.route(f'{os.environ["API_BASE"]}/orders/shop/<int:shop_id>')
-def get_user_order_list(shop_id):
+def get_shop_order_list(shop_id):
     orders = Orders.query.filter_by(shop_id=shop_id)
 
-    return jsonify([order.json for order in orders])
+    return jsonify([order.json() for order in orders])
 
 
 # Get order detail
@@ -58,6 +58,7 @@ def add_order():
         user_id=data['user_id'],
         payment=data['payment'],
         shop_id=data['shop_id'],
+        state="waiting",
     )
 
     db.session.add(orders)
