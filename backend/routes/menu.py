@@ -16,7 +16,7 @@ def get_menu_list(lang, shop_id):
 
 
 # Get menu item
-@menu_bp.route(f'{os.environ["API_BASE"]}/menu_item/<int:id>')
-def get_menu_item(id):
-    menu = db.get_or_404(entity=Menu, ident=id)
-    return {"data": menu}
+@menu_bp.route(f'{os.environ["API_BASE"]}/menu_item/<int:menu_id>')
+def get_menu_item(menu_id):
+    menu = db.get_or_404(entity=Menu, ident=menu_id)
+    return {"data": menu.json()}

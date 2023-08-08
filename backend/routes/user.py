@@ -62,9 +62,7 @@ def add_user():
     if db_user is not None:
         return {"message": "E-mail 已註冊"}, 500
     else:
-        user = User(
-            mail=data['mail'], password=data['password']
-        )
+        user = User(mail=data['mail'], password=data['password'])
         db.session.add(user)
         db.session.commit()
 

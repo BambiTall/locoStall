@@ -8,8 +8,8 @@ class Orders(db.Model):
     __tablename__ = 'orders'
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.String(11))
-    shop_id = db.Column(db.String(11))
+    user_id = db.Column(db.Integer)
+    shop_id = db.Column(db.Integer)
     item_list = db.Column(db.String(1000))
     payment = db.Column(db.String(20))
     state = db.Column(db.String(100))

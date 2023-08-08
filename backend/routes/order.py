@@ -5,6 +5,7 @@ import os
 import json
 from sqlalchemy.sql import func
 from ..extentions import db
+from ..models.user import User
 from ..models.orders import Orders
 from ..models.menu import Menu
 from ..models.shop_name import Shop_name
@@ -24,16 +25,48 @@ def get_orders_list():
 @order_bp.route(f'{os.environ["API_BASE"]}/orders/user/<int:user_id>')
 def get_user_order_list(user_id):
     orders = Orders.query.filter_by(user_id=user_id)
+    order_list = [order.json() for order in orders]
+    user = User.query.filter_by(id=user_id).first()
 
-    return jsonify([order.json() for order in orders])
+    for order in order_list:
+        item_list = json.loads(order["item_list"])
+        new_item_list = []
+        for item in item_list:
+            menu = Menu.query.filter_by(
+                shop_id=order["shop_id"],
+                prod_id=item["prod_id"],
+                lang=user.native_lang,
+            ).first()
+            item["name"] = menu.name
+            item["price"] = menu.price
+            new_item_list.append(item)
+        order["item_list"] = json.dumps(new_item_list)
+
+    return jsonify(order_list)
 
 
-# Get shop orders
-@order_bp.route(f'{os.environ["API_BASE"]}/orders/shop/<int:shop_id>')
-def get_shop_order_list(shop_id):
-    orders = Orders.query.filter_by(shop_id=shop_id)
+# Get shop orders by manager's user id
+@order_bp.route(f'{os.environ["API_BASE"]}/orders/manager/<int:user_id>')
+def get_manager_order_list(user_id):
+    user = User.query.filter_by(id=user_id).first()
+    orders = Orders.query.filter_by(shop_id=user["shop_id"])
+    order_list = [order.json() for order in orders]
 
-    return jsonify([order.json() for order in orders])
+    for order in order_list:
+        item_list = json.loads(order["item_list"])
+        new_item_list = []
+        for item in item_list:
+            menu = Menu.query.filter_by(
+                shop_id=order["shop_id"],
+                prod_id=item["prod_id"],
+                lang=user.native_lang,
+            ).first()
+            item["name"] = menu.name
+            item["price"] = menu.price
+            new_item_list.append(item)
+        order["item_list"] = json.dumps(new_item_list)
+
+    return jsonify(order_list)
 
 
 # Get order detail
@@ -71,9 +104,8 @@ def add_order():
 @order_bp.route(f'{os.environ["API_BASE"]}/update_order', methods=['POST'])
 def update_order():
     data = request.get_json()
-    order = db.get_or_404(entity=Orders, ident=data['id'])
-    order.state = data['state'] if data['state'] else order.state
-    order.updated_at = datetime.utcnow
+    order = db.get_or_404(entity=Orders, ident=data['order_id'])
+    order.state = data['state']
     db.session.commit()
 
     return {'message': 'Order state updated successfully'}, 200
