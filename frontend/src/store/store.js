@@ -116,7 +116,7 @@ const store = createStore({
             localStorage.setItem('currLang', state.currLang);
         },
         setCurrUserData:(state, data)=>{
-            // console.log('store setCurrUserData', data);
+            console.log('@store setCurrUserData', data);
             state.currUser = data;
         },
         setCurrOrder:(state, data)=>{

@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, ref, computed, onMounted, watchEffect } from 'vue';
+import { reactive, ref, computed, onMounted, watchEffect, onUnmounted } from 'vue';
 import axios from 'axios';
 import { useStore } from "vuex";
 import { useRouter, useRoute } from "vue-router";
@@ -20,10 +20,8 @@ const loggedInId = ref(Number(localStorage.getItem('id')));
 
 const getOrderList = async()=>{
   try {
-    const res = await api.get(`/orders/shop/${userData.value.shop_id}`);
+    const res = await api.get(`/orders/manager/${userData.value.id}`);
     orderList.value = res.data;
-    console.log('@@@ getOrderList res',res.data);
-    
   } catch (error) {
     console.error(error);
   }
@@ -40,17 +38,27 @@ const getUserData = async()=>{
   }
 }
 
-const orderStateHandler = async( newState )=>{
+const orderStateHandler = async( id, newState )=>{
   try {
     let params = {
+      order_id: id,
       state: newState
     }
     const orderStateRes = await api.post(`/update_order`, params);
-    console.log('orderStateRes',orderStateRes);
-    
   } catch (error) {
     console.error(error);
   }
+}
+
+// setInterval
+let interval = null;
+const runInterval = () => {
+  interval = setInterval(
+    function () {
+      getOrderList()
+    }.bind(this),
+    2000
+  );
 }
 
 onMounted(async () => {
@@ -58,34 +66,43 @@ onMounted(async () => {
     await Promise.all([
       getUserData(),
     ]);
+
+    runInterval();
+
   } catch (error) {
     console.error(error);
   }
+});
+
+onUnmounted(() => {
+  clearInterval(interval);
 });
 </script>
 
 <template>
   <a-typography-title class="_h1">{{ t('orderList') }}</a-typography-title>
-  
+
   <a-row :gutter="[20, 20]" class="_orders">
-    <a-col :xs="24" :sm="6" :md="6" :lg="6" v-for="order,idx in orderList" :key="idx">
+    <a-col :xs="24" :sm="8" :md="8" :lg="6" v-for="order,idx in orderList" :key="idx">
       <a-card class="_order">
         <div class="_order_top">
           <div class="_order_id">
             {{ t('orderId') }} <span class="_order_id__num">{{ order.id }}</span>
           </div>
-          <a-divider></a-divider>
+
+          <a-divider class="_order_hr"></a-divider>
 
           <!-- product list -->
-          <div class="_order_prod" v-for="item,key in JSON.parse(order.item_list)" :key="key">
-            {{ item }}
+          <div class="_order_items" v-for="item,idx in JSON.parse(order.item_list)" :key="idx">
+            <div class="_order_item">
+              <span class="_order_item__qty">{{ item.qty }}</span>
+              <span class="_order_item__name">{{ item.name }}</span>
+              <span class="_order_item__subtotal">{{ item.qty * item.price }}</span>
+            </div>
           </div>
 
-          <!-- <div>
-            <span class="_order_prod__subtotal">{{ item.qty * item.price }}</span>
-          </div> -->
-          
-          <a-divider></a-divider>
+          <a-divider class="_order_hr"></a-divider>
+
           <div class="_order_state">
             {{ t('orderState') }}<span class="_order_state__num">{{ t(order.state) }}</span>
           </div>
@@ -96,27 +113,25 @@ onMounted(async () => {
             {{ t('customer') }}<span class="_order_customer__val">{{ order.user_id }}</span>
           </div>
 
-          <a-divider></a-divider>
+          <a-divider class="_order_hr"></a-divider>
 
           <div class="_order_created">
             {{ t('createdAt') }}<div class="_order_created__val">{{ moment(order.created_at).format('YYYY-MM-DD') }}</div>
           </div>
         </div>
 
-        <!-- shop_id: {{ order.shop_id }} <br>
-        created_at: {{ order.created_at }} <br>
-        updated_at: {{ order.updated_at }} -->
         <a-select
           class="_order_bottom" :class="order.state"
           ref="select"
           v-model:value="order.state"
-          @change="orderStateHandler(order.state)"
+          @change="orderStateHandler(order.id, order.state)"
         >
           <a-select-option value="waiting">{{ t('waiting') }}</a-select-option>
           <a-select-option value="cooking">{{ t('cooking') }}</a-select-option>
           <a-select-option value="finish">{{ t('finish') }}</a-select-option>
           <a-select-option value="cancel">{{ t('cancel') }}</a-select-option>
         </a-select>
+
       </a-card>
     </a-col>
   </a-row>
@@ -130,6 +145,33 @@ onMounted(async () => {
 ._order_top{
   padding: calc($padding-m/2) $padding-m;
 }
+._order_hr{
+  margin: 1rem;
+}
+._order_item{
+  display: flex;
+  align-items: center;
+  margin-bottom: .5rem;
+  * {
+    font-weight: bold;
+  }
+}
+._order_item__qty{
+  color: $color-primary;
+  font-size: 1.5rem;
+  flex: 1;
+  // margin-right: 1rem;
+}
+._order_item__name{
+  font-size: 1.25rem;
+  flex: 5;
+  line-height: 1.3;
+}
+._order_item__subtotal{
+  font-size: 1.5rem;
+  flex: 1;
+  text-align: right;
+}
 ._order_bottom{
   width: 100%;
   text-align: center;
@@ -142,10 +184,10 @@ onMounted(async () => {
     background-color: $color-green;
   }
   &.cancel{
-    background-color: $color-gray-1;
+    background-color: $color-gray-2;
   }
   &.finish{
-    background-color: $color-gray-2;
+    background-color: $color-gray-1;
   }
 }
 ._order_id{
@@ -198,19 +240,5 @@ onMounted(async () => {
 }
 ._order_customer__val{
   font-weight: bold;
-}
-._order_prod{
-  display: flex;
-  align-items: center;
-
-}
-._order_prod__qty{
-  color: $color-primary;
-  font-size: 2rem;
-  flex: 1;
-}
-._order_prod__name{
-  font-size: 1rem;
-  flex: 5;
 }
 </style>

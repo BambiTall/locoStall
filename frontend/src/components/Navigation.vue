@@ -4,6 +4,7 @@ import { useStore } from 'vuex';
 import { useRouter, useRoute } from "vue-router";
 import { useI18n } from "vue-i18n";
 import { message } from 'ant-design-vue';
+import api from '@/axios/api.js';
 import Logo from "../assets/locoStall_logo.vue";
 import Logo_mobile from "../assets/locoStall_logo_mobile.vue";
 
@@ -16,12 +17,11 @@ const isShowUserMenu = ref(false);
 
 // getters
 const langOptions = ref(store.getters.langList)
-const userData = ref(store.getters.currUser);
+const currUser = ref(store.getters.currUser);
 
 // local storage
 let urlLang = ref(localStorage.getItem('currLang'));
-
-const loggedInId = ref(localStorage.getItem('id') ? Number(localStorage.getItem('id')) : null);
+const loggedInId = ref(localStorage.getItem('id'));
 let isLoggedIn = computed(()=>{
   return loggedInId.value ? true : false
 })
@@ -90,7 +90,12 @@ const handleLangChange = (locale) => {
     location.reload();
   });
 } 
-onMounted(()=>{
+onMounted(async ()=>{
+  if( Object.keys(currUser.value).length == 0 && loggedInId.value){
+    
+    // hasn't get user data yet
+    let userDateRes = await store.dispatch('getUserData', loggedInId.value);
+  }
 })
 
 </script>
@@ -101,13 +106,13 @@ onMounted(()=>{
       <Logo class="_nav_logo__svg"/>
       <Logo_mobile class="_nav_logo__svg--mobile"/>
     </router-link>
-    
+
     <div class="_nav_hamburger" @click="showMenu">
       <i class="las la-bars"></i>
     </div>
     <div class="_nav_right" :class="isShowMenu ? 'show' : ''">
       <div class="_nav_links" @click="isShowMenu = false">
-        <router-link :to="'/' + urlLang + '/admin'" v-if="userData.type=='magager'">
+        <router-link :to="'/' + urlLang + '/admin'" v-if="currUser.type=='manager'">
           訂單列表
         </router-link>
         <router-link v-else :to="'/' + urlLang">
