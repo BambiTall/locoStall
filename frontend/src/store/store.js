@@ -68,8 +68,8 @@ const store = createStore({
         setCurrLang:({commit}, lang)=>{
             commit("setCurrLang", lang)
         },
-        setCurrUser:({commit}, data)=>{
-            commit("setCurrUser", data)
+        setCurrUserData:({commit}, data)=>{
+            commit("setCurrUserData", data)
         },
         setCurrOrder:({commit}, data)=>{
             commit("setCurrOrder", data)
@@ -104,8 +104,8 @@ const store = createStore({
             state.currLang = lang;
             localStorage.setItem('currLang', lang);
         },
-        setCurrUser:(state, data)=>{
-            // console.log('store setCurrUser', data);
+        setCurrUserData:(state, data)=>{
+            // console.log('store setCurrUserData', data);
             state.currUser = data;
         },
         setCurrOrder:(state, data)=>{

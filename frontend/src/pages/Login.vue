@@ -40,7 +40,7 @@ const logIn = async( state )=>{
 
     let userRes = await api.get(`/user/${res.data.id}`);
 
-    store.dispatch('setCurrUser', userRes.data);
+    store.dispatch('setCurrUserData', userRes.data);
     store.dispatch('setCurrLang', userRes.data.native_lang);
     
     prevRoute.value.params.lang = userRes.data.native_lang

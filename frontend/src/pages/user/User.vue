@@ -30,7 +30,7 @@ onBeforeMount(async()=>{
     let res = await api.get(`/user/${currUserId.value}`);
     Object.assign(formState, res.data);
 
-    store.dispatch('setCurrUser', res.data);
+    store.dispatch('setCurrUserData', res.data);
     store.dispatch('setCurrLang', res.data.native_lang);
 
   } catch {

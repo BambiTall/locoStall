@@ -3,19 +3,33 @@ import Navigation from "../src/components/Navigation.vue";
 import { useRouter, useRoute } from "vue-router";
 import { reactive, ref, computed, onBeforeMount, onMounted, watch } from 'vue';
 import { useStore } from "vuex";
-
+import api from '@/axios/api.js';
 
 const store = useStore();
 const router = useRouter();
 
 // local storage
-const localstorage_lang = ref(localStorage.getItem('lang'));
-const localstorage_login = ref(Boolean(localStorage.getItem('login')));
+const isLoggedIn = ref(Boolean(localStorage.getItem('login')));
+const loggedInId = ref(Number(localStorage.getItem('id')));
 
 // getters
 const currLang = ref(store.getters.currLang);
 
 router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuth) {
+    console.log('需要 AUTH');
+    
+    if( !isLoggedIn.value ){
+      console.log('還沒登入');
+      next({
+        path: currLang.value + '/login',
+        query: { redirect: to.fullPath },
+      });
+    } else {
+      next();
+    }
+  }
+
   if( to.name == 'Login' ){
     let routeObj = {}
     routeObj.name = from.name
@@ -29,6 +43,9 @@ router.beforeEach((to, from, next) => {
 });
 
 onBeforeMount(() => {
+  if( isLoggedIn.value ) {
+    store.dispatch('login');
+  }
 });
 
 import liff from "@line/liff";

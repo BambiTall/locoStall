@@ -1,32 +1,48 @@
 <script setup>
-import { reactive, ref, computed, onMounted } from 'vue';
+import { reactive, ref, computed, onMounted, watchEffect } from 'vue';
 import axios from 'axios';
 import { useStore } from "vuex";
 import { useRouter, useRoute } from "vue-router";
 import api from '@/axios/api.js';
+import moment from 'moment'
 
 const orderList = ref([])
+const userData = ref({})
 const route = useRoute()
+const store = useStore()
 
 // i18n
 import { useI18n } from "vue-i18n";
 const { t, locale } = useI18n({ useScope: "global" });
 
+const currUser = computed(() => store.getters.currUser);
+const loggedInId = ref(Number(localStorage.getItem('id')));
+
 const getOrderList = async()=>{
   try {
-    const res = await api.get(`/orders`);
+    const res = await api.get(`/orders/shop/${userData.value.shop_id}`);
     orderList.value = res.data;
-    // console.log('getOrderList res',res.data);
+    console.log('@@@ getOrderList res',res.data);
     
   } catch (error) {
     console.error(error);
   }
 }
 
+const getUserData = async()=>{
+  try {
+    const res = await api.get(`/user/${loggedInId.value}`);
+    userData.value = res.data;
+    await getOrderList();
+
+  } catch (error) {
+    console.error(error);
+  }
+}
 onMounted(async () => {
   try {
     await Promise.all([
-      getOrderList(),
+      getUserData(),
     ]);
   } catch (error) {
     console.error(error);
@@ -47,18 +63,8 @@ onMounted(async () => {
           <a-divider></a-divider>
 
           <!-- product list -->
-          <div class="_order_prod" v-for="item,key in JSON.parse(order.order_list)" :key="key">
+          <div class="_order_prod" v-for="item,key in JSON.parse(order.item_list)" :key="key">
             {{ item }}
-            <!-- <div class="_order_prod" v-for="i,key in JSON.parse(item)" :key="key">
-              <span class="_order_prod__qty">{{ i.qty }}</span>
-              <span class="_order_prod__name">{{ i.name }}</span>
-            </div> -->
-            <!-- <div class="_order_prod" v-for="i,key in item" :key="key">
-              <span class="_order_prod__qty">{{ i[key] }}</span>
-              <span class="_order_prod__name">{{ item.name }}</span>
-            </div>  -->
-            <!-- {{ typeof(item) }}
-            {{ item.qty }} -->
           </div>
 
           <!-- <div>
@@ -69,11 +75,17 @@ onMounted(async () => {
           <div class="_order_state">
             {{ t('orderState') }}<span class="_order_state__num">{{ t(order.state) }}</span>
           </div>
-          <!-- <div class="_order_payment">
+          <div class="_order_payment">
             {{ t('payment') }}<span class="_order_payment__val">{{ order.payment }}</span>
-          </div> -->
+          </div>
           <div class="_order_customer">
             {{ t('customer') }}<span class="_order_customer__val">{{ order.user_id }}</span>
+          </div>
+
+          <a-divider></a-divider>
+
+          <div class="_order_created">
+            {{ t('createdAt') }}<div class="_order_created__val">{{ moment(order.created_at).format('YYYY-MM-DD') }}</div>
           </div>
         </div>
 
@@ -93,23 +105,12 @@ onMounted(async () => {
       </a-card>
     </a-col>
   </a-row>
-
-  <!-- <ul class="_orders">
-    <li class="_orders_item" v-for="order,index in orderList" :key="index">
-      user_id: {{ order.user_id }} <br>
-      shop_id: {{ order.shop_id }} <br>
-      payment: {{ order.payment }} <br>
-      order_list: {{ order.order_list }} <br>
-      created_at: {{ order.created_at }} <br>
-      updated_at: {{ order.updated_at }}
-    </li>
-  </ul> -->
-
 </template>
 
 <style scoped lang="scss">
 ._order{
   overflow: hidden;
+  box-shadow: 0 0.5rem 1rem #00000026;
 }
 ._order_top{
   padding: calc($padding-m/2) $padding-m;
@@ -123,7 +124,7 @@ onMounted(async () => {
     background-color: $color-red;
   }
   &.cooking{
-    background-color: $color-secondary;
+    background-color: $color-green;
   }
   &.cancel{
     background-color: $color-gray-1;
@@ -141,7 +142,15 @@ onMounted(async () => {
   line-height: 1;
   font-size: 2rem;
   color: $color-primary;
+  background-color: $color-secondary;
+  padding: .5rem;
+  width: 3rem;
+  height: 3rem;
   font-weight: bold;
+  border-radius: $border-radius;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 ._order_state{
   display: flex;
@@ -157,6 +166,14 @@ onMounted(async () => {
   align-items: flex-end;
 }
 ._order_payment__val{
+  font-weight: bold;
+}
+._order_created{
+  // display: flex;
+  // justify-content: space-between;
+  // align-items: flex-end;
+}
+._order_created__val{
   font-weight: bold;
 }
 ._order_customer{

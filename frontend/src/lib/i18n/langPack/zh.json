@@ -30,6 +30,8 @@
     "cancel": "訂單取消",
 
     "continue": "下一步",
+    "lastUpdate":"最後更新時間",
+    "createdAt":"建立時間",
 
 
 
@@ -70,8 +72,6 @@
     "create":"建立",
     "back":"返回",
     "save":"儲存",
-    "lastUpdate":"最後更新時間",
-    "createdAt":"建立時間",
     "content":"內容",
     "noContent":"尚未建立內容",
     "schedule":"排程發佈",

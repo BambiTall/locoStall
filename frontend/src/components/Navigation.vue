@@ -59,7 +59,12 @@ const handleLangChange = (locale) => {
   router.push({ name: route.params.name, params: { lang: locale } }).then(() => {
     location.reload();
   });
-}
+} 
+onMounted(()=>{
+  if( !userData.value ){
+    // console.log('login 取 user 資料');
+  }
+})
 
 </script>
 
@@ -88,9 +93,6 @@ const handleLangChange = (locale) => {
             <i class="lar la-user"></i>
           </a-button>
           <div class="_nav_manage" :class="isShowUserMenu ? 'show' : ''">
-            <!-- <a-button type="text" @click="login" class="_nav_manage__link" v-if="!isLogin">
-                {{ t('login') }}
-            </a-button> -->
             <div  @click="login" class="_nav_manage__link" v-if="!isLogin">
               {{ t('login') }}
             </div>
@@ -102,7 +104,7 @@ const handleLangChange = (locale) => {
               <router-link class="_nav_manage__link" :to="'/' + urlLang+'/user/profile'">
                 {{ t('profile') }}
               </router-link>
-              <a-button type="text" @click="logout">
+              <a-button class="_nav_manage__link" type="text" @click="logout">
                 {{ t('logout') }}
               </a-button>
             </template>
@@ -185,7 +187,7 @@ const handleLangChange = (locale) => {
 }
 ._nav_manage__link{
   cursor: pointer;
-  line-height: 1.5;
+  line-height: 2;
   // color: white;
   color: $color-primary;
   transition: .2s all ease-in;

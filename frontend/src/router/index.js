@@ -85,7 +85,8 @@ let routes = [
   {
     path: '/:lang/admin/',
     name: 'OrderList',
-    component: OrderList
+    component: OrderList,
+    meta: { requiresAuth: true }
   },
   {
     path: '/:pathMatch(.*)*',

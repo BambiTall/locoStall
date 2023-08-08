@@ -31,7 +31,7 @@ const calculateTotal = () => {
 
 const submitOrder = async( params )=>{
   try {
-    const res = await api.post('/orders', params);
+    const res = await api.post('/send_order', params);
     store.dispatch('setCurrOrder', res.data.data);
     router.push({ name: 'OrderConfirm', params: { lang: lang } })
   } catch (error) {
@@ -47,10 +47,10 @@ const sendOrder = () => {
   })
 
   const params = {
-    order_list: orderData.value.orderList,
+    item_list: orderData.value.orderList,
     user_id: "1",
+    shop_id: orderData.value.shop_id,
     payment: payment.value,
-    shop_id: orderData.value.shop_id
   }
 
   submitOrder(params)

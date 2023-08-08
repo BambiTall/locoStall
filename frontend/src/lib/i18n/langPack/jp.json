@@ -12,7 +12,7 @@
     "submit":"送る",
     "orderList": "注文リスト",
     "prodList":"Product list",
-    "orderId": "注文ID",
+    "orderId": "注文番号",
     "payment": "支払い",
     "orderState": "注文状態",
     "customer": "購入者",
@@ -29,5 +29,7 @@
     "finish": "完成",
     "cancel": "キャンセル",
 
-    "continue": "次ぐ"
+    "continue": "次ぐ",
+    "lastUpdate":"最終更新",
+    "createdAt":"注文時間"
 }

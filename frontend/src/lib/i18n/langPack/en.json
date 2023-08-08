@@ -30,6 +30,8 @@
     "cancel": "Cancel",
 
     "continue": "Continue",
+    "lastUpdate":"Updated at",
+    "createdAt":"Created at",
 
     "navigation" : {
         "page": "Page",
@@ -67,8 +69,6 @@
     "create":"Create",
     "back":"Back",
     "save":"Save",
-    "lastUpdate":"Updated",
-    "createdAt":"Created",
     "content":"Content",
     "noContent":"No content yet",
     "schedule":"Schedule",
