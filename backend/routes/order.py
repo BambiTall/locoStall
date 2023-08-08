@@ -24,9 +24,9 @@ def get_orders_list():
 # Get user orders
 @order_bp.route(f'{os.environ["API_BASE"]}/orders/user/<int:user_id>')
 def get_user_order_list(user_id):
+    user = User.query.filter_by(id=user_id).first()
     orders = Orders.query.filter_by(user_id=user_id)
     order_list = [order.json() for order in orders]
-    user = User.query.filter_by(id=user_id).first()
 
     for order in order_list:
         item_list = json.loads(order["item_list"])
@@ -49,7 +49,7 @@ def get_user_order_list(user_id):
 @order_bp.route(f'{os.environ["API_BASE"]}/orders/manager/<int:user_id>')
 def get_manager_order_list(user_id):
     user = User.query.filter_by(id=user_id).first()
-    orders = Orders.query.filter_by(shop_id=user["shop_id"])
+    orders = Orders.query.filter_by(shop_id=user.shop_id)
     order_list = [order.json() for order in orders]
 
     for order in order_list:
