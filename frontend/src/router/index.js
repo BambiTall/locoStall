@@ -59,12 +59,14 @@ let routes = [
   {
     path: "/:lang/user/profile",
     name: 'User',
-    component: User
+    component: User,
+    meta: { requiresAuth: true }
   },
   {
     path: "/:lang/user/order",
     name: 'UserOrderHistory',
     component: UserOrderHistory,
+    meta: { requiresAuth: true }
   },
   {
     path: "/:lang/login/liff",

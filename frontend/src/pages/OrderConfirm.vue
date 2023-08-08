@@ -17,9 +17,9 @@ const lang = route.params.lang;
 
 const getOrderDetail = async( id )=>{
   try {
-    const res = await api.get(`/order_detail/${id}`);
+    const res = await api.get(`/order/${id}`);
     currOrder.value = res.data.data;
-    order_list = currOrder.value.order_list
+    item_list = currOrder.value.item_list
     getMenus( currOrder.value.shop_id )
   } catch (error) {
     console.log('@getOrderDetail ERROR', error);

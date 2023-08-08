@@ -12,9 +12,8 @@ const { t, locale } = useI18n({ useScope: "global" });
 const router = useRouter()
 const store = useStore();
 
-const isLogin = computed(() => store.getters.login);
 const currUserId = ref(localStorage.getItem('id'));
-const userData = ref(store.getters.currUser);
+const currUser = computed(() => store.getters.currUser);
 
 const formState = reactive({
   mail: '',
@@ -25,14 +24,20 @@ const formState = reactive({
 
 const langOptions = ref(store.getters.langList)
 
-onBeforeMount(async()=>{
+onMounted(async()=>{
   try{
-    let res = await api.get(`/user/${currUserId.value}`);
-    Object.assign(formState, res.data);
+    if( Object.keys(currUser.value).length == 0 ){
+      // console.log('@User store 沒有 currUser 資料');
+      // hasn't get user data yet
+      let res = await api.get(`/user/${currUserId.value}`);
+      Object.assign(formState, res.data);
 
-    store.dispatch('setCurrUserData', res.data);
-    store.dispatch('setCurrLang', res.data.native_lang);
-
+      store.dispatch('setCurrUserData', res.data);
+    } else {
+      // console.log('@User 已有 currUser 資料，直接放進 form');
+      // got user data
+      Object.assign(formState, currUser.value);
+    }
   } catch {
 
   }

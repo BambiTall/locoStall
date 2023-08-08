@@ -22,7 +22,7 @@ const formState = reactive({
 const langOptions = ref(store.getters.langList)
 
 const onFinish = values => {
-  signIn( values );
+  signUp( values );
   store.dispatch('login');
   router.push({ name: 'User' })
 };
@@ -30,10 +30,9 @@ const onFinishFailed = errorInfo => {
   console.log('Failed:', errorInfo);
 };
 
-const signIn = async( state )=>{
+const signUp = async( state )=>{
   try {
     const res = await api.post('/user', state);
-    store.dispatch('setCurrLang', res.data.native_lang);
   } catch (error) {
     console.error(error);
   }

@@ -1,6 +1,7 @@
 import { createStore } from 'vuex'
 import { ref,reactive } from "vue";
 import i18n from '@/lib/i18n/lang'
+import api from '@/axios/api.js';
 
 const store = createStore({
     state () {
@@ -71,6 +72,9 @@ const store = createStore({
         setCurrUserData:({commit}, data)=>{
             commit("setCurrUserData", data)
         },
+        getUserData:({commit}, id)=>{
+            commit("getUserData", id)
+        },
         setCurrOrder:({commit}, data)=>{
             commit("setCurrOrder", data)
         },
@@ -97,12 +101,19 @@ const store = createStore({
         logout:(state)=>{
             state.login = false;
             localStorage.removeItem('login');
-            localStorage.removeItem('currLang');
             localStorage.removeItem('id');
         },
         setCurrLang:(state, lang)=>{
             state.currLang = lang;
             localStorage.setItem('currLang', lang);
+        },
+        getUserData: async (state, id)=>{
+            let userRes = await api.get(`/user/${id}`);
+            state.currUser = userRes.data;
+            state.currLang = userRes.data.native_lang;
+
+            localStorage.setItem('id', id);
+            localStorage.setItem('currLang', state.currLang);
         },
         setCurrUserData:(state, data)=>{
             // console.log('store setCurrUserData', data);

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { reactive, ref, computed, onMounted, watch ,onBeforeMount } from 'vue';
 import { useStore } from "vuex";
 import { useRouter, useRoute } from "vue-router";
+import { message } from 'ant-design-vue';
 import api from '@/axios/api.js';
 
 // i18n
@@ -12,44 +13,56 @@ const { t, locale } = useI18n({ useScope: "global" });
 const route = useRoute()
 const router = useRouter()
 const store = useStore();
-const isLogin = computed(() => store.getters.login);
-const prevRoute = ref(store.getters.prevRoute);
 
-// const lang = route.params.lang;
-let userInfo = ref({})
+const loggedInId = ref(Number(localStorage.getItem('id')));
+
+const prevRoute = ref(store.getters.prevRoute);
+const currUser = computed(() => store.getters.currUser);
+
+const lang = route.params.lang;
 
 const formState = reactive({
   mail: '',
   password: '',
 });
 
-const onLogin = values => {
-  logIn( values );
-};
-const onLoginFailed = errorInfo => {
-  console.log('Login Failed:', errorInfo);
-};
+onBeforeMount(()=>{
+  if(loggedInId.value){
+    router.push({ name: 'User'})
+  }
+})
 
-const logIn = async( state )=>{
+const onLogin = async ( values ) => {
   try {
-    const res = await api.post('/user/login', state);
-
-    // set user id
-    localStorage.setItem('id', res.data.id);
-    store.dispatch('login');
-
-    let userRes = await api.get(`/user/${res.data.id}`);
-
-    store.dispatch('setCurrUserData', userRes.data);
-    store.dispatch('setCurrLang', userRes.data.native_lang);
-    
-    prevRoute.value.params.lang = userRes.data.native_lang
-    
-    router.push( prevRoute.value )
+    const loginRes = await api.post('/user/login', values);
+    store.dispatch('login', true);
+    const getUserDataRes = await store.dispatch('getUserData', loginRes.data.id);
+    loginSuccess();
 
   } catch (error) {
     console.error(error);
   }
+};
+
+watch(currUser, (newVal)=>{
+  if( !prevRoute.value.name ){
+    router.push({ name: 'User', params:{ lang: lang} })
+  } else {
+    prevRoute.value.params.lang = newVal.native_lang
+    router.push( prevRoute.value ).then(() => {
+      location.reload();
+    });
+  }
+})
+const onLoginFailed = errorInfo => {
+  console.log('Login Failed:', errorInfo);
+};
+
+const loginSuccess = () => {
+  message.success(
+    'Log in success',
+    2,
+  );
 }
 
 const lineLogin = () => {

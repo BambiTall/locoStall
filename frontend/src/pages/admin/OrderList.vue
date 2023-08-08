@@ -39,6 +39,20 @@ const getUserData = async()=>{
     console.error(error);
   }
 }
+
+const orderStateHandler = async( newState )=>{
+  try {
+    let params = {
+      state: newState
+    }
+    const orderStateRes = await api.post(`/update_order`, params);
+    console.log('orderStateRes',orderStateRes);
+    
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 onMounted(async () => {
   try {
     await Promise.all([
@@ -96,6 +110,7 @@ onMounted(async () => {
           class="_order_bottom" :class="order.state"
           ref="select"
           v-model:value="order.state"
+          @change="orderStateHandler(order.state)"
         >
           <a-select-option value="waiting">{{ t('waiting') }}</a-select-option>
           <a-select-option value="cooking">{{ t('cooking') }}</a-select-option>

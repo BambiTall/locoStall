@@ -9,27 +9,17 @@ const store = useStore();
 const router = useRouter();
 
 // local storage
-const isLoggedIn = ref(Boolean(localStorage.getItem('login')));
 const loggedInId = ref(Number(localStorage.getItem('id')));
+let isLoggedIn = loggedInId.value ? true : false;
+
+const lang = ref(localStorage.getItem('lang'));
 
 // getters
-const currLang = ref(store.getters.currLang);
+// const currLang = ref(store.getters.currLang);
+// const currUser = ref(store.getters.currUser);
 
 router.beforeEach((to, from, next) => {
-  if (to.meta.requiresAuth) {
-    console.log('需要 AUTH');
-    
-    if( !isLoggedIn.value ){
-      console.log('還沒登入');
-      next({
-        path: currLang.value + '/login',
-        query: { redirect: to.fullPath },
-      });
-    } else {
-      next();
-    }
-  }
-
+  // save prevRoute
   if( to.name == 'Login' ){
     let routeObj = {}
     routeObj.name = from.name
@@ -37,9 +27,25 @@ router.beforeEach((to, from, next) => {
     store.dispatch('setPrevRoute', routeObj);
   }
 
-  // visit with lang
-  store.dispatch('setCurrLang', to.params.lang);
-  next();
+  // handle 跳轉
+  if (to.meta.requiresAuth) {
+    // console.log('需要 AUTH');
+    if( !isLoggedIn ){
+      // console.log('還沒登入');
+      next({
+        path: lang.value + '/login',
+        query: { redirect: to.fullPath },
+      });
+    } else {
+      // console.log('已登入');
+      next();
+    }
+  } else {
+    // console.log('不需 AUTH');
+    // visit with lang
+    store.dispatch('setCurrLang', to.params.lang);
+    next();
+  }
 });
 
 onBeforeMount(() => {

@@ -3,6 +3,7 @@ import { reactive, ref, computed, onMounted, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter, useRoute } from "vue-router";
 import { useI18n } from "vue-i18n";
+import { message } from 'ant-design-vue';
 import Logo from "../assets/locoStall_logo.vue";
 import Logo_mobile from "../assets/locoStall_logo_mobile.vue";
 
@@ -14,12 +15,24 @@ const isShowMenu = ref(false);
 const isShowUserMenu = ref(false);
 
 // getters
-const isLogin = computed(() => store.getters.login);
 const langOptions = ref(store.getters.langList)
 const userData = ref(store.getters.currUser);
 
 // local storage
 let urlLang = ref(localStorage.getItem('currLang'));
+
+const loggedInId = ref(localStorage.getItem('id') ? Number(localStorage.getItem('id')) : null);
+let isLoggedIn = computed(()=>{
+  return loggedInId.value ? true : false
+})
+
+watch(loggedInId, (newVal)=>{
+  console.log('LOGIN ID newVal', newVal);
+  let res = false
+  if(newVal != null){
+    isLoggedIn.value = true
+  }
+})
 
 // i18n
 const i18n = useI18n();
@@ -48,6 +61,23 @@ const logout = () => {
   store.dispatch('logout');
   isShowMenu.value = false;
   isShowUserMenu.value = false;
+
+  // set store.currUser empty
+  store.dispatch('setCurrUserData', {});
+
+  logoutSuccess();
+
+  if( route.meta.requiresAuth ){
+    router.push({ name: 'Login' })
+  }
+  // reload page
+  location.reload();
+}
+const logoutSuccess = () => {
+  message.success(
+    'Log out success',
+    2,
+  );
 }
 
 const showMenu = () => {
@@ -61,9 +91,6 @@ const handleLangChange = (locale) => {
   });
 } 
 onMounted(()=>{
-  if( !userData.value ){
-    // console.log('login 取 user 資料');
-  }
 })
 
 </script>
@@ -93,7 +120,7 @@ onMounted(()=>{
             <i class="lar la-user"></i>
           </a-button>
           <div class="_nav_manage" :class="isShowUserMenu ? 'show' : ''">
-            <div  @click="login" class="_nav_manage__link" v-if="!isLogin">
+            <div  @click="login" class="_nav_manage__link" v-if="!isLoggedIn">
               {{ t('login') }}
             </div>
 
