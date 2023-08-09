@@ -160,12 +160,13 @@ onMounted(async ()=>{
   margin: 0 $padding-s;
 }
 ._nav_logo{
-  max-width: 180px;
+  max-width: 45px;
   display: flex;
   padding: .5rem 0;
 }
 ._nav_logo__icon{
   margin-right: 1rem;
+  width: 100%;
 }
 ._nav_logo__text{
   display: none;
@@ -281,6 +282,7 @@ onMounted(async ()=>{
 
   ._nav_logo{
     padding: 1rem 0;
+    max-width: 180px;
   }
   ._nav_logo__text{
     display: initial;
