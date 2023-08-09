@@ -34,6 +34,7 @@ const submitOrder = async( params )=>{
   try {
     const res = await api.post('/send_order', params);
     store.dispatch('setCurrOrder', res.data.data);
+    router.push({ name: 'OrderConfirm' })
   } catch (error) {
     console.log('@submitOrder ERROR');
   }
@@ -62,7 +63,6 @@ const goShopDetail = () => {
 
 onBeforeMount(() => {
   if(!orderData.value.orderList){
-    router.push({ path: '/' })
   }
 });
 onMounted(() => {

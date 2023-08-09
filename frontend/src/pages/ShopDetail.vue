@@ -70,7 +70,8 @@ const goPayment = () => {
   orderData.orderList = orderList;
 
   store.dispatch("order", orderData);
-
+  localStorage.setItem('order', JSON.stringify(orderData));
+  
   router.push({ name: 'Payment', params: { lang: lang } })
 }
 

@@ -16,8 +16,9 @@ const router = useRouter()
 // const currUser = computed(() => store.getters.currUser);
 const currOrder = computed(() => store.getters.currOrder);
 
-const lang = route.params.lang;
+const urlLang = route.params.lang;
 
+const orderData = localStorage.getItem('order');
 // const getOrderDetail = async( order_id )=>{
 //   try {
 //     const res = await api.get(`/order/${order_id}`);
@@ -55,6 +56,7 @@ const lang = route.params.lang;
 <template>
   <div class="_orderConfirm">
     currOrder: {{ currOrder }}
+    orderData: {{ orderData }}
     <div class="_orderConfirm_card" v-if="currOrder">
       <a-typography-title class="_h1">Order Confirmed</a-typography-title>
       <div class="_orderConfirm_no">
@@ -90,7 +92,9 @@ const lang = route.params.lang;
     </div>
 
 
-    <a-button @click="" type="primary" shape="round" block size="large">訂單列表</a-button>
+    <router-link :to="'/' + urlLang + '/user/order'">
+      <a-button type="primary" shape="round" block size="large">訂單列表</a-button>
+    </router-link>
   </div>
 </template>
 
