@@ -23,11 +23,13 @@
     "update": "Update",
     "profile": "Profile",
     "orderHistory": "Order history",
+    "orderDetail": "Order detail",
     
     "waiting": "Waiting",
     "cooking": "Cooking",
     "finish": "Finish",
     "cancel": "Cancel",
+    "cash": "cash",
 
     "continue": "Continue",
     "lastUpdate":"Updated at",

@@ -23,11 +23,13 @@
     "update": "更新",
     "profile": "プロフィール",
     "orderHistory": "注文履歴",
+    "orderDetail": "詳しく",
     
     "waiting": "確認待ち",
     "cooking": "調理中",
     "finish": "完成",
     "cancel": "キャンセル",
+    "cash": "現金",
 
     "continue": "次ぐ",
     "lastUpdate":"最終更新",
