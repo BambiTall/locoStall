@@ -3,6 +3,7 @@ import Navigation from "../src/components/Navigation.vue";
 import { useRouter, useRoute } from "vue-router";
 import { reactive, ref, computed, onBeforeMount, onMounted, watch } from 'vue';
 import { useStore } from "vuex";
+import i18n from '@/lib/i18n/lang'
 import api from '@/axios/api.js';
 
 const store = useStore();
@@ -15,8 +16,7 @@ let isLoggedIn = loggedInId.value != null ? true : false;
 const lang = ref(localStorage.getItem('currLang'));
 
 // getters
-// const currLang = ref(store.getters.currLang);
-// const currUser = ref(store.getters.currUser);
+const currUser = ref(store.getters.currUser);
 
 router.beforeEach((to, from, next) => {
   // save prevRoute
@@ -28,7 +28,11 @@ router.beforeEach((to, from, next) => {
   }
 
   // handle 跳轉
-  if (to.meta.requiresAuth) {
+  if (to.fullPath === '/' || to.fullPath === '/undefined' ) {
+    // visit with no lang
+    next({ path: `/${i18n.global.locale.value}` });
+  }
+   else if (to.meta.requiresAuth) {
     // console.log('需要 AUTH');
     if( !isLoggedIn ){
       // console.log('還沒登入');
@@ -40,7 +44,8 @@ router.beforeEach((to, from, next) => {
       // console.log('已登入');
       next();
     }
-  } else {
+  } 
+  else {
     // console.log('不需 AUTH');
     // visit with lang
     store.dispatch('setCurrLang', to.params.lang);
@@ -49,8 +54,8 @@ router.beforeEach((to, from, next) => {
 });
 
 onBeforeMount(async () => {
-  try{
-    if( loggedInId.value != null ){
+  try{    
+    if( loggedInId.value != null && Object.keys(currUser.value).length == 0){
       const getUserDataRes = await store.dispatch('getUserData', Number(loggedInId.value));
     }
   } catch {

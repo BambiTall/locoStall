@@ -24,6 +24,7 @@
     "profile": "プロフィール",
     "orderHistory": "注文履歴",
     "orderDetail": "詳しく",
+    "noData": "また注文してありません",
     
     "waiting": "確認待ち",
     "cooking": "調理中",

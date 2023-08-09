@@ -16,6 +16,7 @@ const router = useRouter()
 const total = ref(0);
 
 const orderData = computed(() => store.getters.order);
+const currUser = computed(() => store.getters.currUser);
 
 const lang = route.params.lang;
 
@@ -33,7 +34,6 @@ const submitOrder = async( params )=>{
   try {
     const res = await api.post('/send_order', params);
     store.dispatch('setCurrOrder', res.data.data);
-    router.push({ name: 'OrderConfirm', params: { lang: lang } })
   } catch (error) {
     console.log('@submitOrder ERROR');
   }
@@ -48,7 +48,7 @@ const sendOrder = () => {
 
   const params = {
     item_list: orderData.value.orderList,
-    user_id: "1",
+    user_id: currUser.value.id,
     shop_id: orderData.value.shop_id,
     payment: payment.value,
   }

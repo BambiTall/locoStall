@@ -13,22 +13,29 @@ const { t, locale } = useI18n({ useScope: "global" });
 const router = useRouter()
 const store = useStore();
 
+const loggedInId = ref(localStorage.getItem('id'));
 const currUser = computed(() => store.getters.currUser);
 const orderHistory = ref([]) 
 
-watch(currUser, async (newVal)=>{
-  let res = await api.get(`orders/user/${newVal.id}`);
-  orderHistory.value = res.data;
+onMounted(async()=>{
+  try{
+    if(orderHistory.value.length === 0){
+      let res = await api.get(`orders/user/${loggedInId.value}`);
+      orderHistory.value = res.data;
+    }
+  } catch {
+  }
 })
-
 </script>
 
 <template>
   <a-typography-title class="_h1">{{ t('orderHistory') }}</a-typography-title>
   <!-- {{ currUser }} -->
-  <!-- {{ orderHistory }} -->
   <div class="_history_wrap">
-    <div class="_history_items" v-for="order,idx in orderHistory" :key="idx">
+    <div v-if="orderHistory.length==0">
+      {{ t('noData') }}
+    </div>
+    <div v-else class="_history_items" v-for="order,idx in orderHistory" :key="idx">
       <!-- {{ order }} -->
 
       <div class="_history_row">

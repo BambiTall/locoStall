@@ -110,8 +110,8 @@ onMounted(async ()=>{
     </div>
     <div class="_nav_right" :class="isShowMenu ? 'show' : ''">
       <div class="_nav_links" @click="isShowMenu = false">
-        <router-link :to="'/' + urlLang + '/admin'" v-if="currUser.type=='manager'">
-          訂單列表
+        <router-link :to="'/' + urlLang + '/admin'" v-if="loggedInId=='6'">
+          客戶訂單
         </router-link>
         <router-link v-else :to="'/' + urlLang">
           {{ t('index.shop_list') }}
