@@ -10,54 +10,60 @@ const store = useStore()
 const route = useRoute()
 const router = useRouter()
 
-let currOrder = ref()
-let shopMenu = ref()
+// let currOrder = ref()
+// let shopMenu = ref()
+
+// const currUser = computed(() => store.getters.currUser);
+const currOrder = computed(() => store.getters.currOrder);
 
 const lang = route.params.lang;
 
-const getOrderDetail = async( id )=>{
-  try {
-    const res = await api.get(`/order/${id}`);
-    currOrder.value = res.data.data;
-    item_list = currOrder.value.item_list
-    getMenus( currOrder.value.shop_id )
-  } catch (error) {
-    console.log('@getOrderDetail ERROR', error);
-  }
-}
-const getMenus = async( id )=>{
-  try {
-    const res = await api.get(`${lang}/menu/${id}`);
-    shopMenu.value = res.data.data;
-  } catch (error) {
-    console.log('@getMenus ERROR', error);
-  }
-}
+// const getOrderDetail = async( order_id )=>{
+//   try {
+//     const res = await api.get(`/order/${order_id}`);
+//     console.log('getOrderDetail res',res);
+    
+//     // currOrder.value = res.data.data;
+//     // item_list = currOrder.value.item_list
+//     // getMenus( currOrder.value.shop_id )
+//   } catch (error) {
+//     console.log('@getOrderDetail ERROR', error);
+//   }
+// }
+// const getMenus = async( id )=>{
+//   try {
+//     const res = await api.get(`${lang}/menu/${id}`);
+//     shopMenu.value = res.data.data;
+//   } catch (error) {
+//     console.log('@getMenus ERROR', error);
+//   }
+// }
 
-onMounted(async () => {
-  try {
-    await Promise.all([
-      getOrderDetail(10)
-    ]);
-  } catch (error) {
-    console.error(error);
-  }
-});
+// onMounted(async () => {
+//   try {
+//     await Promise.all([
+//       // getOrderDetail(10)
+//     ]);
+//   } catch (error) {
+//     console.error(error);
+//   }
+// });
 
 
 </script>
 
 <template>
   <div class="_orderConfirm">
+    currOrder: {{ currOrder }}
     <div class="_orderConfirm_card" v-if="currOrder">
       <a-typography-title class="_h1">Order Confirmed</a-typography-title>
       <div class="_orderConfirm_no">
-        No.<span class="_orderConfirm_no__num">024</span>
+        No.<span class="_orderConfirm_no__num">{{ currOrder.id }}</span>
       </div>
 
       <div class="_orderConfirm_list">
         Status
-        <p class="_orderConfirm_list__info preparing">Foods are being prepared</p>
+        <p class="_orderConfirm_list__info preparing">{{ currOrder.state }}</p>
       </div>
       <div class="_orderConfirm_list">
         Created at
@@ -73,7 +79,7 @@ onMounted(async () => {
         <p class="_orderConfirm_list__info">{{ currOrder.shop_id }}</p>
       </div>
 
-      <div  v-for="item,key in JSON.parse(currOrder.order_list)" :key="key">
+      <div  v-for="item,key in JSON.parse(currOrder.item_list)" :key="key">
         {{ item }}
       </div>
 

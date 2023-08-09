@@ -130,10 +130,10 @@ onMounted(async ()=>{
             </div>
 
             <template v-else>
-              <router-link class="_nav_manage__link" :to="'/' + urlLang+'/user/order'">
+              <router-link class="_nav_manage__link" :to="'/' + urlLang+'/user/order'" @click="isShowMenu=false">
                 {{ t('orderHistory') }}
               </router-link>
-              <router-link class="_nav_manage__link" :to="'/' + urlLang+'/user/profile'">
+              <router-link class="_nav_manage__link" :to="'/' + urlLang+'/user/profile'" @click="isShowMenu=false">
                 {{ t('profile') }}
               </router-link>
               <a-button class="_nav_manage__link" type="text" @click="logout">
@@ -166,12 +166,12 @@ onMounted(async ()=>{
   display: flex;
 }
 ._nav_logo__svg{
-  width: 100%;
-  display: none;
+  // width: 100%;
+  // display: none;
 
-  &--mobile{
+  // &--mobile{
     
-  }
+  // }
 }
 ._nav_user{
   display: flex;
@@ -282,13 +282,13 @@ onMounted(async ()=>{
     margin: 0 $padding-m;
   }
 
-  ._nav_logo__svg{
-    display: block;
+  // ._nav_logo__svg{
+  //   display: block;
 
-    &--mobile{
-      display: none;
-    }
-  }
+  //   &--mobile{
+  //     display: none;
+  //   }
+  // }
   ._nav_hamburger{
     opacity: 0;
   }

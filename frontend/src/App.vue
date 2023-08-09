@@ -9,10 +9,10 @@ const store = useStore();
 const router = useRouter();
 
 // local storage
-const loggedInId = ref(Number(localStorage.getItem('id')));
-let isLoggedIn = loggedInId.value ? true : false;
+const loggedInId = ref(localStorage.getItem('id'));
+let isLoggedIn = loggedInId.value != null ? true : false;
 
-const lang = ref(localStorage.getItem('lang'));
+const lang = ref(localStorage.getItem('currLang'));
 
 // getters
 // const currLang = ref(store.getters.currLang);
@@ -50,8 +50,8 @@ router.beforeEach((to, from, next) => {
 
 onBeforeMount(async () => {
   try{
-    if( loggedInId ){
-      const getUserDataRes = await store.dispatch('getUserData', loggedInId.value);
+    if( loggedInId.value != null ){
+      const getUserDataRes = await store.dispatch('getUserData', Number(loggedInId.value));
     }
   } catch {
 
