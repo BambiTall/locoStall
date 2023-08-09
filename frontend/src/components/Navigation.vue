@@ -5,8 +5,6 @@ import { useRouter, useRoute } from "vue-router";
 import { useI18n } from "vue-i18n";
 import { message } from 'ant-design-vue';
 import api from '@/axios/api.js';
-import Logo from "../assets/locoStall_logo.vue";
-import Logo_mobile from "../assets/locoStall_logo_mobile.vue";
 
 const store = useStore();
 const route = useRoute();
@@ -103,8 +101,8 @@ onMounted(async ()=>{
 <template>
   <div class="_nav">
     <router-link :to="'/' + urlLang" class="_nav_logo">
-      <Logo class="_nav_logo__svg"/>
-      <Logo_mobile class="_nav_logo__svg--mobile"/>
+      <img class="_nav_logo__icon" src="../assets/locostall_logo_icon.svg"/>
+      <img class="_nav_logo__text" src="../assets/locostall_logo_text.svg"/>
     </router-link>
 
     <div class="_nav_hamburger" @click="showMenu">
@@ -164,14 +162,13 @@ onMounted(async ()=>{
 ._nav_logo{
   max-width: 180px;
   display: flex;
+  padding: .5rem 0;
 }
-._nav_logo__svg{
-  // width: 100%;
-  // display: none;
-
-  // &--mobile{
-    
-  // }
+._nav_logo__icon{
+  margin-right: 1rem;
+}
+._nav_logo__text{
+  display: none;
 }
 ._nav_user{
   display: flex;
@@ -282,13 +279,13 @@ onMounted(async ()=>{
     margin: 0 $padding-m;
   }
 
-  // ._nav_logo__svg{
-  //   display: block;
-
-  //   &--mobile{
-  //     display: none;
-  //   }
-  // }
+  ._nav_logo{
+    padding: 1rem 0;
+  }
+  ._nav_logo__text{
+    display: initial;
+    width: 100%;
+  }
   ._nav_hamburger{
     opacity: 0;
   }
