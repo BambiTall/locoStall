@@ -107,7 +107,7 @@ onUnmounted(() => {
             {{ t('orderState') }}<span class="_order_state__num">{{ t(order.state) }}</span>
           </div>
           <div class="_order_payment">
-            {{ t('payment') }}<span class="_order_payment__val">{{ order.payment }}</span>
+            {{ t('payment') }}<span class="_order_payment__val">{{ t(order.payment) }}</span>
           </div>
           <div class="_order_customer">
             {{ t('customer') }}<span class="_order_customer__val">{{ order.user_id }}</span>
@@ -116,7 +116,7 @@ onUnmounted(() => {
           <a-divider class="_order_hr"></a-divider>
 
           <div class="_order_created">
-            {{ t('createdAt') }}<div class="_order_created__val">{{ moment(order.created_at).format('YYYY-MM-DD') }}</div>
+            {{ t('createdAt') }}<div class="_order_created__val">{{ moment(order.created_at).format('YYYY/MM/DD HH:mm') }}</div>
           </div>
         </div>
 

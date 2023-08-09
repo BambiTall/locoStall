@@ -23,11 +23,13 @@
     "update": "更新",
     "profile": "個人資料",
     "orderHistory": "訂單列表",
+    "orderDetail": "訂單詳細",
     
     "waiting": "等待確認",
     "cooking": "餐點製作中",
     "finish": "訂單完成",
     "cancel": "訂單取消",
+    "cash": "現金",
 
     "continue": "下一步",
     "lastUpdate":"最後更新時間",

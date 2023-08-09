@@ -90,7 +90,7 @@ const goPayment = () => {
           style="width: 100%; height: 100%; object-fit: cover;"
         />
       </div>
-      <h1 class="_shopDetail_name">{{ shopDetail.name }}</h1>
+      <h1 class="_shopDetail_name _h1">{{ shopDetail.name }}</h1>
       <a-rate class="_shopDetail_rate" v-model:value="shopDetail.rating" allow-half disabled /> 
       <span class="_shopDetail_rateNum">{{ shopDetail.rating }}</span>
       <p class="_shopDetail_des">{{ shopDetail.description }}</p>
@@ -174,15 +174,15 @@ const goPayment = () => {
   font-weight: bold;
 }
 ._shopDetail_img{
-  height: 250px;
+  height: 200px;
   overflow: hidden;
   border-radius: $border-radius;
   margin-bottom: 1rem;
 }
 ._shopDetail_name{
-  font-size: 2rem;
+  text-align: left;
   font-weight: bold;
-  margin-bottom: 1rem;
+  margin: 1rem 0 !important;
 }
 ._shopDetail_menu{
   display: flex;
@@ -366,7 +366,7 @@ const goPayment = () => {
 }
 
 ._shopDetail_rate{
-  margin-bottom: 1.25rem;
+  margin-bottom: .5rem;
 }
 ._shopDetail_rateNum{
   margin-left: 1rem;

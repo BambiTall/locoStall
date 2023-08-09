@@ -48,9 +48,13 @@ router.beforeEach((to, from, next) => {
   }
 });
 
-onBeforeMount(() => {
-  if( isLoggedIn.value ) {
-    store.dispatch('login');
+onBeforeMount(async () => {
+  try{
+    if( loggedInId ){
+      const getUserDataRes = await store.dispatch('getUserData', loggedInId.value);
+    }
+  } catch {
+
   }
 });
 

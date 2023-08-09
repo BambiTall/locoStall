@@ -257,8 +257,8 @@ onMounted(async ()=>{
   transform: translateX(30px);
   pointer-events: none;
   background-color: $color-secondary;
-  border-top-left-radius: $border-radius;
-  border-bottom-left-radius: $border-radius;
+  // border-top-left-radius: $border-radius;
+  // border-bottom-left-radius: $border-radius;
 
   &.show {
     display: flex;
