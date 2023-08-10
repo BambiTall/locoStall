@@ -30,6 +30,7 @@ onMounted(async()=>{
     if(orderHistory.value.length === 0){
       let res = await api.get(`orders/user/${loggedInId.value}`);
       orderHistory.value = res.data;
+      // console.log('orderHistory.value',orderHistory.value);
     }
   } catch {
   }
@@ -47,14 +48,12 @@ onMounted(async()=>{
       <!-- {{ order }} -->
 
       <div class="_history_row">
-        <div class="_history_state">
-          {{ t('orderState') }}<span class="_history_state__val" :class="order.state">{{ t(order.state) }}</span>
-        </div>
         <div class="_history_id">
           <span class="_history_id__num">{{ order.id }}</span>
         </div>
-      </div>
-      <div class="_history_row">
+        <div class="_history_state">
+          {{ t('orderState') }}<span class="_history_state__val" :class="order.state">{{ t(order.state) }}</span>
+        </div>
         <div class="_history_payment">
           {{ t('payment') }}<span class="_history_payment__val">{{ t(order.payment) }}</span>
         </div>
@@ -90,7 +89,7 @@ onMounted(async()=>{
   margin: auto;
 }
 ._history_items{
-  padding: 2rem;
+  padding: 1rem;
   border-radius: 2rem;
   box-shadow: 0 0.5rem 1rem #00000026;
   margin-bottom: 2rem;

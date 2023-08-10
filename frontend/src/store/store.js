@@ -57,9 +57,6 @@ const store = createStore({
         order: ({commit}, order) => {
             commit("order", order)
         },
-        checkLogin:({commit})=>{
-            commit("checkLogin")
-        },
         login:({commit})=>{
             commit("login")
         },
@@ -88,11 +85,6 @@ const store = createStore({
     mutations:{
         order:(state, val)=>{
             state.order = val;
-        },
-        checkLogin:(state)=>{
-            if(localStorage.getItem('login')){
-                state.login = localStorage.getItem('login');
-            }
         },
         login:(state)=>{
             state.login = true;

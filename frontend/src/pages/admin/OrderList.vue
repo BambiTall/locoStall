@@ -22,6 +22,8 @@ const getOrderList = async()=>{
   try {
     const res = await api.get(`/orders/manager/${userData.value.id}`);
     orderList.value = res.data;
+    console.log('@getOrderList orderList.value',orderList.value);
+    
   } catch (error) {
     console.error(error);
   }
@@ -57,7 +59,7 @@ const runInterval = () => {
     function () {
       getOrderList()
     }.bind(this),
-    2000
+    3000
   );
 }
 
@@ -88,14 +90,18 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <a-typography-title class="_h1">{{ t('orderList') }}</a-typography-title>
+  <!-- <a-typography-title class="_h1">{{ t('orderList') }}</a-typography-title> -->
 
   <a-row :gutter="[20, 20]" class="_orders">
     <a-col :xs="24" :sm="8" :md="8" :lg="6" v-for="order,idx in orderList" :key="idx">
-      <a-card class="_order">
+      <a-card class="_order" :class="order.state">
         <div class="_order_top">
           <div class="_order_id">
-            {{ t('orderId') }} <span class="_order_id__num">{{ order.id }}</span>
+            <!-- {{ t('orderId') }}  -->
+            <div class="_order_created">
+              {{ t('createdAt') }} <div class="_order_created__val">{{ moment(order.created_at).format('YYYY/MM/DD HH:mm') }}</div>
+            </div>
+            <span class="_order_id__num">{{ order.id }}</span>
           </div>
 
           <a-divider class="_order_hr"></a-divider>
@@ -116,21 +122,21 @@ onUnmounted(() => {
 
           <a-divider class="_order_hr"></a-divider>
 
-          <div class="_order_state">
+          <!-- <div class="_order_state">
             {{ t('orderState') }}<span class="_order_state__num">{{ t(order.state) }}</span>
-          </div>
+          </div> -->
           <div class="_order_payment">
             {{ t('payment') }}<span class="_order_payment__val">{{ t(order.payment) }}</span>
           </div>
           <div class="_order_customer">
-            {{ t('customer') }}<span class="_order_customer__val">{{ order.user_id }}</span>
+            {{ t('customer') }}<span class="_order_customer__val">{{ order.user_id }}{{ order.user_name }}</span>
           </div>
 
-          <a-divider class="_order_hr"></a-divider>
+          <!-- <a-divider class="_order_hr"></a-divider> -->
 
-          <div class="_order_created">
+          <!-- <div class="_order_created">
             {{ t('createdAt') }}<div class="_order_created__val">{{ moment(order.created_at).format('YYYY/MM/DD HH:mm') }}</div>
-          </div>
+          </div> -->
         </div>
 
         <a-select
@@ -155,12 +161,26 @@ onUnmounted(() => {
 ._order{
   overflow: hidden;
   box-shadow: 0 0.5rem 1rem #00000026;
+  transition: .2s all ease-in;
+
+  &.finish, &.cancel{
+    opacity: .45;
+
+    &:hover{
+      opacity: 1;
+    }
+    // background-color: $color-gray-4;
+
+    // *{
+    //   color: $color-gray-1;
+    // }
+  }
 }
 ._order_top{
   padding: calc($padding-m/2);
 }
 ._order_hr{
-  margin: 1rem;
+  margin: .75rem 0;
 }
 ._order_item{
   display: flex;
@@ -172,14 +192,15 @@ onUnmounted(() => {
 }
 ._order_item__qty{
   color: $color-primary;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   flex: 1;
+  line-height: 1;
   // margin-right: 1rem;
 }
 ._order_item__name{
   font-size: 1.25rem;
   flex: 5;
-  line-height: 1.3;
+  line-height: 1;
 }
 ._order_item__subtotal{
   font-size: 1rem;

@@ -1,6 +1,6 @@
 <script setup>
 import axios from 'axios';
-import { reactive, ref, computed, onMounted, onBeforeMount, watch } from 'vue';
+import { reactive, ref, computed, onMounted, onBeforeMount, watch, toRaw } from 'vue';
 import { useStore } from "vuex";
 import { useRouter, useRoute } from "vue-router";
 import api from '@/axios/api.js';
@@ -16,13 +16,28 @@ const currUserId = ref(localStorage.getItem('id'));
 const currUser = computed(() => store.getters.currUser);
 
 const formState = reactive({
+  display_name: '',
   mail: '',
   native_lang: '',
   password: '',
-  display_name: ''
+  line_id: '',
+  type: '',
+  shop_id: ''
 });
 
 const langOptions = ref(store.getters.langList)
+
+
+const updateUserData = async () => {
+  const plainObject = toRaw(formState);
+  try {
+    let updateUserDataRes = await api.post(`/user/${currUserId.value}`, plainObject);
+    // console.log('Update user data successful:', updateUserDataRes);
+  } catch (error) {
+    console.error('Error updating user data:', error);
+  }
+};
+
 
 onMounted(async()=>{
   try{
@@ -51,11 +66,7 @@ onMounted(async()=>{
       :model="formState"
       name="basic"
       class="_user_form"
-      :label-col="{ span: 8 }"
-      :wrapper-col="{ span: 16 }"
       autocomplete="off"
-      @finish="onFinish"
-      @finishFailed="onFinishFailed"
     >
       <a-form-item
         :label="t('displayName')"
@@ -78,7 +89,13 @@ onMounted(async()=>{
         :rules="[{ required: true, message: 'Please input your native Language!' }]"
       >
       <a-select v-model:value="formState.native_lang" :options="langOptions"></a-select>
+      </a-form-item>
 
+      <a-form-item
+        label="Line Id"
+        name="line_id"
+      >
+        <a-input v-model:value="formState.line_id" />
       </a-form-item>
 
       <a-form-item
@@ -89,8 +106,23 @@ onMounted(async()=>{
         <a-input-password v-model:value="formState.password" />
       </a-form-item>
 
+      <a-form-item
+        label="Type"
+        name="type"
+      >
+        <a-input v-model:value="formState.type" disabled />
+      </a-form-item>
+
+      <a-form-item
+        label="Shop ID"
+        name="shop_id"
+        v-if="formState.type==='manager'"
+      >
+        <a-input v-model:value="formState.shop_id" />
+      </a-form-item>
+
       <a-form-item>
-        <a-button class="_form_submit" type="primary" block shape="round" size="large" html-type="submit">{{ t('update') }}</a-button>
+        <a-button @click="updateUserData" class="_form_submit" type="primary" block shape="round" size="large" html-type="submit">{{ t('update') }}</a-button>
       </a-form-item>
     </a-form>
 

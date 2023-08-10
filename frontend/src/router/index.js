@@ -25,11 +25,11 @@ import i18n from '@/lib/i18n/lang'
 let history = createWebHistory();
 
 let routes = [
-  // {
-  //   path: '/',
-  //   name: 'Home',
-  //   redirect: '/'+ i18n.global.locale.value
-  // },
+  {
+    path: '/',
+    name: 'Home',
+    redirect: '/'+ i18n.global.locale.value
+  },
   {
     path: '/:lang',
     name: 'Index',
