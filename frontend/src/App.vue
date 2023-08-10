@@ -15,6 +15,11 @@ let isLoggedIn = loggedInId.value != null ? true : false;
 
 const lang = ref(localStorage.getItem('currLang'));
 
+let accessToken = ref()
+let isBrowserCheck = ref()
+let message = ref()
+
+
 // getters
 const currUser = ref(store.getters.currUser);
 
@@ -65,13 +70,26 @@ onBeforeMount(async () => {
 
 import liff from "@line/liff";
 
+const sendAdmintoUserMessege = async()=> {
+  const adminSendMsgRes = await api.post('/backend/token', {
+    accessToken: accessToken.value,
+  });
+  alert('adminSendMsgRes', adminSendMsgRes);
+}
+
 onMounted(async () => {
   try {
     await liff.init({ liffId: "2000144386-Ax8WZ8k2" });
-    // if (!liff.isLoggedIn()){
-    //   liff.login();
-    // }
-    console.log(`liff init OK`);
+
+    accessToken.value = liff.getAccessToken();
+    if (accessToken.value == null) {
+      isBrowserCheck.value = false;
+      message.value = "LINEアプリから実行してください";
+      return false;
+    }
+    isBrowserCheck.value = true;
+    message.value = "ログイン成功";
+
   } catch (err) {
     console.log(`liff.state init error ${err}`);
   }
@@ -94,6 +112,11 @@ const theme = {
         <Navigation />
       </a-layout-header>
       <a-layout-content class="_body">
+        
+        <a-button @click="sendAdmintoUserMessege" type="primary" size="circle">
+          Admin Send
+        </a-button>
+        message: {{ message }}
         <router-view/>
 
         <a-layout-footer class="_footer">
