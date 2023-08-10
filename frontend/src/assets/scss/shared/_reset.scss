@@ -54,6 +54,7 @@ input,textarea{
 	border-radius: 0;
 	border: 0;
 	background-color: transparent;
+	-webkit-text-size-adjust: none; 
 }
 /* 在mobile上輸入框不被放大 */
 input, button, textarea{

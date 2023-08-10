@@ -69,6 +69,9 @@ const store = createStore({
         setCurrUserData:({commit}, data)=>{
             commit("setCurrUserData", data)
         },
+        signUp:({commit}, data)=>{
+            commit("signUp", data)
+        },
         getUserData:({commit}, id)=>{
             commit("getUserData", id)
         },
@@ -110,6 +113,10 @@ const store = createStore({
         setCurrUserData:(state, data)=>{
             console.log('@store setCurrUserData', data);
             state.currUser = data;
+        },
+        signUp: async (state, data)=>{
+            let signUpRes = await api.post(`/user/`, data);
+            console.log('@store signUpRes',signUpRes);
         },
         setCurrOrder:(state, data)=>{
             state.currOrder = data;

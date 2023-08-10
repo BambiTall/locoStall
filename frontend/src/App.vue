@@ -89,6 +89,14 @@ onMounted(async () => {
     }
     isBrowserCheck.value = true;
     message.value = "ログイン成功";
+    
+    // 註冊
+    const liffProfile = liff.getProfile()
+    let params = {
+      id: liffProfile.userId,
+      name: liffProfile.displayName,
+    }
+    store.dispatch('signUp', params);
 
   } catch (err) {
     console.log(`liff.state init error ${err}`);
