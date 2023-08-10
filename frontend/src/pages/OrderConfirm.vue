@@ -5,6 +5,7 @@ import { reactive, ref, computed, onMounted, watch } from 'vue';
 import { useStore } from "vuex";
 import { useRouter, useRoute } from "vue-router";
 import api from '@/axios/api.js';
+import moment from 'moment'
 
 const store = useStore()
 const route = useRoute()
@@ -55,21 +56,19 @@ const orderData = localStorage.getItem('order');
 
 <template>
   <div class="_orderConfirm">
-    currOrder: {{ currOrder }}
-    orderData: {{ orderData }}
     <div class="_orderConfirm_card" v-if="currOrder">
-      <a-typography-title class="_h1">Order Confirmed</a-typography-title>
+      <a-typography-title class="_orderConfirm_h1">Order Confirmed</a-typography-title>
       <div class="_orderConfirm_no">
-        No.<span class="_orderConfirm_no__num">{{ currOrder.id }}</span>
+        <div class="">
+          Status
+          <p class="_orderConfirm_list__info" :class="currOrder.state">{{ currOrder.state }}</p>
+        </div>
+        <span class="_orderConfirm_no__num">{{ currOrder.id }}</span>
       </div>
 
       <div class="_orderConfirm_list">
-        Status
-        <p class="_orderConfirm_list__info preparing">{{ currOrder.state }}</p>
-      </div>
-      <div class="_orderConfirm_list">
         Created at
-        <p class="_orderConfirm_list__info">{{ currOrder.created_at }}</p>
+        <p class="_orderConfirm_list__info">{{ moment(currOrder.created_at).format('YYYY/MM/DD HH:mm') }}</p>
       </div>
 
       <div class="_orderConfirm_list">
@@ -104,6 +103,10 @@ const orderData = localStorage.getItem('order');
     // font-weight: bold;
   }
 }
+._orderConfirm_h1{
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
 ._orderConfirm_total{
   display: flex;
   justify-content: space-between;
@@ -121,18 +124,30 @@ const orderData = localStorage.getItem('order');
 }
 ._orderConfirm_no{
   margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
 }
 ._orderConfirm_no__num{
-  font-size: 2rem;
+  line-height: 1;
+  font-size: 1.5rem;
   color: $color-primary;
+  background-color: $color-secondary;
+  padding: .5rem;
+  width: 2.5rem;
+  height: 2.5rem;
   font-weight: bold;
+  border-radius: $border-radius;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 ._orderConfirm_list{
   margin-bottom: 1rem;
 }
 ._orderConfirm_list__info{
   font-weight: bold;
-  font-size: 1.25rem;
+  font-size: 1rem;
+  margin-top: .5rem;
 
   &.preparing{
     color: $color-secondary;

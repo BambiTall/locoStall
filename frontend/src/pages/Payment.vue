@@ -14,6 +14,7 @@ const route = useRoute()
 const router = useRouter()
 
 const total = ref(0);
+const isWaiting = ref(false);
 
 const orderData = computed(() => store.getters.order);
 const currUser = computed(() => store.getters.currUser);
@@ -30,11 +31,42 @@ const calculateTotal = () => {
 };
 
 
+const getOrderUpdate = async(order_id)=>{
+  try {
+    const getOrderUpdateRes = await api.get(`/order_detail/${order_id}`);
+    
+    if(getOrderUpdateRes.data.data.state === 'cooking'){
+      isWaiting.value = false;
+      // 沒清成功？？
+      clearInterval(interval);
+
+      router.push({ name: 'OrderConfirm' })
+    }  
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// setInterval
+let interval = null;
+const runInterval = (order_id) => {
+  interval = setInterval(
+    function () {
+      getOrderUpdate(order_id)
+    }.bind(this),
+    3000
+  );
+}
+
 const submitOrder = async( params )=>{
   try {
     const res = await api.post('/send_order', params);
     store.dispatch('setCurrOrder', res.data.data);
-    router.push({ name: 'OrderConfirm' })
+    // console.log('res.data.data',res.data.data);
+    
+    isWaiting.value = true;
+
+    runInterval(res.data.data.id)
   } catch (error) {
     console.log('@submitOrder ERROR');
   }
@@ -65,7 +97,7 @@ onBeforeMount(() => {
   if(!orderData.value.orderList){
   }
 });
-onMounted(() => {
+onMounted(async() => {
   total.value = calculateTotal();
 });
 
@@ -74,6 +106,13 @@ onMounted(() => {
 <template>
   <a-typography-title class="_h2">{{ t('orderList') }}</a-typography-title>
   <div class="_payment">
+    <div class="_payment_waiting" v-if="isWaiting">
+      <div class="_payment_waiting__card">
+        <div class="_payment_waiting__clock"><i class="lar la-clock"></i></div>
+        <div class="_payment_waiting__text">Waiting for confirmation ...</div>
+      </div>
+      
+    </div>
     <div class="_payment_card">
       <div class="_payment_items" v-for="item,idx in orderData.orderList" :key="idx">
         <div class="_payment_item">
@@ -117,6 +156,40 @@ onMounted(() => {
     font-weight: bold;
   }
 }
+._payment_waiting{
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba($color: $color-secondary, $alpha: .9);
+}
+._payment_waiting__card{
+  text-align: center;
+  z-index: 101;
+  position: relative;
+  left: 5%;
+  top: 25%;
+  background-color: white;
+  width: 90%;
+  height: 50%;
+  padding: $padding-m;
+  border-radius: $border-radius;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+._payment_waiting__clock{
+  font-size: 5rem;
+  margin-bottom: 1rem;
+}
+._payment_waiting__text{
+  font-size: 1.25rem;
+  width: 80%;
+  line-height: 1.5;
+}
 ._payment_item{
   display: flex;
   align-items: center;
@@ -145,7 +218,7 @@ onMounted(() => {
 }
 ._payment_card{
   padding: 2rem;
-  border-radius: 2rem;
+  border-radius: $border-radius;
   box-shadow: 0 0.5rem 1rem #00000026;
   margin-bottom: 2rem;
   background-color: white;
@@ -157,6 +230,13 @@ onMounted(() => {
 ._payment_card__radio{
   label{
     font-size: 1.25rem;
+  }
+}
+
+
+@media(min-width: $breakpoint-m){
+  ._payment_waiting__card{
+    width: 50%;
   }
 }
 </style>
