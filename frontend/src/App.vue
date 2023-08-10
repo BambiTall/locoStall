@@ -120,13 +120,12 @@ const theme = {
         <Navigation />
       </a-layout-header>
       <a-layout-content class="_body">
-        
-        <a-button @click="sendAdmintoUserMessege" type="primary" size="circle">
+        <!-- <a-button @click="sendAdmintoUserMessege" type="primary" size="circle">
           Admin Send
         </a-button>
         <p>message: {{ message }}</p>
         <p>accessToken: {{ accessToken }}</p>
-        <p>adminSendMsgRes: {{ adminSendMsgRes }}</p>
+        <p>adminSendMsgRes: {{ adminSendMsgRes }}</p> -->
         
         <router-view/>
 
