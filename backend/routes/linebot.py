@@ -2,6 +2,7 @@ from flask import Blueprint, Flask, request, jsonify, make_response, abort
 import requests
 import os
 import sys
+import urllib.parse
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -34,13 +35,14 @@ def callback():
 def send_message():
     data = request.get_json()
     access_token = data['accessToken']
-    
-    verify_response = verify_access_token(access_token)
+    encoded_access_token = urllib.parse.quote(access_token, safe='')
+
+    verify_response = verify_access_token(encoded_access_token)
     if verify_response.status_code != 200:
         print("検証エラー")
         return "検証エラー", 400
     
-    profile_response = get_profile(access_token)
+    profile_response = get_profile(encoded_access_token)
     if profile_response.status_code != 200:
         print("プロフィール取得エラー")
         return "プロフィール取得エラー", 400
