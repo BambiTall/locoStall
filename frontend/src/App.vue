@@ -18,7 +18,7 @@ const lang = ref(localStorage.getItem('currLang'));
 let accessToken = ref()
 let isBrowserCheck = ref()
 let message = ref()
-
+let adminSendMsgRes = ref()
 
 // getters
 const currUser = ref(store.getters.currUser);
@@ -71,10 +71,10 @@ onBeforeMount(async () => {
 import liff from "@line/liff";
 
 const sendAdmintoUserMessege = async()=> {
-  const adminSendMsgRes = await api.post('/backend/token', {
+  adminSendMsgRes.value = await api.post('/backend/token', {
     accessToken: accessToken.value,
   });
-  alert('adminSendMsgRes', adminSendMsgRes);
+  // alert('adminSendMsgRes', adminSendMsgRes);
 }
 
 onMounted(async () => {
@@ -116,7 +116,10 @@ const theme = {
         <a-button @click="sendAdmintoUserMessege" type="primary" size="circle">
           Admin Send
         </a-button>
-        message: {{ message }}
+        <p>message: {{ message }}</p>
+        <p>accessToken: {{ accessToken }}</p>
+        <p>adminSendMsgRes: {{ adminSendMsgRes }}</p>
+        
         <router-view/>
 
         <a-layout-footer class="_footer">
