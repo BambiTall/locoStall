@@ -11,7 +11,6 @@ const { t, locale } = useI18n({ useScope: "global" });
 
 const router = useRouter()
 const store = useStore();
-const isLogin = computed(() => store.getters.login);
 
 // const lang = route.params.lang;
 const formState = reactive({
@@ -22,21 +21,12 @@ const formState = reactive({
 const langOptions = ref(store.getters.langList)
 
 const onFinish = values => {
-  signUp( values );
-  store.dispatch('login');
-  router.push({ name: 'User' })
+  store.dispatch('signUp', values);
+  router.push({ name: 'Login' })
 };
 const onFinishFailed = errorInfo => {
   console.log('Failed:', errorInfo);
 };
-
-const signUp = async( state )=>{
-  try {
-    const res = await api.post('/user', state);
-  } catch (error) {
-    console.error(error);
-  }
-}
 
 const goLogin = () => {
   router.push({ name: 'Login' })

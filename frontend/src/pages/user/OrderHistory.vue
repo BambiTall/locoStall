@@ -41,7 +41,7 @@ onMounted(async()=>{
   <a-typography-title class="_h1">{{ t('orderHistory') }}</a-typography-title>
   <!-- {{ currUser }} -->
   <div class="_history_wrap">
-    <div v-if="orderHistory.length==0">
+    <div v-if="orderHistory.length == 0" class="_history_nodata">
       {{ t('noData') }}
     </div>
     <div v-else class="_history_items" v-for="order,idx in orderHistory" :key="idx">
@@ -84,6 +84,10 @@ onMounted(async()=>{
 </template>
 
 <style scoped lang="scss">
+
+._history_nodata{
+  text-align: center;
+}
 ._history_wrap{
   max-width: $form-max-width;
   margin: auto;

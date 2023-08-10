@@ -92,6 +92,9 @@ onUnmounted(() => {
 <template>
   <!-- <a-typography-title class="_h1">{{ t('orderList') }}</a-typography-title> -->
 
+  <div v-if="orderList.length==0" class="_orders_nodata">
+    {{ t('noData') }}
+  </div>
   <a-row :gutter="[20, 20]" class="_orders">
     <a-col :xs="24" :sm="8" :md="8" :lg="6" v-for="order,idx in orderList" :key="idx">
       <a-card class="_order" :class="order.state">
@@ -175,6 +178,9 @@ onUnmounted(() => {
     //   color: $color-gray-1;
     // }
   }
+}
+._orders_nodata{
+  text-align: center;
 }
 ._order_top{
   padding: calc($padding-m/2);

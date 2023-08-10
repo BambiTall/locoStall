@@ -7,7 +7,7 @@ const store = createStore({
     state () {
         return {
             currLang: i18n.global.locale,
-            login: ref(false),
+            // login: ref(false),
             order: [],
             langList:[
                 {
@@ -37,9 +37,9 @@ const store = createStore({
         order:state => {
             return state.order
         },
-        login:state=>{
-            return state.login
-        },
+        // login:state=>{
+        //     return state.login
+        // },
         currOrder:state => {
             return state.currOrder
         },
@@ -57,9 +57,9 @@ const store = createStore({
         order: ({commit}, order) => {
             commit("order", order)
         },
-        login:({commit})=>{
-            commit("login")
-        },
+        // login:({commit})=>{
+        //     commit("login")
+        // },
         logout:({commit})=>{
             commit("logout")
         },
@@ -89,10 +89,10 @@ const store = createStore({
         order:(state, val)=>{
             state.order = val;
         },
-        login:(state)=>{
-            state.login = true;
-            localStorage.setItem('login', true);
-        },
+        // login:(state)=>{
+        //     state.login = true;
+        //     localStorage.setItem('login', true);
+        // },
         logout:(state)=>{
             state.login = false;
             localStorage.removeItem('login');
@@ -115,8 +115,12 @@ const store = createStore({
             state.currUser = data;
         },
         signUp: async (state, data)=>{
-            let signUpRes = await api.post(`/user/`, data);
+            let signUpRes = await api.post(`/user`, data);
             console.log('@store signUpRes',signUpRes);
+        },
+        signUpLine: async (state, data)=>{
+            let signUpLineRes = await api.post(`/line_user`, data);
+            console.log('@store signUpLine',signUpLineRes);
         },
         setCurrOrder:(state, data)=>{
             state.currOrder = data;

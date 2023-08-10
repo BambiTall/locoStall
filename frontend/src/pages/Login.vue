@@ -35,7 +35,6 @@ onBeforeMount(()=>{
 const onLogin = async ( values ) => {
   try {
     const loginRes = await api.post('/user/login', values);
-    store.dispatch('login', true);
     const getUserDataRes = await store.dispatch('getUserData', loginRes.data.id);
     loginSuccess();
 

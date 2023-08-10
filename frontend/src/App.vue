@@ -25,17 +25,20 @@ const currUser = ref(store.getters.currUser);
 
 router.beforeEach((to, from, next) => {
   // save prevRoute
-  if( to.name == 'Login' ){
-    let routeObj = {}
-    routeObj.name = from.name
-    routeObj.params = from.params
-    store.dispatch('setPrevRoute', routeObj);
-  }
+  // if( to.name == 'Login' ){
+  //   let routeObj = {}
+  //   routeObj.name = from.name
+  //   routeObj.params = from.params
+  //   store.dispatch('setPrevRoute', routeObj);
+  // }
 
   // handle 跳轉
-  if (to.fullPath === '/' || to.fullPath === '/undefined' ) {
+  if (!to.params.lang || to.params.lang !== i18n.global.locale.value) {
     // visit with no lang
-    next({ path: `/${i18n.global.locale.value}` });
+    next({ 
+      path: `/${i18n.global.locale.value}`,
+      query: to.query
+    });
   }
    else if (to.meta.requiresAuth) {
     // console.log('需要 AUTH');
@@ -93,10 +96,9 @@ onMounted(async () => {
     // 註冊
     const liffProfile = liff.getProfile()
     let params = {
-      id: liffProfile.userId,
-      name: liffProfile.displayName,
+      line_id: liffProfile.userId,
     }
-    store.dispatch('signUp', params);
+    store.dispatch('signUpLine', params);
 
   } catch (err) {
     console.log(`liff.state init error ${err}`);
