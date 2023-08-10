@@ -35,7 +35,7 @@ def callback():
 def send_message():
     data = request.get_json()
     access_token = data['accessToken']
-    encoded_access_token = urllib.parse.quote(access_token, safe='')
+    encoded_access_token = access_token.encode('utf-8')
 
     verify_response = verify_access_token(encoded_access_token)
     if verify_response.status_code != 200:
