@@ -108,7 +108,9 @@ onMounted(async() => {
   <div class="_payment">
     <div class="_payment_waiting" v-if="isWaiting">
       <div class="_payment_waiting__card">
-        <div class="_payment_waiting__clock"><i class="lar la-clock"></i></div>
+        <div class="_payment_waiting__img">
+          <img src="@/assets/locostall_ani.gif"/>
+        </div>
         <div class="_payment_waiting__text">Waiting for confirmation ...</div>
       </div>
       
@@ -181,14 +183,18 @@ onMounted(async() => {
   justify-content: center;
   align-items: center;
 }
-._payment_waiting__clock{
+._payment_waiting__img{
   font-size: 5rem;
-  margin-bottom: 1rem;
+  
+  img{
+    width: 50%;
+  }
 }
 ._payment_waiting__text{
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   width: 80%;
   line-height: 1.5;
+  color: $color-primary;
 }
 ._payment_item{
   display: flex;
