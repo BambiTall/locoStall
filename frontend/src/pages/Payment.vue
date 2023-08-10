@@ -95,8 +95,8 @@ onMounted(() => {
       </div>
 
       <a-radio-group class="_payment_card__radio" name="radioGroup" style="display: flex; justify-content: space-between;" v-model:value="payment">
-        <a-radio value="linepay">Line Pay</a-radio>
-        <a-radio value="cash">Cash</a-radio>
+        <a-radio value="linepay">{{ t('linePay') }}</a-radio>
+        <a-radio value="cash">{{ t('cash') }}</a-radio>
       </a-radio-group>
     </div>
 

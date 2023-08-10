@@ -28,8 +28,10 @@
     
     "waiting": "確認待ち",
     "cooking": "調理中",
+    "foodReady": "受取待ち",
     "finish": "完成",
     "cancel": "キャンセル",
+    "linepay": "Line Pay",
     "cash": "現金",
 
     "continue": "次ぐ",

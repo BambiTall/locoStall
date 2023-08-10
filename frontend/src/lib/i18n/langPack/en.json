@@ -28,8 +28,10 @@
     
     "waiting": "Waiting",
     "cooking": "Cooking",
+    "foodReady": "Food Ready",
     "finish": "Finish",
     "cancel": "Cancel",
+    "linepay": "Line Pay",
     "cash": "cash",
 
     "continue": "Continue",

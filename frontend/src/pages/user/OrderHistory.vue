@@ -17,6 +17,14 @@ const loggedInId = ref(localStorage.getItem('id'));
 const currUser = computed(() => store.getters.currUser);
 const orderHistory = ref([]) 
 
+const calculateTotal = ( orderList ) => {
+  let res = 0;
+  JSON.parse(orderList).map((item) => {
+    res += item.qty * item.price;
+  });
+  return res;
+};
+
 onMounted(async()=>{
   try{
     if(orderHistory.value.length === 0){
@@ -51,7 +59,7 @@ onMounted(async()=>{
           {{ t('payment') }}<span class="_history_payment__val">{{ t(order.payment) }}</span>
         </div>
         <div class="_history_total">
-          {{ t('total') }}<span class="_history_total__val">100</span>
+          {{ t('total') }}<span class="_history_total__val">{{ calculateTotal(order.item_list) }}</span>
         </div>
       </div>
 
@@ -96,7 +104,7 @@ onMounted(async()=>{
 }
 ._history_id__num{
   line-height: 1;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   color: $color-primary;
   background-color: $color-secondary;
   width: 2rem;
@@ -147,6 +155,8 @@ onMounted(async()=>{
 ._history_total__val{
   font-weight: bold;
   margin-top: .5rem;
+  text-align: right;
+  font-size: 1rem;
 }
 
 ._history_created{

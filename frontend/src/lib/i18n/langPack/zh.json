@@ -28,8 +28,10 @@
     
     "waiting": "等待確認",
     "cooking": "餐點製作中",
+    "foodReady": "待取餐",
     "finish": "訂單完成",
     "cancel": "訂單取消",
+    "linepay": "Line Pay",
     "cash": "現金",
 
     "continue": "下一步",

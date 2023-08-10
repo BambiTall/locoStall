@@ -61,6 +61,14 @@ const runInterval = () => {
   );
 }
 
+const calculateTotal = ( orderList ) => {
+  let res = 0;
+  JSON.parse(orderList).map((item) => {
+    res += item.qty * item.price;
+  });
+  return res;
+};
+
 onMounted(async () => {
   try {
     await Promise.all([
@@ -100,6 +108,11 @@ onUnmounted(() => {
               <span class="_order_item__subtotal">{{ item.qty * item.price }}</span>
             </div>
           </div>
+          
+          <a-divider class="_order_hr"></a-divider>
+          <div class="_order_total">
+            <span>{{ t('total') }}</span><span class="_order_total__val">{{ calculateTotal(order.item_list) }}</span>
+          </div>
 
           <a-divider class="_order_hr"></a-divider>
 
@@ -128,6 +141,7 @@ onUnmounted(() => {
         >
           <a-select-option value="waiting">{{ t('waiting') }}</a-select-option>
           <a-select-option value="cooking">{{ t('cooking') }}</a-select-option>
+          <a-select-option value="foodReady">{{ t('foodReady') }}</a-select-option>
           <a-select-option value="finish">{{ t('finish') }}</a-select-option>
           <a-select-option value="cancel">{{ t('cancel') }}</a-select-option>
         </a-select>
@@ -143,7 +157,7 @@ onUnmounted(() => {
   box-shadow: 0 0.5rem 1rem #00000026;
 }
 ._order_top{
-  padding: calc($padding-m/2) $padding-m;
+  padding: calc($padding-m/2);
 }
 ._order_hr{
   margin: 1rem;
@@ -168,9 +182,18 @@ onUnmounted(() => {
   line-height: 1.3;
 }
 ._order_item__subtotal{
-  font-size: 1.5rem;
+  font-size: 1rem;
   flex: 1;
   text-align: right;
+}
+._order_total{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+._order_total__val{
+  font-weight: bold;
+  font-size: 1.25rem;
 }
 ._order_bottom{
   width: 100%;
@@ -181,6 +204,9 @@ onUnmounted(() => {
     background-color: $color-red;
   }
   &.cooking{
+    background-color: $color-blue;
+  }
+  &.foodReady{
     background-color: $color-green;
   }
   &.cancel{
@@ -197,12 +223,12 @@ onUnmounted(() => {
 }
 ._order_id__num{
   line-height: 1;
-  font-size: 2rem;
+  font-size: 1.5rem;
   color: $color-primary;
   background-color: $color-secondary;
   padding: .5rem;
-  width: 3rem;
-  height: 3rem;
+  width: 2.5rem;
+  height: 2.5rem;
   font-weight: bold;
   border-radius: $border-radius;
   display: flex;
