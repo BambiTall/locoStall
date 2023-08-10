@@ -69,6 +69,21 @@ def add_user():
         return {"data": user.json()}
 
 
+# Add LINE user
+@user_bp.route(f'{os.environ["API_BASE"]}/line_user', methods=['POST'])
+def add_line_user():
+    data = request.get_json()
+    db_user = User.query.filter_by(line_id=data['line_id']).first()
+    if db_user is not None:
+        return {"message": "LINE id 已註冊"}, 500
+    else:
+        user = User(line_id=data['line_id'])
+        db.session.add(user)
+        db.session.commit()
+
+        return {"data": user.json()}
+
+
 # Update user datas
 # TODO: user's id is vulnerable to haker attacks
 @user_bp.route(f'{os.environ["API_BASE"]}/user/<int:user_id>', methods=['POST'])
