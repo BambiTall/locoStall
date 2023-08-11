@@ -19,6 +19,7 @@ const currUser = ref(store.getters.currUser);
 
 // local storage
 let urlLang = ref(localStorage.getItem('currLang'));
+console.log('@Nav lang', urlLang.value);
 const loggedInId = ref(localStorage.getItem('id'));
 let isLoggedIn = computed(()=>{
   return loggedInId.value ? true : false

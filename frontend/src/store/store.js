@@ -2,7 +2,7 @@ import { createStore } from 'vuex'
 import { ref,reactive } from "vue";
 import i18n from '@/lib/i18n/lang'
 import api from '@/axios/api.js';
-
+console.log('@store i18n.global.locale.value', i18n.global.locale.value);
 const store = createStore({
     state () {
         return {

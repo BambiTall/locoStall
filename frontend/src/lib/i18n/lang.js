@@ -5,7 +5,15 @@ import zh from './langPack/zh.json'
 import jp from './langPack/jp.json'
 
 // lang 初始值
-const defaultLang = localStorage.getItem("currLang") || 'en';
+let defaultLang = localStorage.getItem("currLang");
+
+if( defaultLang == null){
+  defaultLang = 'en';
+} else if( defaultLang == 'ja'){
+  defaultLang = 'jp';
+  localStorage.setItem("currLang", 'jp');
+}
+console.log('@i18n lang', defaultLang);
 
 const i18n = createI18n({
     legacy: false,

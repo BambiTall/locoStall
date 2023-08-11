@@ -14,6 +14,8 @@ const loggedInId = ref(localStorage.getItem('id'));
 let isLoggedIn = loggedInId.value != null ? true : false;
 
 const lang = ref(localStorage.getItem('currLang'));
+console.log('@App lang', lang.value);
+
 
 let accessToken = ref()
 let isBrowserCheck = ref()
