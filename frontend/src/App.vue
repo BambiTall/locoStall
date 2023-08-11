@@ -19,6 +19,7 @@ let accessToken = ref()
 let isBrowserCheck = ref()
 let message = ref()
 let adminSendMsgRes = ref()
+let profile = ref()
 
 // getters
 const currUser = ref(store.getters.currUser);
@@ -95,6 +96,7 @@ onMounted(async () => {
     
     // 註冊
     const liffProfile = liff.getProfile()
+    profile.value = liffProfile
     let params = {
       line_id: liffProfile.userId,
     }
@@ -122,12 +124,13 @@ const theme = {
         <Navigation />
       </a-layout-header>
       <a-layout-content class="_body">
-        <!-- <a-button @click="sendAdmintoUserMessege" type="primary" size="circle">
+        <a-button @click="sendAdmintoUserMessege" type="primary" size="circle">
           Admin Send
         </a-button>
         <p>message: {{ message }}</p>
         <p>accessToken: {{ accessToken }}</p>
-        <p>adminSendMsgRes: {{ adminSendMsgRes }}</p> -->
+        <p>adminSendMsgRes: {{ adminSendMsgRes }}</p>
+        <p>profile: {{ profile }}</p>
         
         <router-view/>
 
