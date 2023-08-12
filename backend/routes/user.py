@@ -98,10 +98,8 @@ def add_line_user():
 def get_line_user_detail(line_id):
     db_user = User.query.filter_by(line_id=line_id).first()
     if db_user is not None:
-        app.logger.info(f'User found: {db_user.json()}')
         return db_user.json()
     else:
-        app.logger.warning(f'User not found for line_id: {line_id}')
         return {"message": "沒有這個使用者"}, 404
 
 # Update user datas
