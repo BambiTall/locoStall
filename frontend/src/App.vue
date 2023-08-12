@@ -168,7 +168,6 @@ const theme = {
   min-height: 100vh !important;
 }
 ._body_liffwrap{
-  margin-top: 4rem;
   * {
     word-wrap: break-word
   }
