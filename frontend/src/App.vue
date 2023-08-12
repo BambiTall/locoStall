@@ -124,16 +124,19 @@ const theme = {
    <a-layout class="_layout">
       <a-layout-header class="_header">      
         <Navigation />
-        <a-button @click="sendAdmintoUserMessege" type="primary" size="circle">
-          Admin Send
-        </a-button>
-        <p>message: {{ message }}</p>
-        <p>accessToken: {{ accessToken }}</p>
-        <p>adminSendMsgRes: {{ adminSendMsgRes }}</p>
-        <p>profile: {{ profile }}</p>
-        
       </a-layout-header>
       <a-layout-content class="_body">
+
+        <div class="_body_liffwrap">
+          <a-button @click="sendAdmintoUserMessege" type="primary" size="circle">
+            Admin Send
+          </a-button>
+          <p>message: {{ message }}</p>
+          <p>accessToken: {{ accessToken }}</p>
+          <p>adminSendMsgRes: {{ adminSendMsgRes }}</p>
+          <p>profile: {{ profile }}</p>
+        </div>
+
         <router-view/>
 
         <a-layout-footer class="_footer">
@@ -164,7 +167,12 @@ const theme = {
   padding: 6rem $padding-s 0 !important;
   min-height: 100vh !important;
 }
-
+._body_liffwrap{
+  margin-top: 4rem;
+  * {
+    word-wrap: break-word
+  }
+}
 ._footer{
   text-align: center;
 }
