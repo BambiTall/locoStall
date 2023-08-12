@@ -124,8 +124,6 @@ const theme = {
    <a-layout class="_layout">
       <a-layout-header class="_header">      
         <Navigation />
-      </a-layout-header>
-      <a-layout-content class="_body">
         <a-button @click="sendAdmintoUserMessege" type="primary" size="circle">
           Admin Send
         </a-button>
@@ -134,6 +132,8 @@ const theme = {
         <p>adminSendMsgRes: {{ adminSendMsgRes }}</p>
         <p>profile: {{ profile }}</p>
         
+      </a-layout-header>
+      <a-layout-content class="_body">
         <router-view/>
 
         <a-layout-footer class="_footer">
