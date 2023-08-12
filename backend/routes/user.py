@@ -75,7 +75,13 @@ def add_line_user():
     data = request.get_json()
     db_user = User.query.filter_by(line_id=data['line_id']).first()
     if db_user is not None:
-        return {"message": "LINE id 已註冊"}, 500
+        user = User(
+            line_id=data['line_id'],
+            display_name=data['display_name'],
+            photo=data['photo'],
+        )
+        db.session.commit()
+        return {"message": "LINE 資料已更新"}, 200
     else:
         user = User(
             line_id=data['line_id'],
