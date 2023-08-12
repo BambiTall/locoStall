@@ -97,7 +97,7 @@ onMounted(async () => {
     message.value = "ログイン成功";
     
     // 註冊
-    const liffProfile = liff.getProfile()
+    const liffProfile = await liff.getProfile()
     profile.value = liffProfile
     let params = {
       line_id: liffProfile.userId,
