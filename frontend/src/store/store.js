@@ -3,6 +3,11 @@ import { ref,reactive } from "vue";
 import i18n from '@/lib/i18n/lang'
 import api from '@/axios/api.js';
 console.log('@store i18n.global.locale.value', i18n.global.locale.value);
+
+const setLocalStorage = ( name, val) => {
+    localStorage.setItem(name, val);
+}
+
 const store = createStore({
     state () {
         return {
@@ -84,18 +89,21 @@ const store = createStore({
         setPrevRoute:({commit}, data)=>{
             commit("setPrevRoute", data)
         },
-        signUpLine:({commit}, data)=>{
-            commit("signUpLine", data)
+        signUpLine:async({commit}, data)=>{
+            try {
+                let signUpLineRes = await api.post(`/line_user`, data);
+                console.log('@actions signUpLineRes.data',signUpLineRes.data);
+                commit("signUpLine", signUpLineRes.data)
+                return signUpLineRes.data;
+            } catch (error) {
+                console.log('error in signUpLine', error);
+            }
         },
     },
     mutations:{
         order:(state, val)=>{
             state.order = val;
         },
-        // login:(state)=>{
-        //     state.login = true;
-        //     localStorage.setItem('login', true);
-        // },
         logout:(state)=>{
             state.login = false;
             localStorage.removeItem('login');
@@ -103,15 +111,15 @@ const store = createStore({
         },
         setCurrLang:(state, lang)=>{
             state.currLang = lang;
-            localStorage.setItem('currLang', lang);
+            setLocalStorage('currLang', lang)
         },
         getUserData: async (state, id)=>{
             let userRes = await api.get(`/user/${id}`);
             state.currUser = userRes.data;
             state.currLang = userRes.data.native_lang;
 
-            localStorage.setItem('id', id);
-            localStorage.setItem('currLang', state.currLang);
+            setLocalStorage('id', id)
+            setLocalStorage('currLang', state.currLang)
         },
         setCurrUserData:(state, data)=>{
             console.log('@store setCurrUserData', data);
@@ -122,8 +130,8 @@ const store = createStore({
             console.log('@store signUpRes',signUpRes);
         },
         signUpLine: async (state, data)=>{
-            let signUpLineRes = await api.post(`/line_user`, data);
-            console.log('@store signUpLine',signUpLineRes);
+            state.currUser = data;
+            console.log('@mutations signUpLine data',data);
         },
         setCurrOrder:(state, data)=>{
             state.currOrder = data;

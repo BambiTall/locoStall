@@ -64,6 +64,17 @@ router.beforeEach((to, from, next) => {
   }
 });
 
+const lineProgress = async (params) => {
+  try {
+    let signUpLineRes = await api.post(`/line_user`, params);
+    let getLineUserRes = await api.get(`/line_user/${signUpLineRes.data.line_id}`);
+
+    localStorage.setItem('id', getLineUserRes.data.id);
+  } catch (error) {
+    // console.error(error);
+  }
+};
+
 onBeforeMount(async () => {
   try{    
     if( loggedInId.value != null && Object.keys(currUser.value).length == 0){
@@ -96,7 +107,6 @@ onMounted(async () => {
     isBrowserCheck.value = true;
     message.value = "ログイン成功";
     
-    // 註冊
     const liffProfile = await liff.getProfile()
     profile.value = liffProfile
     let params = {
@@ -104,8 +114,8 @@ onMounted(async () => {
       display_name: liffProfile.displayName,
       photo: liffProfile.pictureUrl,
     }
-    store.dispatch('signUpLine', params);
 
+    lineProgress(params)
   } catch (err) {
     console.log(`liff.state init error ${err}`);
   }

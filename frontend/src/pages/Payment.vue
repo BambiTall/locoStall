@@ -73,22 +73,29 @@ const submitOrder = async( params )=>{
 }
 
 const sendOrder = () => {
-  // 送出訂單
-  orderData.value.orderList.map((i)=>{
-    delete i.name
-    delete i.price
-  })
+  if(localStorage.getItem('id') === null){
+    // 登入
+    alert('請先登入');
+    router.push({ name: 'Login' })
+  }else{
+    // 送出訂單
+    orderData.value.orderList.map((i)=>{
+      delete i.name
+      delete i.price
+    })
 
-  const params = {
-    item_list: orderData.value.orderList,
-    user_id: currUser.value.id,
-    shop_id: orderData.value.shop_id,
-    payment: payment.value,
+    const params = {
+      item_list: orderData.value.orderList,
+      // user_id: currUser.value.id,
+      user_id: localStorage.getItem('id'),
+      shop_id: orderData.value.shop_id,
+      payment: payment.value,
+    }
+
+    submitOrder(params)
   }
-
-  submitOrder(params)
+  
 }
-
 const goShopDetail = () => {
   router.push({ name: 'ShopDetail', params: { lang: lang, id: orderData.value.shop_id } })
 }
