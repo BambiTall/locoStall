@@ -80,7 +80,7 @@ def add_line_user():
         user = User(
             line_id=data['line_id'],
             display_name=data['display_name'],
-            photo=data['pictureUrl'],
+            photo=data['photo'],
         )
         db.session.add(user)
         db.session.commit()
