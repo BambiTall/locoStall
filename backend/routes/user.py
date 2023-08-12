@@ -81,7 +81,7 @@ def add_line_user():
             photo=data['photo'],
         )
         db.session.commit()
-        return {"message": "LINE 資料已更新"}, 200
+        return user.json()
     else:
         user = User(
             line_id=data['line_id'],
@@ -91,7 +91,7 @@ def add_line_user():
         db.session.add(user)
         db.session.commit()
 
-        return {"data": user.json()}
+        return user.json()
 
 
 # Update user datas
