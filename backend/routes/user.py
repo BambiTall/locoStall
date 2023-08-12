@@ -77,7 +77,11 @@ def add_line_user():
     if db_user is not None:
         return {"message": "LINE id 已註冊"}, 500
     else:
-        user = User(line_id=data['line_id'])
+        user = User(
+            line_id=data['line_id'],
+            display_name=data['display_name'],
+            photo=data['pictureUrl'],
+        )
         db.session.add(user)
         db.session.commit()
 
