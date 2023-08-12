@@ -96,7 +96,7 @@ let routes = [
     component: NotFound
   },
   {
-    path: '/sandy',
+    path: '/:lang/sandy',
     name: 'Sandy',
     component: Sandy
   }

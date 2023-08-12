@@ -84,6 +84,9 @@ const store = createStore({
         setPrevRoute:({commit}, data)=>{
             commit("setPrevRoute", data)
         },
+        signUpLine:({commit}, data)=>{
+            commit("signUpLine", data)
+        },
     },
     mutations:{
         order:(state, val)=>{
