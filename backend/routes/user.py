@@ -97,10 +97,10 @@ def add_line_user():
 @user_bp.route(f'{os.environ["API_BASE"]}/line_user/<line_id>', methods=['GET'])
 def get_line_user_detail(line_id):
     db_user = User.query.filter_by(line_id=line_id).first()
-    if db_user is None:
-        return {"message": "沒有這個使用者"}, 404
-    else:
+    if db_user is not None:
         return db_user.json()
+    else:
+        return {"message": "沒有這個使用者"}, 404
 
 # Update user datas
 # TODO: user's id is vulnerable to haker attacks
