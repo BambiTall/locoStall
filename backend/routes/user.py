@@ -96,7 +96,7 @@ def add_line_user():
 # Get user detail by line id
 @user_bp.route(f'{os.environ["API_BASE"]}/line_user/<int:line_id>', methods=['GET'])
 def get_line_user_detail(line_id):
-    db_user = User.query.filter_by(id=line_id).first()
+    db_user = User.query.filter_by(line_id=line_id).first()
     return db_user.json()
 
 # Update user datas
