@@ -101,6 +101,8 @@ onMounted(async () => {
     profile.value = liffProfile
     let params = {
       line_id: liffProfile.userId,
+      display_name: liffProfile.displayName,
+      photo: liffProfile.pictureUrl,
     }
     store.dispatch('signUpLine', params);
 
