@@ -84,7 +84,7 @@ const sendAdmintoUserMessege = async()=> {
   adminSendMsgRes.value = await api.post('/backend/token', {
     accessToken: accessToken.value,
   });
-  // alert('adminSendMsgRes', adminSendMsgRes);
+  alert('adminSendMsgRes', adminSendMsgRes);
 }
 
 onMounted(async () => {
@@ -137,9 +137,9 @@ const theme = {
             Admin Send
           </a-button>
           <p>message: {{ message }}</p>
-          <p>accessToken: {{ accessToken }}</p>
+          <!-- <p>accessToken: {{ accessToken }}</p> -->
           <p>adminSendMsgRes: {{ adminSendMsgRes }}</p>
-          <p>profile: {{ profile }}</p>
+          <!-- <p>profile: {{ profile }}</p> -->
         </div>
 
         <router-view/>

@@ -33,27 +33,27 @@ def callback():
 
 @linebot_bp.route(f'{os.environ["API_BASE"]}/backend/token', methods=['POST'])
 def send_message():
-    # data = request.get_json()
-    # access_token = data['accessToken']
-    # encoded_access_token = access_token.encode('utf-8')
+    data = request.get_json()
+    access_token = data['accessToken']
+    encoded_access_token = access_token.encode('utf-8')
 
-    # verify_response = verify_access_token(encoded_access_token)
-    # if verify_response.status_code != 200:
-    #     print("検証エラー")
-    #     return "検証エラー", 400
+    verify_response = verify_access_token(encoded_access_token)
+    if verify_response.status_code != 200:
+        print("検証エラー")
+        return "検証エラー", 400
     
-    # profile_response = get_profile(encoded_access_token)
-    # if profile_response.status_code != 200:
-    #     print("プロフィール取得エラー")
-    #     return "プロフィール取得エラー", 400
+    profile_response = get_profile(encoded_access_token)
+    if profile_response.status_code != 200:
+        print("プロフィール取得エラー")
+        return "プロフィール取得エラー", 400
     
-    # user_id = profile_response.json()['userId']
-    # message_response = liff_line_message_push(user_id)
-    # if message_response.status_code != 200:
-    #     print("メッセージ送信エラー")
-    #     return "メッセージ送信エラー", 400
+    user_id = profile_response.json()['userId']
+    message_response = liff_line_message_push(user_id)
+    if message_response.status_code != 200:
+        print("メッセージ送信エラー")
+        return "メッセージ送信エラー", 400
     
-    # print("送信完了")
+    print("送信完了")
     return "送信完了"
 
 def verify_access_token(id_token):
