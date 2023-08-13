@@ -41,22 +41,33 @@ def send_message():
     if verify_response.status_code != 200:
         print("検証エラー")
         return "検証エラー", 400
-    else:
-        return { "verify_response": verify_response.json() }
-    # profile_response = get_profile(encoded_access_token)
-    # if profile_response.status_code != 200:
-    #     print("プロフィール取得エラー")
-    #     return "プロフィール取得エラー", 400
     
+    profile_response = get_profile(encoded_access_token)
+    if profile_response.status_code != 200:
+        print("プロフィール取得エラー")
+        return "プロフィール取得エラー", 400
     
-    # user_id = profile_response.json()['userId']
+    user_id = profile_response.json()['userId']
+
+    messages = [
+        {
+            "type": "text",
+            "text": "Hello, world1"
+        },
+        {
+            "type": "text",
+            "text": "Hello, world2"
+        }
+    ]
+
+    message_response = send_line_message(f'{os.environ.get("LINE_ACCESS_TOKEN")}', user_id, messages)
     # message_response = liff_line_message_push(user_id)
-    # if message_response.status_code != 200:
-    #     print("メッセージ送信エラー")
-    #     return "メッセージ送信エラー", 400
+    if message_response.status_code != 200:
+        print("メッセージ送信エラー")
+        return "メッセージ送信エラー", 400
     
-    # print("送信完了")
-    # return "送信完了"
+    print("送信完了")
+    return "送信完了"
 
 def verify_access_token(id_token):
     response = requests.get(f'https://api.line.me/oauth2/v2.1/verify?access_token={id_token}')
@@ -70,26 +81,42 @@ def get_profile(accessToken):
     response = requests.get('https://api.line.me/v2/profile', headers=headers)
     return response
 
-def liff_line_message_push(user_id):
+# def liff_line_message_push(user_id):
+#     headers = {
+#         "Content-type": "application/json",
+#         "Authorization": f'Bearer {os.environ.get("LINE_ACCESS_TOKEN")}'
+#     }
+#     payload = {
+#         "to": user_id,
+#         "messages": [
+#             {
+#                 "type": "text",
+#                 "text": "管理者からメッセージ送信したしん！"
+#             }
+#         ]
+#     }
+#     response = requests.post('https://api.line.me/v2/bot/message/push', json=payload, headers=headers)
+#     return response
+
+
+def send_line_message(channel_access_token, to_user_id, messages):
+    url = "https://api.line.me/v2/bot/message/push"
     headers = {
-        "Content-type": "application/json",
-        "Authorization": f'Bearer {os.environ.get("LINE_ACCESS_TOKEN")}'
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {channel_access_token}",
     }
-    payload = {
-        "to": user_id,
-        "messages": [
-            {
-                "type": "text",
-                "text": "管理者からメッセージ送信したしん！"
-            }
-        ]
+    data = {
+        "to": to_user_id,
+        "messages": messages,
     }
-    response = requests.post('https://api.line.me/v2/bot/message/push', json=payload, headers=headers)
+    
+    response = requests.post(url, json=data, headers=headers)
     return response
 
-# 學你說話
-@handler.add(MessageEvent,message=TextMessage)
-def echo_message(event):
-    if isinstance(event.message, TextMessage):
-        msg=event.message.text
-        Line_bot_api.reply_message(event.reply_token, TextSendMessage(text=msg))
+
+# # 學你說話
+# @handler.add(MessageEvent,message=TextMessage)
+# def echo_message(event):
+#     if isinstance(event.message, TextMessage):
+#         msg=event.message.text
+#         Line_bot_api.reply_message(event.reply_token, TextSendMessage(text=msg))
