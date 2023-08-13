@@ -103,18 +103,18 @@ def get_line_user_detail(line_id):
         return {"message": "沒有這個使用者"}, 404
 
 
-# Line log in
-@user_bp.route(f'{os.environ["API_BASE"]}/line_user/login', methods=['POST'])
-def user_log_in():
-    data = request.get_json()
+# # Line log in
+# @user_bp.route(f'{os.environ["API_BASE"]}/line_user/login', methods=['POST'])
+# def user_log_in():
+#     data = request.get_json()
 
-    db_user = User.query.filter_by(line_id=data['line_user']).first()
-    if db_user is not None and db_user.line_id == data['line_id']:
-        session['user_id'] = db_user.id
-        session.permanent = True
-        return {"id": db_user.id, "session_data": dict(session)}
-    else:
-        return {"message": "line id 錯誤"}, 400
+#     db_user = User.query.filter_by(line_id=data['line_user']).first()
+#     if db_user is not None and db_user.line_id == data['line_id']:
+#         session['user_id'] = db_user.id
+#         session.permanent = True
+#         return {"id": db_user.id, "session_data": dict(session)}
+#     else:
+#         return {"message": "line id 錯誤"}, 400
 
 # Update user datas
 # TODO: user's id is vulnerable to haker attacks
