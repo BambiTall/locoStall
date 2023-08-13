@@ -143,7 +143,7 @@ onMounted(async() => {
       </div>
 
       <a-radio-group class="_payment_card__radio" name="radioGroup" style="display: flex; justify-content: space-between;" v-model:value="payment">
-        <a-radio value="linepay">{{ t('linePay') }}</a-radio>
+        <a-radio value="linepay">{{ t('linepay') }}</a-radio>
         <a-radio value="cash">{{ t('cash') }}</a-radio>
       </a-radio-group>
     </div>
@@ -178,7 +178,7 @@ onMounted(async() => {
   text-align: center;
   z-index: 101;
   position: relative;
-  left: 5%;
+  left: auto;
   top: 25%;
   background-color: white;
   width: 90%;

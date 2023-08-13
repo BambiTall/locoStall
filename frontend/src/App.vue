@@ -186,6 +186,8 @@ const theme = {
 
 }
 ._body{
+  max-width: $page-max-width;
+  margin: auto;
   padding: 6rem $padding-s 0 !important;
   min-height: 100vh !important;
 }

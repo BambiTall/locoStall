@@ -186,6 +186,7 @@ onMounted(async ()=>{
   }
 }
 ._nav_links{
+  border-bottom: 1px solid $color-gray-1;
   a{
     font-size: 1rem;
     padding: 1rem;
@@ -199,10 +200,13 @@ onMounted(async ()=>{
 }
 ._nav_manage__link{
   cursor: pointer;
-  line-height: 2;
+  line-height: 4;
   // color: white;
   color: $color-primary;
   transition: .2s all ease-in;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:hover{
     color: $color-primary;
@@ -227,7 +231,7 @@ onMounted(async ()=>{
   right: 0;
   z-index: 50;
   opacity: 0;
-  width: 90%;
+  width: 85%;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -287,6 +291,7 @@ onMounted(async ()=>{
     background: none;
   }
   ._nav_links{
+    border: none;
     margin-right: 1rem;
 
     a{
@@ -334,6 +339,7 @@ onMounted(async ()=>{
   }
 
   ._nav_manage__link{
+    line-height: 2;
     color: $color-secondary;
   }
 }
