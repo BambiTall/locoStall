@@ -25,10 +25,16 @@ def get_orders_list():
 @order_bp.route(f'{os.environ["API_BASE"]}/orders/user/<int:user_id>')
 def get_user_order_list(user_id):
     user = User.query.filter_by(id=user_id).first()
-    orders = Orders.query.filter_by(user_id=user_id).order_by(Orders.updated_at.desc())
+    orders = (
+        Orders.query.filter_by(user_id=user_id).order_by(Orders.updated_at.desc()).all()
+    )
     order_list = [order.json() for order in orders]
 
     for order in order_list:
+        shop = Shop_name.query.filter_by(
+            shop_id=order["shop_id"], lang=user.native_lang
+        ).first()
+        order["shop_name"] = shop.name
         item_list = json.loads(order["item_list"])
         new_item_list = []
         for item in item_list:
@@ -49,7 +55,11 @@ def get_user_order_list(user_id):
 @order_bp.route(f'{os.environ["API_BASE"]}/orders/manager/<int:user_id>')
 def get_manager_order_list(user_id):
     user = User.query.filter_by(id=user_id).first()
-    orders = Orders.query.filter_by(shop_id=user.shop_id).order_by(Orders.created_at.desc())
+    orders = (
+        Orders.query.filter_by(shop_id=user.shop_id)
+        .order_by(Orders.created_at.desc())
+        .all()
+    )
     order_list = [order.json() for order in orders]
 
     for order in order_list:
@@ -71,12 +81,26 @@ def get_manager_order_list(user_id):
 
 # Get order detail
 @order_bp.route(
-    f'{os.environ["API_BASE"]}/order_detail/<int:order_id>', methods=['GET']
+    f'{os.environ["API_BASE"]}/<lang>/order_detail/<int:order_id>', methods=['GET']
 )
-def get_orders_detail(order_id):
-    order = db.get_or_404(Orders, order_id)
+def get_orders_detail(lang, order_id):
+    order = db.get_or_404(Orders, order_id).json()
+    shop = Shop_name.query.filter_by(shop_id=order["shop_id"], lang=lang).first()
+    order["shop_name"] = shop.name
+    item_list = json.loads(order["item_list"])
+    new_item_list = []
+    for item in item_list:
+        menu = Menu.query.filter_by(
+            shop_id=order["shop_id"],
+            prod_id=item["prod_id"],
+            lang=lang,
+        ).first()
+        item["name"] = menu.name
+        item["price"] = menu.price
+        new_item_list.append(item)
+    order["item_list"] = json.dumps(new_item_list)
 
-    return {"data": order.json()}
+    return {"data": order}
 
 
 # Add order
