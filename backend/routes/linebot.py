@@ -40,12 +40,12 @@ def send_message():
     verify_response = verify_access_token(encoded_access_token)
     if verify_response.status_code != 200:
         print("検証エラー")
-        return "検証エラー", 400
+        return {"error": "検証エラー", "details": verify_response.text}, 400
     
     profile_response = get_profile(encoded_access_token)
     if profile_response.status_code != 200:
         print("プロフィール取得エラー")
-        return "プロフィール取得エラー", 400
+        return {"error": "プロフィール取得エラー", "details": profile_response.text}, 400
     
     user_id = profile_response.json()['userId']
 
