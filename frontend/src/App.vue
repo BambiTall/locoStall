@@ -11,7 +11,7 @@ const router = useRouter();
 
 // local storage
 const loggedInId = ref(localStorage.getItem('id'));
-let isLoggedIn = loggedInId.value != null ? true : false;
+let isLoggedIn = ref(localStorage.getItem('login'));
 
 const lang = ref(localStorage.getItem('currLang'));
 console.log('@App lang', lang.value);
@@ -24,7 +24,7 @@ let adminSendMsgRes = ref()
 let profile = ref()
 
 // getters
-const currUser = ref(store.getters.currUser);
+const currUser = computed(() => store.getters.currUser);
 
 router.beforeEach((to, from, next) => {
   // save prevRoute
@@ -43,19 +43,19 @@ router.beforeEach((to, from, next) => {
       query: to.query
     });
   }
-   else if (to.meta.requiresAuth) {
-    // console.log('需要 AUTH');
-    if( !isLoggedIn ){
-      // console.log('還沒登入');
-      next({
-        path: lang.value + '/login',
-        query: { redirect: to.fullPath },
-      });
-    } else {
-      // console.log('已登入');
-      next();
-    }
-  } 
+  //  else if (to.meta.requiresAuth) {
+  //   // console.log('需要 AUTH');
+  //   if( !isLoggedIn ){
+  //     // console.log('還沒登入');
+  //     next({
+  //       path: lang.value + '/login',
+  //       query: { redirect: to.fullPath },
+  //     });
+  //   } else {
+  //     // console.log('已登入');
+  //     next();
+  //   }
+  // } 
   else {
     // console.log('不需 AUTH');
     // visit with lang
@@ -79,6 +79,7 @@ onBeforeMount(async () => {
   try{    
     if( loggedInId.value != null && Object.keys(currUser.value).length == 0){
       const getUserDataRes = await store.dispatch('getUserData', Number(loggedInId.value));
+      store.dispatch('login',true)
     }
   } catch {
 

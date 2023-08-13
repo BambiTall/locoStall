@@ -18,7 +18,7 @@ const formState = reactive({
   password: ''
 });
 
-const langOptions = ref(store.getters.langList)
+const langOptions = computed(() => store.getters.langList)
 
 const onFinish = values => {
   store.dispatch('signUp', values);

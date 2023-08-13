@@ -25,7 +25,7 @@ const formState = reactive({
   shop_id: ''
 });
 
-const langOptions = ref(store.getters.langList)
+const langOptions  = computed(() => store.getters.langList)
 
 
 const updateUserData = async () => {

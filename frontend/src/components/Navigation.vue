@@ -14,24 +14,12 @@ const isShowMenu = ref(false);
 const isShowUserMenu = ref(false);
 
 // getters
-const langOptions = ref(store.getters.langList)
-const currUser = ref(store.getters.currUser);
+const langOptions = computed(() => store.getters.langList)
+const currUser = computed(() => store.getters.currUser);
+const isLoggedIn = computed(() => store.getters.login);
 
 // local storage
 let urlLang = ref(localStorage.getItem('currLang'));
-console.log('@Nav lang', urlLang.value);
-const loggedInId = ref(localStorage.getItem('id'));
-let isLoggedIn = computed(()=>{
-  return loggedInId.value ? true : false
-})
-
-watch(loggedInId, (newVal)=>{
-  console.log('LOGIN ID newVal', newVal);
-  let res = false
-  if(newVal != null){
-    isLoggedIn.value = true
-  }
-})
 
 // i18n
 const i18n = useI18n();
@@ -52,25 +40,20 @@ for(var k in availableLocales){
 }
 
 const login = () => {
-  router.push({ name: 'Login' })
   isShowMenu.value = false;
   isShowUserMenu.value = false;
+  router.push({ name: 'Login' })
 }
 const logout = () => {
   store.dispatch('logout');
   isShowMenu.value = false;
   isShowUserMenu.value = false;
 
-  // set store.currUser empty
-  store.dispatch('setCurrUserData', {});
-
   logoutSuccess();
 
   if( route.meta.requiresAuth ){
     router.push({ name: 'Login' })
   }
-  // reload page
-  location.reload();
 }
 const logoutSuccess = () => {
   message.success(
@@ -90,11 +73,6 @@ const handleLangChange = (locale) => {
   });
 } 
 onMounted(async ()=>{
-  if( Object.keys(currUser.value).length == 0 && loggedInId.value){
-    
-    // hasn't get user data yet
-    let userDateRes = await store.dispatch('getUserData', loggedInId.value);
-  }
 })
 
 </script>
@@ -114,7 +92,7 @@ onMounted(async ()=>{
         <router-link :to="'/' + urlLang + '/sandy'">
           Test page
         </router-link>
-        <router-link :to="'/' + urlLang + '/admin'" v-if="loggedInId=='6'">
+        <router-link :to="'/' + urlLang + '/admin'" v-if="currUser.type=='manager'">
           客戶訂單
         </router-link>
         <router-link v-else :to="'/' + urlLang">

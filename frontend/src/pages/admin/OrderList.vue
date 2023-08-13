@@ -22,8 +22,7 @@ const getOrderList = async()=>{
   try {
     const res = await api.get(`/orders/manager/${userData.value.id}`);
     orderList.value = res.data;
-    console.log('@getOrderList orderList.value',orderList.value);
-    
+    // console.log('@getOrderList orderList.value',orderList.value);
   } catch (error) {
     console.error(error);
   }

@@ -7,12 +7,15 @@ console.log('@store i18n.global.locale.value', i18n.global.locale.value);
 const setLocalStorage = ( name, val) => {
     localStorage.setItem(name, val);
 }
+const removeLocalStorage = ( name) => {
+    localStorage.removeItem(name);
+}
 
 const store = createStore({
     state () {
         return {
             currLang: i18n.global.locale,
-            // login: ref(false),
+            login: ref(false),
             order: [],
             langList:[
                 {
@@ -42,9 +45,9 @@ const store = createStore({
         order:state => {
             return state.order
         },
-        // login:state=>{
-        //     return state.login
-        // },
+        login:state=>{
+            return state.login
+        },
         currOrder:state => {
             return state.currOrder
         },
@@ -62,11 +65,28 @@ const store = createStore({
         order: ({commit}, order) => {
             commit("order", order)
         },
-        // login:({commit})=>{
-        //     commit("login")
-        // },
-        logout:({commit})=>{
-            commit("logout")
+        toLogin: async({ dispatch }, values)=>{
+            try {
+                const loginRes = await api.post('/user/login', values);
+                
+                dispatch('getUserData', loginRes.data.id)
+                return true;
+            } catch (error) {
+                // loginFail: email or password is incorrect
+                // alert(error.response.data.message);
+                alert(error);
+            }
+        },
+        login: ({commit}, state)=>{
+            setLocalStorage('login', state)
+            commit("login", state)
+        },
+        logout:({commit, dispatch})=>{
+            // clear datas
+            removeLocalStorage('id');
+            dispatch('setCurrUserData', {}) 
+
+            commit("login", false)
         },
         setCurrLang:({commit}, lang)=>{
             commit("setCurrLang", lang)
@@ -77,8 +97,15 @@ const store = createStore({
         signUp:({commit}, data)=>{
             commit("signUp", data)
         },
-        getUserData:({commit}, id)=>{
-            commit("getUserData", id)
+        getUserData:async({commit}, id)=>{
+            try {
+                let userRes = await api.get(`/user/${id}`);
+
+                commit("setCurrUserData", userRes.data)
+                commit("login", true)
+            } catch (error) {
+                console.log('error in signUpLine', error);
+            }
         },
         setCurrOrder:({commit}, data)=>{
             commit("setCurrOrder", data)
@@ -104,26 +131,28 @@ const store = createStore({
         order:(state, val)=>{
             state.order = val;
         },
-        logout:(state)=>{
-            state.login = false;
-            localStorage.removeItem('login');
-            localStorage.removeItem('id');
+        login:(state, val)=>{
+            // console.log('mutations login val',val);
+            
+            state.login = val;
         },
         setCurrLang:(state, lang)=>{
             state.currLang = lang;
             setLocalStorage('currLang', lang)
         },
-        getUserData: async (state, id)=>{
-            let userRes = await api.get(`/user/${id}`);
-            state.currUser = userRes.data;
-            state.currLang = userRes.data.native_lang;
+        // getUserData: async (state, id)=>{
+        //     let userRes = await api.get(`/user/${id}`);
+        //     state.currUser = userRes.data;
+        //     state.currLang = userRes.data.native_lang;
 
-            setLocalStorage('id', id)
-            setLocalStorage('currLang', state.currLang)
-        },
+        //     setLocalStorage('id', id)
+        //     setLocalStorage('currLang', state.currLang)
+        // },
         setCurrUserData:(state, data)=>{
-            console.log('@store setCurrUserData', data);
             state.currUser = data;
+
+            setLocalStorage('currLang', data.native_lang)
+            setLocalStorage('id', data.id)
         },
         signUp: async (state, data)=>{
             let signUpRes = await api.post(`/user`, data);

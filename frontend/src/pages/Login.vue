@@ -16,7 +16,7 @@ const store = useStore();
 
 const loggedInId = ref(Number(localStorage.getItem('id')));
 
-const prevRoute = ref(store.getters.prevRoute);
+const prevRoute = computed(() => store.getters.prevRoute);
 const currUser = computed(() => store.getters.currUser);
 
 const lang = route.params.lang;
@@ -34,12 +34,14 @@ onBeforeMount(()=>{
 
 const onLogin = async ( values ) => {
   try {
-    const loginRes = await api.post('/user/login', values);
-    const getUserDataRes = await store.dispatch('getUserData', loginRes.data.id);
-    loginSuccess();
-
+    let loginRes = await store.dispatch('toLogin', values);
+    
+    if(loginRes ){
+      loginSuccess();
+    }
   } catch (error) {
-    console.error(error);
+    // loginFail: email or password is incorrect
+    // alert(error.response.data.message);
   }
 };
 
