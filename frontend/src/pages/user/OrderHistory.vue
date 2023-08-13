@@ -64,6 +64,12 @@ onMounted(async()=>{
 
       <div class="_history_row">
         <div class="_history_created">
+          {{ t('shopName') }}<span class="_history_created__val">{{ order.shop_name }}</span>
+        </div>
+      </div>
+      
+      <div class="_history_row">
+        <div class="_history_created">
           {{ t('createdAt') }}<span class="_history_created__val">{{ moment(order.created_at).format('YYYY/MM/DD HH:mm') }}</span>
         </div>
       </div>

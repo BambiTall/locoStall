@@ -107,6 +107,16 @@ const store = createStore({
                 console.log('error in signUpLine', error);
             }
         },
+        getOrderDetail:async({commit, state}, order_id)=>{
+            try {
+                let orderDetailRes = await api.get(`/${state.currLang}/order_detail/${order_id}`);
+                // console.log('getOrderDetail orderDetailRes',orderDetailRes);
+                commit("setCurrOrder", orderDetailRes.data.data)
+                return orderDetailRes.data.data
+            } catch (error) {
+                console.log('error in signUpLine', error);
+            }
+        },
         setCurrOrder:({commit}, data)=>{
             commit("setCurrOrder", data)
         },

@@ -33,7 +33,7 @@ const calculateTotal = () => {
 
 const getOrderUpdate = async(order_id)=>{
   try {
-    const getOrderUpdateRes = await api.get(`/order_detail/${order_id}`);
+    const getOrderUpdateRes = await api.get(`${lang}/order_detail/${order_id}`);
     
     if(getOrderUpdateRes.data.data.state === 'cooking'){
       isWaiting.value = false;
@@ -65,7 +65,7 @@ const submitOrder = async( params )=>{
     // console.log('res.data.data',res.data.data);
     
     isWaiting.value = true;
-
+    localStorage.setItem('order_id', res.data.data.id);
     runInterval(res.data.data.id)
   } catch (error) {
     console.log('@submitOrder ERROR');

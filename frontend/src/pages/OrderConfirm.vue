@@ -11,53 +11,34 @@ const store = useStore()
 const route = useRoute()
 const router = useRouter()
 
-// let currOrder = ref()
-// let shopMenu = ref()
-
-// const currUser = computed(() => store.getters.currUser);
-const currOrder = computed(() => store.getters.currOrder);
+let currOrder = ref()
 
 const urlLang = route.params.lang;
+const orderId = ref(localStorage.getItem('order_id'));
 
-const orderData = localStorage.getItem('order');
-// const getOrderDetail = async( order_id )=>{
-//   try {
-//     const res = await api.get(`/order/${order_id}`);
-//     console.log('getOrderDetail res',res);
+const calculateTotal = ( orderList ) => {
+  let res = 0;
+  JSON.parse(orderList).map((item) => {
+    res += item.qty * item.price;
+  });
+  return res;
+};
+onMounted(async () => {
+  try {
+    let orderDetailRes = await api.get(`/${urlLang}/order_detail/${orderId.value}`);
     
-//     // currOrder.value = res.data.data;
-//     // item_list = currOrder.value.item_list
-//     // getMenus( currOrder.value.shop_id )
-//   } catch (error) {
-//     console.log('@getOrderDetail ERROR', error);
-//   }
-// }
-// const getMenus = async( id )=>{
-//   try {
-//     const res = await api.get(`${lang}/menu/${id}`);
-//     shopMenu.value = res.data.data;
-//   } catch (error) {
-//     console.log('@getMenus ERROR', error);
-//   }
-// }
-
-// onMounted(async () => {
-//   try {
-//     await Promise.all([
-//       // getOrderDetail(10)
-//     ]);
-//   } catch (error) {
-//     console.error(error);
-//   }
-// });
-
+    currOrder.value = orderDetailRes.data.data;
+  } catch (error) {
+    console.error(error);
+  }
+});
 
 </script>
 
 <template>
   <div class="_orderConfirm">
+    <a-typography-title class="_orderConfirm_h1">Order Confirmed</a-typography-title>
     <div class="_orderConfirm_card" v-if="currOrder">
-      <a-typography-title class="_orderConfirm_h1">Order Confirmed</a-typography-title>
       <div class="_orderConfirm_no">
         <div class="">
           Status
@@ -65,6 +46,20 @@ const orderData = localStorage.getItem('order');
         </div>
         <span class="_orderConfirm_no__num">{{ currOrder.id }}</span>
       </div>
+      <div class="_orderConfirm_list">
+        shop
+        <p class="_orderConfirm_list__info">{{ currOrder.shop_name }}</p>
+      </div>
+      
+      <a-divider class="_orderConfirm_divider"></a-divider>
+
+      <div class="_orderConfirm_list" v-for="item,idx in JSON.parse(currOrder.item_list)" :key="idx">
+        <span>{{ item.qty }}</span>
+        <span>{{ item.name }}</span>
+        <span>{{ item.price }}</span>
+      </div>
+
+      <a-divider class="_orderConfirm_divider"></a-divider>
 
       <div class="_orderConfirm_list">
         Created at
@@ -75,21 +70,12 @@ const orderData = localStorage.getItem('order');
         payment
         <p class="_orderConfirm_list__info">{{ currOrder.payment }}</p>
       </div>
-      <div class="_orderConfirm_list">
-        shop
-        <p class="_orderConfirm_list__info">{{ currOrder.shop_id }}</p>
-      </div>
 
-      <div  v-for="item,key in JSON.parse(currOrder.item_list)" :key="key">
-        {{ item }}
-      </div>
-
-      <!-- <a-divider class="_orderConfirm_divider"></a-divider>
+      <a-divider class="_orderConfirm_divider"></a-divider>
       <div class="_orderConfirm_total">
-        <span>Total</span><span>{{ total }}</span>
-      </div> -->
+        <span>Total</span><span class="_orderConfirm_total__val">{{ calculateTotal(currOrder.item_list) }}</span>
+      </div>
     </div>
-
 
     <router-link :to="'/' + urlLang + '/user/order'">
       <a-button type="primary" shape="round" block size="large">訂單列表</a-button>
@@ -105,12 +91,16 @@ const orderData = localStorage.getItem('order');
 }
 ._orderConfirm_h1{
   font-size: 1.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
+  text-align: center;
 }
 ._orderConfirm_total{
   display: flex;
   justify-content: space-between;
   font-size: 1.5rem;
+}
+._orderConfirm_total__val{
+  font-weight: bold;
 }
 ._orderConfirm_card{
   padding: 2rem;
@@ -143,6 +133,9 @@ const orderData = localStorage.getItem('order');
 }
 ._orderConfirm_list{
   margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 ._orderConfirm_list__info{
   font-weight: bold;
