@@ -71,7 +71,7 @@ def get_profile(accessToken):
 def liff_line_message_push(user_id):
     headers = {
         "Content-type": "application/json",
-        "Authorization": "Bearer " + "チャネルアクセストークン"
+        "Authorization": f'Bearer {os.environ.get("LINE_ACCESS_TOKEN")}'
     }
     payload = {
         "to": user_id,
