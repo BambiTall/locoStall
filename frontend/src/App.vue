@@ -61,6 +61,7 @@ const lineProgress = async (params) => {
     let getLineUserRes = await api.get(`/line_user/${signUpLineRes.data.line_id}`);
 
     localStorage.setItem('id', getLineUserRes.data.id);
+    store.dispatch('setCurrUser', getLineUserRes.data);
   } catch (error) {
     // console.error(error);
   }
@@ -90,24 +91,24 @@ onMounted(async () => {
   try {
     await liff.init({ liffId: "2000144386-Ax8WZ8k2" });
 
-    // accessToken.value = liff.getAccessToken();
-    // if (accessToken.value == null) {
-    //   isBrowserCheck.value = false;
-    //   message.value = "LINEアプリから実行してください";
-    //   return false;
-    // }
-    // isBrowserCheck.value = true;
-    // message.value = "ログイン成功";
+    accessToken.value = liff.getAccessToken();
+    if (accessToken.value == null) {
+      isBrowserCheck.value = false;
+      message.value = "LINEアプリから実行してください";
+      return false;
+    }
+    isBrowserCheck.value = true;
+    message.value = "ログイン成功";
     
-    // const liffProfile = await liff.getProfile()
-    // profile.value = liffProfile
-    // let params = {
-    //   line_id: liffProfile.userId,
-    //   display_name: liffProfile.displayName,
-    //   photo: liffProfile.pictureUrl,
-    // }
+    const liffProfile = await liff.getProfile()
+    profile.value = liffProfile
+    let params = {
+      line_id: liffProfile.userId,
+      display_name: liffProfile.displayName,
+      photo: liffProfile.pictureUrl,
+    }
 
-    // lineProgress(params)
+    lineProgress(params)
   } catch (err) {
     console.log(`liff.state init error ${err}`);
   }
