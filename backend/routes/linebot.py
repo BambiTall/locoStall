@@ -41,13 +41,14 @@ def send_message():
     if verify_response.status_code != 200:
         print("検証エラー")
         return "検証エラー", 400
-    
+    else:
+        return { "verify_response": verify_response.json() }
     # profile_response = get_profile(encoded_access_token)
     # if profile_response.status_code != 200:
     #     print("プロフィール取得エラー")
     #     return "プロフィール取得エラー", 400
     
-    return {"verify_response": verify_response.json()}
+    
     # user_id = profile_response.json()['userId']
     # message_response = liff_line_message_push(user_id)
     # if message_response.status_code != 200:
