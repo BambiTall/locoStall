@@ -189,6 +189,7 @@ onMounted(async() => {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: auto;
 }
 ._payment_waiting__img{
   font-size: 5rem;

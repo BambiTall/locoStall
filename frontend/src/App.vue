@@ -19,6 +19,7 @@ console.log('@App lang', lang.value);
 
 let accessToken = ref()
 let isBrowserCheck = ref()
+let isInClient = ref(false)
 let message = ref()
 let adminSendMsgRes = ref()
 let profile = ref()
@@ -91,36 +92,40 @@ onMounted(async () => {
   try {
     await liff.init({ liffId: "2000144386-Ax8WZ8k2" });
 
-    accessToken.value = liff.getAccessToken();
-    if (accessToken.value == null) {
-      isBrowserCheck.value = false;
-      message.value = "LINEアプリから実行してください";
-      return false;
-    }
-    isBrowserCheck.value = true;
-    message.value = "ログイン成功";
-    
-    let nativeLang = ''
-    const liffLang = liff.getLanguage();
-    
-    if (liffLang.includes('ja')) {
-      nativeLang = 'jp';
-    } else if (liffLang.includes('zh')) {
-      nativeLang = 'zh';
-    } else {
-      nativeLang = 'en';
-    }
+    isInClient.value =liff.isInClient();
 
-    const liffProfile = await liff.getProfile()
-    profile.value = liffProfile
-    let params = {
-      line_id: liffProfile.userId,
-      display_name: liffProfile.displayName,
-      photo: liffProfile.pictureUrl,
-      native_lang: nativeLang
-    }
+    if(Boolean(isInClient.value)){
+      accessToken.value = liff.getAccessToken();
+      if (accessToken.value == null) {
+        isBrowserCheck.value = false;
+        message.value = "LINEアプリから実行してください";
+        return false;
+      }
+      isBrowserCheck.value = true;
+      message.value = "ログイン成功";
+      
+      let nativeLang = ''
+      const liffLang = liff.getLanguage();
+      
+      if (liffLang.includes('ja')) {
+        nativeLang = 'jp';
+      } else if (liffLang.includes('zh')) {
+        nativeLang = 'zh';
+      } else {
+        nativeLang = 'en';
+      }
 
-    lineProgress(params)
+      const liffProfile = await liff.getProfile()
+      profile.value = liffProfile
+      let params = {
+        line_id: liffProfile.userId,
+        display_name: liffProfile.displayName,
+        photo: liffProfile.pictureUrl,
+        native_lang: nativeLang
+      }
+
+      lineProgress(params)
+    }
   } catch (err) {
     console.log(`liff.state init error ${err}`);
   }
