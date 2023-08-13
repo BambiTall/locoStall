@@ -100,12 +100,24 @@ onMounted(async () => {
     isBrowserCheck.value = true;
     message.value = "ログイン成功";
     
+    let nativeLang = ''
+    const liffLang = liff.getLanguage();
+    
+    if (liffLang.includes('ja')) {
+      nativeLang = 'jp';
+    } else if (liffLang.includes('zh')) {
+      nativeLang = 'zh';
+    } else {
+      nativeLang = 'en';
+    }
+
     const liffProfile = await liff.getProfile()
     profile.value = liffProfile
     let params = {
       line_id: liffProfile.userId,
       display_name: liffProfile.displayName,
       photo: liffProfile.pictureUrl,
+      native_lang: nativeLang
     }
 
     lineProgress(params)
@@ -132,15 +144,15 @@ const theme = {
       </a-layout-header>
       <a-layout-content class="_body">
 
-        <div class="_body_liffwrap">
+        <!-- <div class="_body_liffwrap">
           <a-button @click="sendAdmintoUserMessege" type="primary" size="circle">
             Admin Send
           </a-button>
-          <p>message: {{ message }}</p>
-          <!-- <p>accessToken: {{ accessToken }}</p> -->
-          <p>adminSendMsgRes: {{ adminSendMsgRes }}</p>
-          <!-- <p>profile: {{ profile }}</p> -->
-        </div>
+          <p><h4>message: </h4> {{ message }}</p>
+          <p><h4>accessToken: </h4> {{ accessToken }}</p>
+          <p><h4>adminSendMsgRes: </h4> {{ adminSendMsgRes }}</p>
+          <p><h4>profile: </h4>{{ profile }}</p>
+        </div> -->
 
         <router-view/>
 

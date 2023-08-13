@@ -89,9 +89,9 @@ onMounted(async ()=>{
     </div>
     <div class="_nav_right" :class="isShowMenu ? 'show' : ''">
       <div class="_nav_links" @click="isShowMenu = false">
-        <router-link :to="'/' + urlLang + '/sandy'">
+        <!-- <router-link :to="'/' + urlLang + '/sandy'">
           Test page
-        </router-link>
+        </router-link> -->
         <router-link :to="'/' + urlLang + '/admin'" v-if="currUser.type=='manager'">
           客戶訂單
         </router-link>

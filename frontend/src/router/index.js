@@ -95,11 +95,11 @@ let routes = [
     name: 'NotFound',
     component: NotFound
   },
-  {
-    path: '/:lang/sandy',
-    name: 'Sandy',
-    component: Sandy
-  }
+  // {
+  //   path: '/:lang/sandy',
+  //   name: 'Sandy',
+  //   component: Sandy
+  // }
   
 ]
 
