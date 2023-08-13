@@ -27,19 +27,10 @@ let profile = ref()
 const currUser = computed(() => store.getters.currUser);
 
 router.beforeEach((to, from, next) => {
-  // save prevRoute
-  // if( to.name == 'Login' ){
-  //   let routeObj = {}
-  //   routeObj.name = from.name
-  //   routeObj.params = from.params
-  //   store.dispatch('setPrevRoute', routeObj);
-  // }
-
   // handle 跳轉
-  if (!to.params.lang || to.params.lang !== i18n.global.locale.value) {
-    // visit with no lang
+  if (to.fullPath === '/') {
     next({ 
-      path: `/${i18n.global.locale.value}`,
+      path: `/${lang.value}`,
       query: to.query
     });
   }
