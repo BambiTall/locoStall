@@ -60,7 +60,11 @@ onMounted(async()=>{
 </script>
 
 <template>
-  <a-typography-title class="_h1">User page</a-typography-title>
+  <!-- <a-typography-title class="_h1">User page</a-typography-title> -->
+  <div class="_user_photo">
+    <img v-if="currUser.photo!=''" :src="currUser.photo" />
+    <img v-else src="@/assets/default.jpg" />
+  </div>
   <div class="_form">
     <a-form
       :model="formState"
@@ -130,6 +134,19 @@ onMounted(async()=>{
 </template>
 
 <style scoped lang="scss">
+._user_photo{
+  width: 7rem;
+  height: 7rem;
+  background-color: $color-gray-3;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: auto;
+  margin-bottom: 1rem;
+
+  img{
+    width: 100%;
+  }
+}
 ._form{
   width: 90%;
   max-width: $form-max-width;
