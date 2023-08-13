@@ -29,6 +29,7 @@ def create_app():
     app.config['SECRET_KEY']  = f'{os.environ.get("FLASK_SCREAT_KEY")}'
     app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=31)
     app.config['SESSION_COOKIE_SAMESITE'] = 'None'
+    app.config['DEBUG']
     session_cookie = SecureCookieSessionInterface().get_signing_serializer(app)
 
 
