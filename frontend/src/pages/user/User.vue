@@ -95,7 +95,7 @@ onMounted(async()=>{
         label="Line Id"
         name="line_id"
       >
-        <a-input v-model:value="formState.line_id" />
+        <a-input v-model:value="formState.line_id" disabled/>
       </a-form-item>
 
       <a-form-item
