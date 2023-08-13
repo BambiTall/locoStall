@@ -35,7 +35,7 @@ const getOrderUpdate = async(order_id)=>{
   try {
     const getOrderUpdateRes = await api.get(`${lang}/order_detail/${order_id}`);
     
-    if(getOrderUpdateRes.data.data.state === 'cooking'){
+    if(getOrderUpdateRes.data.data.state === 'cooking' || getOrderUpdateRes.data.data.state === 'foodReady'){
       isWaiting.value = false;
       // 沒清成功？？
       clearInterval(interval);
