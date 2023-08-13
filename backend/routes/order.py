@@ -130,6 +130,7 @@ def update_order():
     data = request.get_json()
     order = db.get_or_404(entity=Orders, ident=data['order_id'])
     order.state = data['state']
+    order.waiting = data['waiting']
     db.session.commit()
 
     return {'message': 'Order state updated successfully'}, 200
