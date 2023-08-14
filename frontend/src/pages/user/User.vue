@@ -148,7 +148,7 @@ onMounted(async()=>{
   }
 }
 ._form{
-  width: 90%;
+  // width: 90%;
   max-width: $form-max-width;
   margin: auto;
 }

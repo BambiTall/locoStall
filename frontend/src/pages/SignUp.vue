@@ -65,14 +65,14 @@ const goLogin = () => {
     </a-form-item>
 
     <a-form-item>
-      <a-button class="_signup_back" type="link" block @click="goLogin"><i class="las la-arrow-left"></i>{{ t('prev') }}</a-button>
+      <a-button class="_signup_back" type="link" block @click="goLogin"><i class="las la-arrow-left"></i>{{ t('login') }}</a-button>
     </a-form-item>
   </a-form>
 </template>
 
 <style scoped lang="scss">
 ._signup_form{
-  width: 90%;
+  // width: 90%;
   max-width: $form-max-width;
   margin: auto;
 }

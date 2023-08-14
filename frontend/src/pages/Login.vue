@@ -76,7 +76,7 @@ const goSignUp = () => {
 </script>
 
 <template>
-  <a-typography-title style="text-align: center;">{{ t('login') }}</a-typography-title>
+  <a-typography-title class="_h1">{{ t('login') }}</a-typography-title>
   <a-form
     layout="vertical"
     :model="formState"
@@ -110,17 +110,17 @@ const goSignUp = () => {
   <a-divider class="_login_divider">還沒有帳號？</a-divider>
 
   <div class="_login_signin">
-    <a-row :gutter="20">
-      <a-col :span="12"><a-button shape="round" block size="large" @click="goSignUp">{{ t('signup') }}</a-button></a-col>
-      <a-col :span="12"><a-button shape="round" block size="large" @click="lineLogin" style="background-color: #00b900; color: white;">Line Log in</a-button></a-col>
-    </a-row>
+    <!-- <a-row :gutter="20"> -->
+      <a-col><a-button shape="round" block size="large" @click="goSignUp">{{ t('signup') }}</a-button></a-col>
+      <!-- <a-col :span="12"><a-button shape="round" block size="large" @click="lineLogin" style="background-color: #00b900; color: white;">Line Log in</a-button></a-col> -->
+    <!-- </a-row> -->
   </div>
 
 </template>
 
 <style scoped lang="scss">
 ._login_form{
-  width: 90%;
+  // width: 90%;
   max-width: $form-max-width;
   margin: auto;
 }

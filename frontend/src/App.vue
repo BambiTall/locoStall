@@ -186,6 +186,7 @@ const theme = {
 
 }
 ._body{
+  width: 100%;
   max-width: $page-max-width;
   margin: auto;
   padding: 6rem $padding-s 0 !important;
