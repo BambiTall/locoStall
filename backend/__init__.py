@@ -14,7 +14,7 @@ from .routes.user import user_bp
 from .routes.shop import shop_bp
 from .routes.order import order_bp
 from .routes.menu import menu_bp
-# from .routes.linebot import linebot_bp
+from .routes.linebot import linebot_bp
 from .routes.predict import predict_bp
 
 
@@ -38,7 +38,7 @@ def create_app():
     app.register_blueprint(shop_bp)
     app.register_blueprint(order_bp)
     app.register_blueprint(menu_bp)
-    # app.register_blueprint(linebot_bp)
+    app.register_blueprint(linebot_bp)
     app.register_blueprint(predict_bp)
 
     db.init_app(app)
