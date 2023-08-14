@@ -31,9 +31,10 @@ def user_log_in():
 
     db_user = User.query.filter_by(mail=data['mail']).first()
     if db_user is not None and db_user.password == data['password']:
-        session['user_id'] = db_user.id
-        session.permanent = True
-        return {"id": db_user.id, "session_data": dict(session)}
+        # session['user_id'] = db_user.id
+        # session.permanent = True
+        # return {"id": db_user.id, "session_data": dict(session)}
+        return {"id": db_user.id}
     else:
         return {"message": "E-mail 或 password 錯誤"}, 400
 
@@ -45,7 +46,10 @@ def get_user_detail(user_id):
     # if user_id in session:
     # user = db.get_or_404(User, user_id)
     db_user = User.query.filter_by(id=user_id).first()
-    return db_user.json()
+    if db_user is not None:
+        return db_user.json()
+    else:
+        return { "message": "找不到該用戶" }, 404
 
 
 # else:
