@@ -5,7 +5,7 @@ class User(db.Model):
     __tablename__ = 'user'
 
     id = db.Column(db.Integer, primary_key=True)
-    photo = db.Column(db.String(500))
+    # photo = db.Column(db.String(500))
     display_name = db.Column(db.String(100))
     mail = db.Column(db.String(100))
     native_lang = db.Column(db.String(10), default='en')
@@ -17,7 +17,7 @@ class User(db.Model):
     def json(self):
         return {
             'id': self.id,
-            'photo': self.photo,
+            # 'photo': self.photo,
             'display_name': self.display_name,
             'mail': self.mail,
             'native_lang': self.native_lang,
