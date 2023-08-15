@@ -62,6 +62,8 @@ onMounted(async()=>{
         </div>
       </div>
 
+      <a-divider class="_history_divider"></a-divider>
+
       <div class="_history_row">
         <div class="_history_created">
           {{ t('shopName') }}<span class="_history_created__val">{{ order.shop_name }}</span>
@@ -90,7 +92,9 @@ onMounted(async()=>{
 </template>
 
 <style scoped lang="scss">
-
+._history_divider{
+  margin: 1rem 0;
+}
 ._history_nodata{
   text-align: center;
 }
@@ -108,16 +112,18 @@ onMounted(async()=>{
 ._history_row{
   display: flex;
   justify-content: space-between;
+  margin-bottom: .75rem;
 }
 ._history_id{
+  margin-right: 1rem;
 }
 ._history_id__num{
   line-height: 1;
   font-size: 1.25rem;
   color: $color-primary;
   background-color: $color-secondary;
-  width: 2rem;
-  height: 2rem;
+  width: 2.5rem;
+  height: 2.5rem;
   font-weight: bold;
   border-radius: $border-radius;
   display: flex;
@@ -127,7 +133,10 @@ onMounted(async()=>{
 ._history_state{
   display: flex;
   flex-direction: column;
-  margin-bottom: .75rem;
+  flex: 1.5;
+  // text-align: center;
+  border-right: 1px solid $color-gray-3;
+  // margin-bottom: .75rem;
 }
 ._history_state__val{
   font-weight: bold;
@@ -150,7 +159,10 @@ onMounted(async()=>{
 ._history_payment{
   display: flex;
   flex-direction: column;
-  margin-bottom: .75rem;
+  flex: 1.5;
+  text-align: center;
+  border-right: 1px solid $color-gray-3;
+  // margin-bottom: .75rem;
 }
 ._history_payment__val{
   font-weight: bold;
@@ -159,7 +171,9 @@ onMounted(async()=>{
 ._history_total{
   display: flex;
   flex-direction: column;
-  margin-bottom: .75rem;
+  flex: 1;
+  text-align: right;
+  // margin-bottom: .75rem;
 }
 ._history_total__val{
   font-weight: bold;
@@ -172,7 +186,6 @@ onMounted(async()=>{
   width: 100%;
   display: flex;
   justify-content: space-between;
-  margin-bottom: .75rem;
 }
 ._history_created__val{
   font-weight: bold;

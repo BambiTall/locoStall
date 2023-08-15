@@ -39,6 +39,11 @@
     "lastUpdate":"Updated at",
     "createdAt":"Created at",
 
+    "nightmarket" : {
+        "raohe": "Raohe Nightmarket"
+    },
+
+
     "navigation" : {
         "page": "Page",
         "product": "Product",

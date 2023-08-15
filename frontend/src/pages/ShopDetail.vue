@@ -258,7 +258,7 @@ const goPayment = () => {
   overflow: hidden;
   border-radius: 2rem;
   border: none;
-  width: 90%;
+  width: 85%;
   max-width: 350px;
 }
 ._shopDetail_prodIntro__close{

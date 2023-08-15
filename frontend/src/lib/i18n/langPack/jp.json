@@ -37,5 +37,9 @@
 
     "continue": "次ぐ",
     "lastUpdate":"最終更新",
-    "createdAt":"注文時間"
+    "createdAt":"注文時間",
+
+    "nightmarket" : {
+        "raohe": "饒河夜市(ラオフイェス)"
+    }
 }

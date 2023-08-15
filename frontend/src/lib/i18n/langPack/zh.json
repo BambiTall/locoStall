@@ -39,6 +39,10 @@
     "lastUpdate":"最後更新時間",
     "createdAt":"建立時間",
 
+    "nightmarket" : {
+        "raohe": "饒河夜市"
+    },
+
 
 
     "navigation" : {

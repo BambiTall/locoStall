@@ -36,9 +36,9 @@ onMounted(async () => {
 </script>
 
 <template>
-  <a-typography-title class="_h1">{{ t('index.shop_list') }} </a-typography-title>
+  <a-typography-title class="_h1 _shopList_title">{{ t('nightmarket.raohe') }} <span class="_shopList_title__top">TOP 10</span> </a-typography-title>
   <a-row :gutter="[10, 20]">
-    <a-col :xs="12" :sm="6" :md="6" :lg="6" :xl="4" v-for="shop,idx in shopList" :key="idx">
+    <a-col :xs="12" :sm="6" :md="6" :lg="6" v-for="shop,idx in shopList" :key="idx">
       <router-link :to="`/${lang}/shop/${shop.shop_id}`">
         <a-card hoverable class="_shopList_item">
           <template #cover>
@@ -71,6 +71,18 @@ onMounted(async () => {
     display: flex;
     flex-basis: 18% !important;
   }
+}
+._shopList_title{
+  margin-bottom: 2rem !important;
+}
+._shopList_title__top{
+  font-size: 1.25rem;
+  margin-left: .5rem;
+  font-weight: bold;
+  color: $color-primary;
+  background-color: $color-secondary;
+  padding: .5rem 1rem;
+  border-radius: 2rem;
 }
 ._shopList_item{
   width: 100%;

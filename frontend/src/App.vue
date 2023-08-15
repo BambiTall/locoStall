@@ -189,7 +189,7 @@ const theme = {
   width: 100%;
   max-width: $page-max-width;
   margin: auto;
-  padding: 6rem $padding-s 0 !important;
+  padding: 5rem $padding-s 0 !important;
   min-height: 100vh !important;
 }
 ._body_liffwrap{
