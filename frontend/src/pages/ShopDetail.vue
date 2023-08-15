@@ -24,6 +24,8 @@ const getShopDetail = async(id)=>{
   try {
     const res = await api.get(`${lang}/shop/${id}`);
     shopDetail.value = res.data;
+    console.log('shopDetail.value',shopDetail.value);
+    
     shopDetail.value.menu.map((item) => {
       item.qty = 0
     })
@@ -101,7 +103,8 @@ const goPayment = () => {
       <ul class="_shopDetail_menu">
         <li class="_shopDetail_menu__item" v-for="item,index in shopDetail.menu" :key="index">
           <div class="_shopDetail_menu__left">
-            <img class="_shopDetail_menu__img" v-if="!shopDetail.img" alt="" src="@/assets/default.jpg" />
+            <img class="_shopDetail_menu__img" v-if="item.image" alt="" :src="item.image" />
+            <img class="_shopDetail_menu__img" v-else alt="" src="@/assets/default.jpg" />
             
             <!-- product intro card -->
             <a-button type="text" shape="circle" @click="showCard(index)" class="_shopDetail_menu__infoIcon">
@@ -112,7 +115,8 @@ const goPayment = () => {
               <a-card hoverable class="_shopDetail_prodIntro__card">
                 <template #cover>
                   <i class="las la-times _shopDetail_prodIntro__close"></i>
-                  <img alt="example" src="@/assets/default.jpg" />
+                  <img class="_shopDetail_menu__img" v-if="item.image" alt="" :src="item.image" />
+                  <img class="_shopDetail_menu__img" v-else alt="" src="@/assets/default.jpg" />
                 </template>
                 <a-card-meta :title="item.name">
                   <template #description>
