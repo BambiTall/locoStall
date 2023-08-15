@@ -17,7 +17,7 @@ const getShopList = async()=>{
   try {
     const res = await api.get(`${lang}/shops`);
     shopList.value = res.data;
-    
+    // console.log('shopList.value',shopList.value);  
   } catch (error) {
     console.error(error);
   }
@@ -42,17 +42,26 @@ onMounted(async () => {
       <router-link :to="`/${lang}/shop/${shop.shop_id}`">
         <a-card hoverable class="_shopList_item">
           <template #cover>
-            <img v-if="shop.cover"
-              :alt="shop.name"
-              :src="shop.cover"
-            />
-            <img v-else
-              alt="locoStall"
-              src="@/assets/default.jpg"
-            />
+            <div class="_shopList_item__cover">
+              <img v-if="shop.cover"
+                :alt="shop.name"
+                :src="shop.cover"
+              />
+              <img v-else
+                alt="locoStall"
+                src="@/assets/default.jpg"
+              />
+            </div>
           </template>
           <a-card-meta :style="{ height: '6rem' }" :title="shop.name" :description="shop.description">
           </a-card-meta>
+
+          <template #actions>
+            <div class="_shopList_rate">
+              <a-rate class="_shopList_rate__star" v-model:value="shop.rating" allow-half disabled />
+              <span class="_shopList_rate__num">{{ shop.rating }}</span>
+            </div>
+          </template>
         </a-card>
       </router-link>
     </a-col>
@@ -87,5 +96,28 @@ onMounted(async () => {
 ._shopList_item{
   width: 100%;
   box-shadow: 0 0.5rem 1rem #00000026;
+}
+._shopList_item__cover{
+  height: 10rem;
+  overflow: hidden;
+
+  img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+}
+._shopList_rate{
+  display: flex;
+  padding: 0  1.25rem;
+  align-items: center;
+  justify-content: space-between;
+}
+._shopList_rate__star{
+  font-size: .75rem;
+}
+._shopList_rate__num{
+  margin-left: .5rem;
+  display: inline-flex;
 }
 </style>
