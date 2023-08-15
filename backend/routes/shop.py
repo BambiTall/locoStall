@@ -4,6 +4,7 @@ import sys
 from ..extentions import db
 from ..models.shop import Shop
 from ..models.menu import Menu
+from ..models.menu_image import Menu_image
 from ..models.shop_name import Shop_name
 
 shop_bp = Blueprint('shop_bp', __name__)
@@ -26,6 +27,14 @@ def get_shop_detail(lang, shop_id):
     # Add menu
     menus = Menu.query.filter_by(lang=lang, shop_id=shop_id)
     menu_list = [menu.json() for menu in menus]
+    for menu in menu_list:
+        try:
+            image = Menu_image.query.filter_by(
+                shop_id=shop_id, prod_id=menu["prod_id"]
+            ).first()
+            menu["image"] = image.url
+        except:
+            pass
     res["menu"] = menu_list
 
     # Add rating & cover
