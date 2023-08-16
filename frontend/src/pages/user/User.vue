@@ -125,9 +125,9 @@ onMounted(async()=>{
         <a-input v-model:value="formState.shop_id" />
       </a-form-item>
 
-      <a-form-item>
+      <!-- <a-form-item>
         <a-button @click="updateUserData" class="_form_submit" type="primary" block shape="round" size="large" html-type="submit">{{ t('update') }}</a-button>
-      </a-form-item>
+      </a-form-item> -->
     </a-form>
 
   </div>
