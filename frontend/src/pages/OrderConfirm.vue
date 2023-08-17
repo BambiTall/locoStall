@@ -6,6 +6,10 @@ import { useRouter, useRoute } from "vue-router";
 import api from '@/axios/api.js';
 import moment from 'moment'
 
+// i18n
+import { useI18n } from "vue-i18n";
+const { t, locale } = useI18n({ useScope: "global" });
+
 const store = useStore()
 const route = useRoute()
 const router = useRouter()
@@ -36,17 +40,17 @@ onMounted(async () => {
 
 <template>
   <div class="_orderConfirm">
-    <a-typography-title class="_orderConfirm_h1">Order Confirmed</a-typography-title>
+    <a-typography-title class="_orderConfirm_h1">{{ t('orderConfirmed') }}</a-typography-title>
     <div class="_orderConfirm_card" v-if="currOrder">
       <div class="_orderConfirm_no">
         <div class="_orderConfirm_state">
-          Status
-          <p class="_orderConfirm_state__val" :class="currOrder.state">{{ currOrder.state }}</p>
+          {{ t('state') }}
+          <p class="_orderConfirm_state__val" :class="currOrder.state">{{ t(currOrder.state) }}</p>
         </div>
         <span class="_orderConfirm_no__num">{{ currOrder.id }}</span>
       </div>
       <div class="_orderConfirm_list">
-        shop
+        {{ t('shopName') }}
         <p class="_orderConfirm_list__info _orderConfirm_list__shopName">{{ currOrder.shop_name }}</p>
       </div>
       
@@ -63,22 +67,22 @@ onMounted(async () => {
       <a-divider class="_orderConfirm_divider"></a-divider>
 
       <div class="_orderConfirm_list">
-        Created at
+        {{ t('createdAt') }}
         <p class="_orderConfirm_list__info">{{ moment(currOrder.created_at).format('YYYY/MM/DD HH:mm') }}</p>
       </div>
 
       <div class="_orderConfirm_list">
-        payment
-        <p class="_orderConfirm_list__info">{{ currOrder.payment }}</p>
+        {{ t('payment') }}
+        <p class="_orderConfirm_list__info">{{ t(currOrder.payment) }}</p>
       </div>
 
       <a-divider class="_orderConfirm_divider"></a-divider>
       <div class="_orderConfirm_total">
-        <span>Total</span><span class="_orderConfirm_total__val">{{ calculateTotal(currOrder.item_list) }}</span>
+        <span>{{ t('total') }}</span><span class="_orderConfirm_total__val">{{ calculateTotal(currOrder.item_list) }}</span>
       </div>
 
       <router-link :to="'/' + urlLang + '/user/order'">
-        <a-button class="_orderConfirm_btn" type="primary" shape="round" block size="large">訂單列表</a-button>
+        <a-button class="_orderConfirm_btn" type="primary" shape="round" block size="large">{{ t('orderList') }}</a-button>
       </router-link>
 
     </div>
@@ -164,7 +168,7 @@ onMounted(async () => {
     color: $color-gray-2;
   }
   &.finish{
-    background-color: $color-gray-1;
+    color: $color-gray-1;
   }
 }
 ._orderConfirm_list__info{
