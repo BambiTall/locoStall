@@ -77,7 +77,7 @@ const sendOrder = () => {
     // 登入
     alert('請先登入');
     router.push({ name: 'Login' })
-  }else{
+  } else {
     // 送出訂單
     orderData.value.orderList.map((i)=>{
       delete i.name

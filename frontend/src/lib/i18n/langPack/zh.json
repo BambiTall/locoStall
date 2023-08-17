@@ -43,6 +43,10 @@
         "raohe": "饒河夜市"
     },
 
+    "alert" : {
+        "emptyOrder": "請先點餐。"
+    },
+
 
 
     "navigation" : {

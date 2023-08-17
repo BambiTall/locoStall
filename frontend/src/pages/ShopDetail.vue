@@ -4,6 +4,7 @@ import { reactive, ref, computed, onMounted, onBeforeMount, watch } from 'vue';
 import { useStore } from "vuex";
 import { useRouter, useRoute } from "vue-router";
 import api from '@/axios/api.js';
+import _ from 'lodash';
 
 // i18n
 import { useI18n } from "vue-i18n";
@@ -24,7 +25,7 @@ const getShopDetail = async(id)=>{
   try {
     const res = await api.get(`${lang}/shop/${id}`);
     shopDetail.value = res.data;
-    console.log('shopDetail.value',shopDetail.value);
+    // console.log('shopDetail.value',shopDetail.value);
     
     shopDetail.value.menu.map((item) => {
       item.qty = 0
@@ -53,6 +54,14 @@ const showCard = (id) => {
   isShow.value = true;
 }
 const goPayment = () => {
+  const qtyArr = _.map(shopDetail.value.menu, 'qty')
+  const checkQty = arr => arr.every(val => val === 0);
+
+  if (checkQty(qtyArr)) {
+    alert(t('alert.emptyOrder'));
+    return;
+  }
+
   // 把訂單內容存進 store
   let orderData = {}
   let orderList = []

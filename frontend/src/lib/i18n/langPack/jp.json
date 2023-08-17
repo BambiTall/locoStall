@@ -41,5 +41,9 @@
 
     "nightmarket" : {
         "raohe": "饒河夜市(ラオフイェス)"
+    },
+
+    "alert" : {
+        "emptyOrder": "商品はありません"
     }
 }

@@ -1,6 +1,5 @@
 <script setup>
 import axios from 'axios';
-// import _ from 'lodash';
 import { reactive, ref, computed, onMounted, watch } from 'vue';
 import { useStore } from "vuex";
 import { useRouter, useRoute } from "vue-router";

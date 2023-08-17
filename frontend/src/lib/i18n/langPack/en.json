@@ -43,6 +43,10 @@
         "raohe": "Raohe Night Market"
     },
 
+    "alert" : {
+        "emptyOrder": "Your order is empty."
+    },
+
 
     "navigation" : {
         "page": "Page",
