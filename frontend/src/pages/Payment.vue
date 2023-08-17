@@ -67,6 +67,18 @@ const submitOrder = async( params )=>{
     isWaiting.value = true;
     localStorage.setItem('order_id', res.data.data.id);
     runInterval(res.data.data.id)
+
+    // Automatically change state for demo
+    setTimeout(async() => {
+      let params = {
+        'order_id': res.data.data.id,
+        'state': 'cooking',
+      }
+      const updateRes = await api.post('/update_order', params);
+      setTimeout(async() => {
+        isWaiting.value = false;
+      }, 3000);
+    }, 3000);
   } catch (error) {
     console.log('@submitOrder ERROR');
   }
