@@ -127,7 +127,7 @@ onMounted(async () => {
       lineProgress(params)
 
       setTimeout(async() => {
-    liff.sendMessages([
+    await liff.sendMessages([
         {
           'type': 'text',
           'text': 'This is a Text Message'
