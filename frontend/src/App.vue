@@ -126,15 +126,15 @@ onMounted(async () => {
 
       lineProgress(params)
 
-      liff.closeWindow().then(() => {
-          // 在 LIFF 連結被關閉時，向 LINE Bot 發送一個事件
-          liff.sendMessages([
-              {
-                  'type': 'text',
-                  'text': 'LIFF 連結已關閉'
-              }
-          ]);
-      });
+      setTimeout(async() => {
+        liff.sendMessages([
+            {
+                'type': 'text',
+                'text': 'LIFF 連結已關閉'
+            }
+        ])
+        alert('123');
+      }, 3000);
     }
   } catch (err) {
     console.log(`liff.state init error ${err}`);
