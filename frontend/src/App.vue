@@ -129,6 +129,10 @@ onMounted(async () => {
       setTimeout(async() => {
     liff.sendMessages([
         {
+          'type': 'text',
+          'text': 'This is a Text Message'
+        },
+        {
             'type': 'flex',
             'altText': 'Flex Message',
             'contents': {
