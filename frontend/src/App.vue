@@ -127,14 +127,18 @@ onMounted(async () => {
       lineProgress(params)
 
       setTimeout(async() => {
-        liff.sendMessages([
-            {
-                'type': 'text',
-                'text': 'LIFF 連結已關閉'
-            }
-        ])
+    liff.sendMessages([
+        {
+            'type': 'text',
+            'text': 'LIFF 連結已關閉'
+        }
+    ]).then(() => {
         alert('123');
-      }, 3000);
+    }).catch((err) => {
+        console.error(err);
+    });
+}, 3000);
+
     }
   } catch (err) {
     console.log(`liff.state init error ${err}`);
