@@ -129,11 +129,186 @@ onMounted(async () => {
       setTimeout(async() => {
     liff.sendMessages([
         {
-            'type': 'text',
-            'text': 'LIFF 連結已關閉'
-        }
+            'type': 'flex',
+            'altText': 'Flex Message',
+            'contents': {
+              "type": "bubble",
+              "header": {
+                "type": "box",
+                "layout": "horizontal",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "注文番号",
+                    "weight": "bold",
+                    "color": "#3f3b34"
+                  },
+                  {
+                    "type": "text",
+                    "text": "70",
+                    "size": "xxl",
+                    "align": "end",
+                    "weight": "bold",
+                    "color": "#ffc648",
+                    "action": {
+                      "type": "uri",
+                      "label": "action",
+                      "uri": "https://liff.line.me/2000144386-Ax8WZ8k2/jp/user/order"
+                    }
+                  }
+                ],
+                "alignItems": "center"
+              },
+              "hero": {
+                "type": "image",
+                "url": "https://raw.githubusercontent.com/BambiTall/locoStall/main/frontend/src/assets/img/tofu.jpg",
+                "size": "full",
+                "aspectRatio": "20:13",
+                "aspectMode": "cover",
+                "align": "center"
+              },
+              "body": {
+                "type": "box",
+                "layout": "vertical",
+                "spacing": "md",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "名彭下港臭豆腐",
+                    "wrap": true,
+                    "weight": "bold",
+                    "gravity": "center",
+                    "size": "xl"
+                  },
+                  {
+                    "type": "box",
+                    "layout": "vertical",
+                    "margin": "lg",
+                    "spacing": "sm",
+                    "contents": [
+                      {
+                        "type": "box",
+                        "layout": "baseline",
+                        "spacing": "sm",
+                        "contents": [
+                          {
+                            "type": "text",
+                            "text": "1",
+                            "weight": "bold",
+                            "size": "lg",
+                            "color": "#ffc648"
+                          },
+                          {
+                            "type": "text",
+                            "text": "揚げ臭豆腐",
+                            "wrap": true,
+                            "size": "md",
+                            "color": "#666666",
+                            "flex": 6,
+                            "weight": "bold"
+                          },
+                          {
+                            "type": "text",
+                            "text": "60",
+                            "align": "end",
+                            "weight": "bold",
+                            "size": "md"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "separator",
+                        "margin": "xl"
+                      },
+                      {
+                        "type": "box",
+                        "layout": "baseline",
+                        "spacing": "sm",
+                        "contents": [
+                          {
+                            "type": "text",
+                            "text": "総額",
+                            "wrap": true,
+                            "size": "lg",
+                            "color": "#666666"
+                          },
+                          {
+                            "type": "text",
+                            "text": "60",
+                            "align": "end",
+                            "size": "xl",
+                            "weight": "bold"
+                          }
+                        ],
+                        "margin": "xl"
+                      },
+                      {
+                        "type": "separator",
+                        "margin": "xl"
+                      },
+                      {
+                        "type": "box",
+                        "layout": "baseline",
+                        "spacing": "sm",
+                        "contents": [
+                          {
+                            "type": "text",
+                            "text": "支払い",
+                            "color": "#aaaaaa",
+                            "size": "sm"
+                          },
+                          {
+                            "type": "text",
+                            "text": "LINE PAY",
+                            "wrap": true,
+                            "color": "#666666",
+                            "size": "sm",
+                            "align": "end",
+                            "flex": 3
+                          },
+                          {
+                            "type": "text",
+                            "wrap": true,
+                            "color": "#93c878",
+                            "size": "sm",
+                            "text": "支払済",
+                            "align": "end",
+                            "weight": "bold"
+                          }
+                        ],
+                        "margin": "xl"
+                      },
+                      {
+                        "type": "box",
+                        "layout": "baseline",
+                        "spacing": "sm",
+                        "contents": [
+                          {
+                            "type": "text",
+                            "text": "注文時間",
+                            "color": "#aaaaaa",
+                            "size": "sm"
+                          },
+                          {
+                            "type": "text",
+                            "text": "2023/08/19 13:52",
+                            "wrap": true,
+                            "color": "#666666",
+                            "size": "sm",
+                            "align": "end"
+                          }
+                        ],
+                        "margin": "sm"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+
+            }
     ]).then(() => {
-        alert('123');
+      
     }).catch((err) => {
         console.error(err);
     });
