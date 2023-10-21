@@ -58,6 +58,17 @@ const runInterval = (order_id) => {
   );
 }
 
+//
+const submitLinepay = async(  )=>{
+  try {
+    const res = await api.get('/linepay');
+    console.log('@Linepayapi Ok',res);
+
+  } catch (error) {
+    console.log('@submitOrder ERROR');
+  }
+}
+
 const submitOrder = async( params )=>{
   try {
     const res = await api.post('/send_order', params);
@@ -103,8 +114,8 @@ const sendOrder = () => {
       shop_id: orderData.value.shop_id,
       payment: payment.value,
     }
-
-    submitOrder(params)
+    //submitLinepay()
+    //submitOrder(params)
   }
   
 }
