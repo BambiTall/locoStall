@@ -178,6 +178,19 @@ def linepay_order():
     # db.session.commit()
 
     #sandy-linepay_定義付款
+    channel_id = {os.environ.get("LINPAY_CHANNEL_ID")}
+    channel_secret = {os.environ.get("LINEPAY_CHANNEL_SECRET_KEY")}
+
+    headers = {
+        'Content-Type': 'application/json',
+        'X-LINE-ChannelId': channel_id,
+        }
+
+    uri = "/v3/payments/request"
+    nonce = str(round(time.time() * 1000))  # nonce = str(uuid.uuid4())
+    headers['X-LINE-Authorization-Nonce'] = nonce
+    transaction_id = ''
+    
     def get_auth_signature (secret, uri, body, nonce):
         """
         用於製作密鑰
@@ -194,18 +207,7 @@ def linepay_order():
 
         return base64.b64encode(hmac.new(str.encode(secret), str.encode(str_sign), digestmod=hashlib.sha256).digest()).decode("utf-8")
 
-    channel_id = {os.environ.get("LINEPAY_CHANNEL_ID")}
-    channel_secret = {os.environ.get("LINEPAY_CHANNEL_SECRET_KEY")}
 
-    uri = "/v3/payments/request"
-    nonce = str(round(time.time() * 1000))  # nonce = str(uuid.uuid4())
-    transaction_id = ''
-
-    headers = {
-        'Content-Type': 'application/json',
-        'X-LINE-ChannelId': channel_id,
-        'X-LINE-Authorization-Nonce': nonce,
-    }
 
     def do_request_payment():
         '''此api僅使用文檔中必填的資料'''
@@ -230,9 +232,8 @@ def linepay_order():
         }
         json_body = json.dumps(request_options)
 
-        print("LINEPAY_CHANNEL_SECRET_KEY:", os.getenv("LINEPAY_CHANNEL_SECRET_KEY"))
-        headers['X-LINE-Authorization-Nonce'] = nonce
-        headers['X-LINE-Authorization'] = get_auth_signature(channel_secret, uri, json_body, nonce)
+        
+        headers['X-LINE-Authorization'] = get_auth_signature(str(channel_secret), str(uri), str(json_body), str(nonce))
         response = requests.post("https://sandbox-api-pay.line.me"+uri, headers=headers, data=json_body)
         print(response.text)
         dict_response = json.loads(response.text)
