@@ -9,6 +9,17 @@ from ..models.user import User
 from ..models.orders import Orders
 from ..models.menu import Menu
 from ..models.shop_name import Shop_name
+#sandy
+import time
+import json
+import requests
+import hashlib
+import hmac
+import base64
+from dotenv import load_dotenv
+
+load_dotenv()
+#sandy
 
 order_bp = Blueprint('order_bp', __name__)
 
@@ -134,3 +145,136 @@ def update_order():
     db.session.commit()
 
     return {'message': 'Order state updated successfully'}, 200
+
+
+    con_url = f"/v3/payments/{transaction_id}/confirm"
+    conf_data = json.dumps({
+                "amount": amount,
+                "currency": currency
+                })
+    headers['X-LINE-Authorization'] = get_auth_signature(channel_secret, con_url, conf_data, nonce)
+    response = requests.post("https://sandbox-api-pay.line.me"+con_url, headers=headers, data=conf_data)
+    print(response.text)
+    response = json.loads(response.text)
+
+    return response.get('returnMessage')
+
+#sandy-linepay_呼叫付款
+@order_bp.route(f'{os.environ["API_BASE"]}/linepay', methods=['GET']) #send-order=linepay
+def linepay_order():
+    # data = request.get_json()
+
+    # item_list_json = json.dumps(data['item_list'])
+
+    # orders = Orders(
+    #     item_list=item_list_json,
+    #     user_id=data['user_id'],
+    #     payment=data['payment'],
+    #     shop_id=data['shop_id'],
+    #     state="waiting",
+    # )
+
+    # db.session.add(orders)
+    # db.session.commit()
+
+    #sandy-linepay_定義付款
+    def get_auth_signature (secret, uri, body, nonce):
+        """
+        用於製作密鑰
+        :param secret: your channel secret
+        :param uri: uri
+        :param body: request body
+        :param nonce: uuid or timestamp(時間戳)
+        :return:
+        """
+        
+        # if None in [secret, uri, body, nonce]:
+        #     raise ValueError("One of the arguments is None")
+        str_sign = secret + uri + body + nonce
+
+        return base64.b64encode(hmac.new(str.encode(secret), str.encode(str_sign), digestmod=hashlib.sha256).digest()).decode("utf-8")
+
+    channel_id = {os.environ.get("LINEPAY_CHANNEL_ID")}
+    channel_secret = {os.environ.get("LINEPAY_CHANNEL_SECRET_KEY")}
+
+    uri = "/v3/payments/request"
+    nonce = str(round(time.time() * 1000))  # nonce = str(uuid.uuid4())
+    transaction_id = ''
+
+    headers = {
+        'Content-Type': 'application/json',
+        'X-LINE-ChannelId': channel_id,
+        'X-LINE-Authorization-Nonce': nonce,
+    }
+
+    def do_request_payment():
+        '''此api僅使用文檔中必填的資料'''
+        request_options = {
+            "amount": 1000, #linepay顯示-產品總價格
+            "currency": 'TWD', #linepay顯示-幣別
+            "orderId": nonce,
+            "packages": [{
+                "id": '20220314I001', #店家編號
+                "amount": 1000, #linepay顯示-產品總價格
+                "name": '六角棒棒堂商店',
+                "products": [{
+                    "name": '六角棒棒堂', #linepay顯示-產品名稱
+                    "quantity": 1, #產品數量
+                    "price": 1000  #產品價格
+                },]
+            }],
+            "redirectUrls": {
+                "confirmUrl": 'https://quietbo.com/2022/03/14/python-linepay%e4%b8%b2%e6%8e%a5online-apis-%e5%95%8f%e9%a1%8c-5-5/',
+                "cancelUrl": 'https://fastapi.tiangolo.com/zh/tutorial/bigger-applications/'
+            }
+        }
+        json_body = json.dumps(request_options)
+
+        print("LINEPAY_CHANNEL_SECRET_KEY:", os.getenv("LINEPAY_CHANNEL_SECRET_KEY"))
+        headers['X-LINE-Authorization-Nonce'] = nonce
+        headers['X-LINE-Authorization'] = get_auth_signature(channel_secret, uri, json_body, nonce)
+        response = requests.post("https://sandbox-api-pay.line.me"+uri, headers=headers, data=json_body)
+        print(response.text)
+        dict_response = json.loads(response.text)
+
+        if dict_response.get('returnCode') == "0000":
+            info = dict_response.get('info')
+            web_url = info.get('paymentUrl').get('web')
+            transaction_id = str(info.get('transactionId'))
+            print(f"付款web_url:{web_url}")
+            print(f"交易序號:{transaction_id}")
+
+    def do_checkout(transaction_id):
+        print("transaction_id={}".format(transaction_id))
+
+        conf_data = """{"amount": 2000, "currency": "TWD"}"""
+        checkout_url = f"/v3/payments/requests/{transaction_id}/check"
+        headers['X-LINE-Authorization'] = get_auth_signature(channel_secret, checkout_url, conf_data, nonce)
+        response = requests.get("https://sandbox-api-pay.line.me"+checkout_url, headers=headers, data=conf_data)
+        print(response.text)
+        response = json.loads(response.text)
+        if str(response.get('returnCode')) == "0110":
+            return True
+        return False
+
+    def do_confirm(transaction_id):
+
+        con_url = f"/v3/payments/{transaction_id}/confirm"
+        conf_data = json.dumps({
+                    "amount": amount,
+                    "currency": currency
+                    })
+        headers['X-LINE-Authorization'] = get_auth_signature(channel_secret, con_url, conf_data, nonce)
+        response = requests.post("https://sandbox-api-pay.line.me"+con_url, headers=headers, data=conf_data)
+        print(response.text)
+        response = json.loads(response.text)
+
+        return response.get('returnMessage')
+    
+    # 在這裡呼叫 do_request_payment()
+    do_request_payment()
+
+    # return {"message": "送出訂單成功", "data": orders.json()}
+    return {"message": "linepay succee"}
+
+
