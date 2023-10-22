@@ -178,8 +178,8 @@ def linepay_order():
     # db.session.commit()
 
     #sandy-linepay_定義付款
-    channel_id = {os.environ.get("LINPAY_CHANNEL_ID")}
-    channel_secret = {os.environ.get("LINEPAY_CHANNEL_SECRET_KEY")}
+    channel_id = os.environ.get("LINEPAY_CHANNEL_ID")
+    channel_secret = os.environ.get("LINEPAY_CHANNEL_SECRET_KEY")
 
     headers = {
         'Content-Type': 'application/json',
@@ -189,7 +189,7 @@ def linepay_order():
     uri = "/v3/payments/request"
     nonce = str(round(time.time() * 1000))  # nonce = str(uuid.uuid4())
     headers['X-LINE-Authorization-Nonce'] = nonce
-    transaction_id = ''
+    transaction_id = None  # 初始化 transaction_id
     
     def get_auth_signature (secret, uri, body, nonce):
         """
@@ -244,6 +244,7 @@ def linepay_order():
             transaction_id = str(info.get('transactionId'))
             print(f"付款web_url:{web_url}")
             print(f"交易序號:{transaction_id}")
+        return transaction_id  # 返回 transaction_id
 
     def do_checkout(transaction_id):
         print("transaction_id={}".format(transaction_id))
@@ -273,9 +274,13 @@ def linepay_order():
         return response.get('returnMessage')
     
     # 在這裡呼叫 do_request_payment()
-    do_request_payment()
+    transaction_id = do_request_payment()
 
-    # return {"message": "送出訂單成功", "data": orders.json()}
-    return {"message": "linepay succee"}
+    if transaction_id:
+        return {"message": "linepay suceess", "transaction_id": transaction_id}
+    else:
+        return {"message": "linepay fail", "transaction_id": None}
+
+    # return jsonify({'channel_id': channel_id, 'status': 'success'})
 
 
