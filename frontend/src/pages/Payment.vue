@@ -59,11 +59,10 @@ const runInterval = (order_id) => {
 }
 
 //
-const submitLinepay = async(  )=>{
+const submitLinepay = async(linepay_params)=>{
   try {
-    const res = await api.get('/linepay');
+    const res = await api.post('/linepay', linepay_params);
     console.log('@Linepayapi Ok',res);
-
   } catch (error) {
     console.log('@submitOrder ERROR');
   }
@@ -114,7 +113,28 @@ const sendOrder = () => {
       shop_id: orderData.value.shop_id,
       payment: payment.value,
     }
-    //submitLinepay()
+
+    const linepay_params = {
+      "amount": 1000,
+      "currency": 'TWD',
+      "orderId": nonce,
+      "packages": [{
+          "id": '20220314I001',
+          "amount": 1000,
+          "name": '六角棒棒堂商店',
+          "products": [{
+              "name": '六角棒棒堂',
+              "quantity": 1,
+              "price": 1000
+          },]
+      }],
+      "redirectUrls": {
+          "confirmUrl": 'https://quietbo.com/2022/03/14/python-linepay%e4%b8%b2%e6%8e%a5online-apis-%e5%95%8f%e9%a1%8c-5-5/',
+          "cancelUrl": 'https://fastapi.tiangolo.com/zh/tutorial/bigger-applications/'
+      }
+    } 
+    // submitLinepay(linepay_params)
+
     //submitOrder(params)
   }
   
