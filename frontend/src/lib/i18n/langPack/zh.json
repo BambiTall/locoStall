@@ -35,6 +35,8 @@
     "cancel": "訂單取消",
     "linepay": "Line Pay",
     "cash": "現金",
+    "unpaid": "未付款",
+    "paid": "已付款",
 
     "continue": "下一步",
     "lastUpdate":"最後更新時間",
