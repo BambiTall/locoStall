@@ -1,4 +1,4 @@
-from flask import Blueprint, Flask, request, jsonify, make_response
+from flask import Blueprint, Flask, request, jsonify, make_response, redirect
 from sqlalchemy.exc import SQLAlchemyError
 from datetime import datetime
 import os
@@ -17,6 +17,8 @@ import hashlib
 import hmac
 import base64
 from dotenv import load_dotenv
+from concurrent.futures import ThreadPoolExecutor
+executor = ThreadPoolExecutor(2)
 
 load_dotenv()
 #sandy
@@ -226,7 +228,7 @@ def linepay_order():
                 },]
             }],
             "redirectUrls": {
-                "confirmUrl": 'https://quietbo.com/2022/03/14/python-linepay%e4%b8%b2%e6%8e%a5online-apis-%e5%95%8f%e9%a1%8c-5-5/',
+                "confirmUrl": 'http://34.152.28.2/zh',
                 "cancelUrl": 'https://fastapi.tiangolo.com/zh/tutorial/bigger-applications/'
             }
         }
@@ -244,7 +246,7 @@ def linepay_order():
             transaction_id = str(info.get('transactionId'))
             print(f"付款web_url:{web_url}")
             print(f"交易序號:{transaction_id}")
-        return transaction_id  # 返回 transaction_id
+        return web_url,transaction_id  # 返回 transaction_id
 
     def do_checkout(transaction_id):
         print("transaction_id={}".format(transaction_id))
@@ -271,15 +273,51 @@ def linepay_order():
         print(response.text)
         response = json.loads(response.text)
 
-        return response.get('returnMessage')
+        return "Success" #response.get('returnMessage')
     
     # 在這裡呼叫 do_request_payment()
-    transaction_id = do_request_payment()
+    
+    # #非同步呼叫
+    # async def main():
+    #     transaction_id = await do_request_payment()
+    #     if transaction_id:
+    #         return {"message": "linepay success", "transaction_id": transaction_id}
+    #     else:
+    #         return {"message": "linepay fail"}, 400
+    
+    # await main()
 
-    if transaction_id:
-        return {"message": "linepay success", "transaction_id": transaction_id}
+
+    #同步呼叫
+    # def main():
+    web_url,transaction_id = do_request_payment()
+    if web_url:
+        return redirect(web_url, code=302)
+        # return {"message_url": "linepay success", "web_url": web_url}
     else:
-        return {"message": "linepay fail", "transaction_id": None}
+        return {"message_url": "linepay fail"},400
+    # if transaction_id:
+    #     return {"message": "linepay success", "transaction_id": transaction_id}
+    # else:
+    #     return {"message": "linepay fail"},400
+    # status = do_checkout(transaction_id)
+    # # if status:
+    # #     return {"message": "linepay success", "status": status}
+    # # else:
+    # #     return {"message": "linepay_status fail"},400
+    # if status == True:
+    #     result = do_confirm(transaction_id)
+    #     if result == "Success":  # 假設成功的訊息是"Success"
+    #         return "Payment confirmed."
+    #     else:
+    #         return f"Payment failed with message: {result}"
+    # else:
+    #     return "Payment not verified."
+        
+        # return {"message": "linepay success"}
+
+    # future = executor.submit(main)
+    # return "Payment request received."
 
     # return jsonify({'channel_id': channel_id, 'status': 'success'})
 
