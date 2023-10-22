@@ -35,6 +35,8 @@
     "cancel": "Cancel",
     "linepay": "Line Pay",
     "cash": "cash",
+    "unpaid": "Unpaid",
+    "paid": "Paid",
 
     "continue": "Continue",
     "lastUpdate":"Updated at",

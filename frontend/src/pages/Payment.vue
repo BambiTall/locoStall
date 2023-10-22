@@ -186,7 +186,7 @@ onMounted(async() => {
       </div>
 
       <a-radio-group class="_payment_card__radio" name="radioGroup" style="display: flex; justify-content: space-between;" v-model:value="payment">
-        <a-radio value="linepay">{{ t('linepay') }}</a-radio>
+        <a-radio value="linepay" class="_payment_card__linepay"><img class="" src="../assets/LINE_pay.png"/></a-radio>
         <a-radio value="cash">{{ t('cash') }}</a-radio>
       </a-radio-group>
     </div>
@@ -289,7 +289,12 @@ onMounted(async() => {
     font-size: 1.25rem;
   }
 }
-
+._payment_card__linepay{
+  img{
+    max-height: 1.25rem;
+    width: 100%;
+  }
+}
 
 @media(min-width: $breakpoint-m){
   ._payment_waiting__card{

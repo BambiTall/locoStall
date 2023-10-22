@@ -35,6 +35,8 @@
     "cancel": "キャンセル",
     "linepay": "Line Pay",
     "cash": "現金",
+    "unpaid": "未払い",
+    "paid": "支払済み",
 
     "continue": "次ぐ",
     "lastUpdate":"最終更新",
