@@ -277,7 +277,7 @@ def linepay_order():
     transaction_id = do_request_payment()
 
     if transaction_id:
-        return {"message": "linepay suceess", "transaction_id": transaction_id}
+        return {"message": "linepay success", "transaction_id": transaction_id}
     else:
         return {"message": "linepay fail", "transaction_id": None}
 
