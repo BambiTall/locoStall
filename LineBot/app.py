@@ -2909,5 +2909,39 @@ def create_flex_message(link):
     # Return the Flex Message
     return FlexSendMessage(alt_text="まるまる焼メニュー", contents=bubble)
 
+# handle text message with LLM
+import openai
+
+openai.api_key = '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'
+
+
+@handler.add(MessageEvent, message=TextMessage)
+def handle_text_message(event):
+    qa = open('qa.csv', 'r').read()
+    
+    lang = open("tmp/"+ event.source.user_id + ".txt","r").read()
+
+    prompt = f"""You are a helpful question-answer assistant, you determine which question in qa.csv most possibly is the user question, and return the string of the question's answer in qa.csv in {lang}.
+    If the user question don't match any question in qa.csv(the highest possibility is less than 30%), you generate an answer in {lang} within 60 charactors.
+    qa.csv :
+    {qa}
+    """
+
+    completion = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {
+                "role": "system",
+                "content": prompt,
+            },
+            {
+                "role": "user",
+                "content": event.message.text,
+            },
+        ],
+    )
+
+    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=completion.choices[0].message.content))
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
