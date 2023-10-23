@@ -48,5 +48,6 @@
 
     "alert" : {
         "emptyOrder": "商品はありません"
-    }
+    },
+    "order": "注文"
 }

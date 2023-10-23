@@ -49,26 +49,6 @@
     "alert" : {
         "emptyOrder": "請先點餐。"
     },
-
-
-
-    "navigation" : {
-        "page": "頁面",
-        "product": "商品",
-        "blog": "部落格",
-        "works": "作品集",
-        "news": "新聞",
-        "booking": "預約",
-        "feed": "公告訊息",
-        "notify": "信件",
-        "user": "會員管理",
-        "manager": "管理員與權限設定",
-        "order": "訂單",
-        "discount": "折扣",
-        "setting": "網站設定"
-    },
-    
-
     "order": "訂單",
     "product": "商品",
     "modalNumber": "商品序號",
