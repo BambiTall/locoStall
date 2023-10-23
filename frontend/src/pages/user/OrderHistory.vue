@@ -25,6 +25,19 @@ const calculateTotal = ( orderList ) => {
   return res;
 };
 
+const paymentState = ( orderPayment, orderState ) => {
+  if( orderPayment == 'linepay'){
+    return t('paid');
+  } else {
+    // cash
+    if( orderState == 'finish'){
+      return t('paid');
+    } else {
+      return t('unpaid');
+    }
+  }
+};
+
 onMounted(async()=>{
   try{
     if(orderHistory.value.length === 0){
@@ -55,7 +68,7 @@ onMounted(async()=>{
           {{ t('orderState') }}<span class="_history_state__val" :class="order.state">{{ t(order.state) }}</span>
         </div>
         <div class="_history_payment">
-          {{ t('payment') }}<span class="_history_payment__val">{{ t(order.payment) }}</span>
+          {{ t('payment') }}<span class="_history_payment__val">{{ t(order.payment) }} <span class="_history_payment__state" :class="paymentState(order.payment, order.state)">{{ paymentState(order.payment, order.state) }}</span></span>
         </div>
         <div class="_history_total">
           {{ t('total') }}<span class="_history_total__val">{{ calculateTotal(order.item_list) }}</span>
@@ -167,6 +180,14 @@ onMounted(async()=>{
 ._history_payment__val{
   font-weight: bold;
   margin-top: .5rem;
+}
+._history_payment__state{
+  font-weight: bold;
+  color: $color-green;
+
+  &.Unpaid, &.未払い, &.未付款{
+  color: $color-red;
+  }
 }
 ._history_total{
   display: flex;

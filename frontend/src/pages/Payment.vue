@@ -58,6 +58,16 @@ const runInterval = (order_id) => {
   );
 }
 
+//
+const submitLinepay = async(linepay_params)=>{
+  try {
+    const res = await api.post('/linepay', linepay_params);
+    console.log('@Linepayapi Ok',res);
+  } catch (error) {
+    console.log('@submitOrder ERROR');
+  }
+}
+
 const submitOrder = async( params )=>{
   try {
     const res = await api.post('/send_order', params);
@@ -104,7 +114,28 @@ const sendOrder = () => {
       payment: payment.value,
     }
 
-    submitOrder(params)
+    const linepay_params = {
+      "amount": 1000,
+      "currency": 'TWD',
+      "orderId": nonce,
+      "packages": [{
+          "id": '20220314I001',
+          "amount": 1000,
+          "name": '六角棒棒堂商店',
+          "products": [{
+              "name": '六角棒棒堂',
+              "quantity": 1,
+              "price": 1000
+          },]
+      }],
+      "redirectUrls": {
+          "confirmUrl": 'https://quietbo.com/2022/03/14/python-linepay%e4%b8%b2%e6%8e%a5online-apis-%e5%95%8f%e9%a1%8c-5-5/',
+          "cancelUrl": 'https://fastapi.tiangolo.com/zh/tutorial/bigger-applications/'
+      }
+    } 
+    // submitLinepay(linepay_params)
+
+    //submitOrder(params)
   }
   
 }
@@ -155,7 +186,7 @@ onMounted(async() => {
       </div>
 
       <a-radio-group class="_payment_card__radio" name="radioGroup" style="display: flex; justify-content: space-between;" v-model:value="payment">
-        <a-radio value="linepay">{{ t('linepay') }}</a-radio>
+        <a-radio value="linepay" class="_payment_card__linepay"><img class="" src="../assets/LINE_pay.png"/></a-radio>
         <a-radio value="cash">{{ t('cash') }}</a-radio>
       </a-radio-group>
     </div>
@@ -258,7 +289,12 @@ onMounted(async() => {
     font-size: 1.25rem;
   }
 }
-
+._payment_card__linepay{
+  img{
+    max-height: 1.25rem;
+    width: 100%;
+  }
+}
 
 @media(min-width: $breakpoint-m){
   ._payment_waiting__card{
