@@ -1,0 +1,92 @@
+[
+	{
+		"shop_id": "0",
+		"title": "福州世祖胡椒餅",
+		"description": "外皮酥酥脆脆，內餡則是濃郁的肉香與胡椒粉微微的嗆辣，兩者融合而成的香氣，滿滿的鮮甜，一吃就覺得好幸福",
+		"image": "https://leafyeh.com/wp-content/uploads/flickr/47417246271_9679a79ba4_b.jpg",
+		"ratings": 3.5,
+		"hours": "15:30 - 23:00",
+		"recommend": "胡椒餅"
+	},
+	{
+		"shop_id": "1",
+		"title": "老芋仔芋頭酥",
+		"description": "流芯酥曾獲得2021比利時美食評鑑推薦，堅持古法手工製作，嚴選用料，創新之餘仍保留古早味的精髓，讓人「芋」罷不能",
+		"image": "https://cdn2.ettoday.net/images/6280/d6280464.jpg",
+		"ratings": 4.3,
+		"hours": "17:20 - 23:00",
+		"recommend": "芋頭酥"
+	},
+	{
+		"shop_id": "2",
+		"title": "施老闆麻辣臭豆腐",
+		"description": "榮獲2018年台北米其林指南，麻辣湯底有股中藥味，喝起來十分舒服",
+		"image": "https://ak-d.tripcdn.com/images/100s0z000000n2at66F03.jpg",
+		"ratings": 2.4,
+		"hours": "16:30 - 22:00",
+		"recommend": "臭豆腐、鴨血"
+	},
+	{
+		"shop_id": "3",
+		"title": "下港名彭臭豆腐",
+		"description": "有著最傳統的台灣小吃，其中讓人又愛又恨的脆皮臭豆腐為招牌，天天熱賣上千份又香又臭的臭豆腐絕不能錯過",
+		"image": "https://lordcat.tw/wp-content/uploads/2022/04/1651325631-1622d5c737a238168a234103228b3e2d.jpg",
+		"ratings": 3.2,
+		"hours": "18:00 - 23:00",
+		"recommend": "蚵仔煎、脆皮臭豆腐"
+	},
+	{
+		"shop_id": "4",
+		"title": "阿國滷味",
+		"description": "連續在2019及2020登上米其林指南，琳琅滿目食材令人口水直流，同時標價清楚",
+		"image": "https://lordcat.tw/wp-content/uploads/2019/04/1652191927-fecf413191371cf259cfb131a00c24b6.jpg",
+		"ratings": 3.6,
+		"hours": "16:30 - 23:30",
+		"recommend": "鴨翅、脆腸"
+	},
+	{
+		"shop_id": "5",
+		"title": "連家清燉豬腳",
+		"description": "跳脫傳統醬油滷豬腳的手法，原汁原味的湯頭十分鮮甜，豬腳Q彈，而且豬腳處理得乾乾淨淨，完全沒有腥味",
+		"image": "https://lordcat.tw/wp-content/uploads/2016/08/1652285181-0d3e4265b5fcf5f82d5add629469f506.jpg",
+		"ratings": 3.1,
+		"hours": "17:00 - 00:00",
+		"recommend": "豬腳"
+	},
+	{
+		"shop_id": "6",
+		"title": "古早味寶寶麻糬",
+		"description": "2021年連續4年獲得米其林的青睞，簡單中的不簡單、平凡中的不平凡，麻糬都是現包，只有賣麻糬以及菜燕",
+		"image": "https://lh3.googleusercontent.com/xnzWNm7IiHeveS1grP5p_YZs9N_jfaJTiT0cakJSQqLwMgJlU-DD31ZzGHOYXTwZ_IWllGQ_N9QusU15oUiILW7dtOsrxp3Gj-jcM8styxDS8Q=s600",
+		"ratings": 4.8,
+		"hours": "17:00 - 23:30",
+		"recommend": "麻糬、菜燕"
+	},
+	{
+		"shop_id": "7",
+		"title": "紅燒麵牛雜湯",
+		"description": "2021年台北米其林必比登推薦，以牛肉麵、陽春麵、乾拌麵、牛雜湯為主，其中米其林推薦的是牛雜湯和乾拌麵",
+		"image": "https://lordcat.tw/wp-content/uploads/2019/07/1652286920-242e52376d32d3137a236f1236f57adf.jpg",
+		"ratings": 2.8,
+		"hours": "11:00 - 01:00",
+		"recommend": "牛肉麵"
+	},
+	{
+		"shop_id": "8",
+		"title": "東發號麵線油飯肉羹",
+		"description": "曾榮獲2018米其林餐盤推薦，只賣三樣東西麵線、肉羹、油飯，但屹立百年老店",
+		"image": "https://margaret.tw/wp-content/uploads/2020/09/nEO_IMG_DSC09917.jpg",
+		"ratings": 3.6,
+		"hours": "08:30 - 00:00",
+		"recommend": "油飯、麵線、肉羹"
+	},
+	{
+		"shop_id": "9",
+		"title": "福島屋圓圓燒",
+		"description": "原汁原味日本大阪燒，圓圓的造型，豐富又多層次的口感",
+		"image": "https://g.udn.com.tw/upfiles/B_JO/josh091029/PSN_PHOTO/833/f_27254833_1.JPG",
+		"ratings": 3.8,
+		"hours": "17:00 - 23:30",
+		"recommend": "圓圓燒"
+	}
+]

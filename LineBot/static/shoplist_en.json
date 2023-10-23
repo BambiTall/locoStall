@@ -1,0 +1,92 @@
+[
+	{
+		"id": "0",
+		"title": "Fuzhou Black Pepper Bun",
+		"description": "Crunchy and crispy outer layer with flavorful meat filling",
+		"image": "https://leafyeh.com/wp-content/uploads/flickr/47417246271_9679a79ba4_b.jpg",
+		"ratings": 3.5,
+		"hours": "15:30 - 23:00",
+		"recommend": "Pepper Bun"
+	},
+	{
+		"id": "1",
+		"title": "Taro Pastry",
+		"description": "Traditional handcrafted production",
+		"image": "https://cdn2.ettoday.net/images/6280/d6280464.jpg",
+		"ratings": 4.3,
+		"hours": "17:20 - 23:00",
+		"recommend": "Taro Ball"
+	},
+	{
+		"id": "2",
+		"title": "Shi Boss Spicy Tofu",
+		"description": "Famous for spicy and hot food, such as spicy stinky tofu",
+		"image": "https://ak-d.tripcdn.com/images/100s0z000000n2at66F03.jpg",
+		"ratings": 2.4,
+		"hours": "16:30 - 22:00",
+		"recommend": "Spicy Stinky Tofu"
+	},
+	{
+		"id": "3",
+		"title": "Xiaogangmingpeng Stinky Tofu",
+		"description": "Famous for crispy stinky tofu and oyster omelette",
+		"image": "https://lordcat.tw/wp-content/uploads/2022/04/1651325631-1622d5c737a238168a234103228b3e2d.jpg",
+		"ratings": 3.2,
+		"hours": "18:00 - 23:00",
+		"recommend": "Stinky Tofu, Oyster Omelette"
+	},
+	{
+		"id": "4",
+		"title": "A Kuo Lu Wei",
+		"description": "Variety of ingredients at reasonable and affordable prices",
+		"image": "https://lordcat.tw/wp-content/uploads/2019/04/1652191927-fecf413191371cf259cfb131a00c24b6.jpg",
+		"ratings": 3.6,
+		"hours": "16:30 - 23:30",
+		"recommend": "Duck Wings, Duck Tendon"
+	},
+	{
+		"id": "5",
+		"title": "Lian's Stewed Pig Knuckle",
+		"description": "Famous for stewed pork knuckles broth",
+		"image": "https://lordcat.tw/wp-content/uploads/2016/08/1652285181-0d3e4265b5fcf5f82d5add629469f506.jpg",
+		"ratings": 3.1,
+		"hours": "17:00 - 00:00",
+		"recommend": "Stewed Pig Knuckle"
+	},
+	{
+		"id": "6",
+		"title": "Mochi Baby",
+		"description": "Only sell mochi and sweetened white gourd jelly",
+		"image": "https://lh3.googleusercontent.com/xnzWNm7IiHeveS1grP5p_YZs9N_jfaJTiT0cakJSQqLwMgJlU-DD31ZzGHOYXTwZ_IWllGQ_N9QusU15oUiILW7dtOsrxp3Gj-jcM8styxDS8Q=s600",
+		"ratings": 4.8,
+		"hours": "17:00 - 23:30",
+		"recommend": "Mochi ,Sweetened White Gourd Jelly"
+	},
+	{
+		"id": "7",
+		"title": "Beef Noodles and Beef Entrails Soup",
+		"description": "Famous for beef dishes, such as beef noodles",
+		"image": "https://lordcat.tw/wp-content/uploads/2019/07/1652286920-242e52376d32d3137a236f1236f57adf.jpg",
+		"ratings": 2.8,
+		"hours": "11:00 - 01:00",
+		"recommend": "Beef Noodle"
+	},
+	{
+		"id": "8",
+		"title": "Tung-Fa-Hao",
+		"description": "Famous for vermicelli, pork-meat stew, and oily rice",
+		"image": "https://margaret.tw/wp-content/uploads/2020/09/nEO_IMG_DSC09917.jpg",
+		"ratings": 3.6,
+		"hours": "08:30 - 00:00",
+		"recommend": "Vermicelli, Oily Rice"
+	},
+	{
+		"id": "9",
+		"title": "Fukushimaya Okonomiyaki",
+		"description": "Rich and multi-layered texture with abundant ingredients",
+		"image": "https://g.udn.com.tw/upfiles/B_JO/josh091029/PSN_PHOTO/833/f_27254833_1.JPG",
+		"ratings": 3.8,
+		"hours": "17:00 - 23:30",
+		"recommend": "Okonomiyaki"
+	}
+]

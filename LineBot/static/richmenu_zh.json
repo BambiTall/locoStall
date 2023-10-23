@@ -1,0 +1,62 @@
+{
+	"size": {
+		"width": 2500,
+		"height": 1686
+	},
+	"selected": true,
+	"name": "選單",
+	"chatBarText": "展開選單",
+	"areas": [
+		{
+			"bounds": {
+				"x": 63,
+				"y": 61,
+				"width": 2369,
+				"height": 756
+			},
+			"action": {
+				"type": "postback",
+				"text": "使用說明",
+				"data": "data1"
+			}
+		},
+		{
+			"bounds": {
+				"x": 62,
+				"y": 888,
+				"width": 742,
+				"height": 741
+			},
+			"action": {
+				"type": "postback",
+				"text": "語言設定",
+				"data": "data2"
+			}
+		},
+		{
+			"bounds": {
+				"x": 889,
+				"y": 887,
+				"width": 737,
+				"height": 737
+			},
+			"action": {
+				"type": "postback",
+				"text": "探索更多",
+				"data": "data3"
+			}
+		},
+		{
+			"bounds": {
+				"x": 1706,
+				"y": 874,
+				"width": 734,
+				"height": 756
+			},
+			"action": {
+				"type": "uri",
+				"uri": "https://line.me/R/nv/camera/"
+			}
+		}
+	]
+}
