@@ -1,0 +1,12 @@
+[Unit]
+Description=uWSGI instance for linebot
+
+[Service]
+ExecStart=/home/user/.local/bin/uwsgi --ini /home/user/locoStall/LineBot/app.ini
+KillSignal=SIGQUIT
+Type=notify
+StandardError=syslog
+NotifyAccess=all
+
+[Install]
+WantedBy=multi-user.target

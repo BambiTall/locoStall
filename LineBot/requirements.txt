@@ -1,6 +1,7 @@
 google-cloud-storage
 google-cloud-firestore
 flask
-gunicorn
+uwsgi
 line-bot-sdk
 google-cloud-logging
+openai
