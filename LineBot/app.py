@@ -192,16 +192,9 @@ def handle_image_message(event):
 @handler.add(MessageEvent, message=TextMessage)
 def handle_text_message(event):
     qa = open('qa.csv', 'r').read()
-    langmap = {
-        'zh': 'Chinese traditional(Mandarin-Taiwan)',
-        'ja': 'Japanese',
-        'en': 'English',
-    }
-
-    lang = langmap[open("tmp/" + event.source.user_id + ".txt", "r").read()]
-
-    prompt = f"""You are a helpful question-answer assistant, you determine which question in qa.csv most possibly is the user question, and return the string of the question's answer in qa.csv in {lang}.
-    If the user question don't match any question in qa.csv(the highest possibility is less than 30%), you generate an answer in {lang} within 60 charactors.
+    prompt = f"""You are a helpful question-answer assistant, you determine which question in qa.csv most possibly is the user question, and return the string of the question's answer in qa.csv.
+    If the user question don't match any question in qa.csv(the highest possibility is less than 30%), you generate an answer within 60 charactors.
+    All your answer must be translated to the same language as user question.
     qa.csv :
     {qa}
     """
