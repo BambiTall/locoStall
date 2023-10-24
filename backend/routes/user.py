@@ -49,7 +49,7 @@ def get_user_detail(user_id):
     if db_user is not None:
         return db_user.json()
     else:
-        return { "message": "找不到該用戶" }, 404
+        return {"message": "找不到該用戶"}, 404
 
 
 # else:
@@ -99,6 +99,7 @@ def add_line_user():
 
         return user.json()
 
+
 # Get user detail by line id
 @user_bp.route(f'{os.environ["API_BASE"]}/line_user/<line_id>', methods=['GET'])
 def get_line_user_detail(line_id):
@@ -122,8 +123,8 @@ def get_line_user_detail(line_id):
 #     else:
 #         return {"message": "line id 錯誤"}, 400
 
+
 # Update user datas
-# TODO: user's id is vulnerable to haker attacks
 @user_bp.route(f'{os.environ["API_BASE"]}/user/<int:user_id>', methods=['POST'])
 def update_user_datas(user_id):
     data = request.get_json()
