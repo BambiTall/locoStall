@@ -240,16 +240,16 @@ onMounted(async () => {
     currOrder.value = orderDetailRes.data.data;
 
     // Ganerate Flex message
-    const orderFlexMsgRes = generateOrderFlexMsg(currOrder.value);
+    // const orderFlexMsgRes = generateOrderFlexMsg(currOrder.value);
     let sendMessageArr = [];
     
     // state reminder
     let stateTextMsg = {
       'type': 'text',
-      'text': 'This is a Text Message'
+      'text': t('order')
     }
     sendMessageArr.push( stateTextMsg );
-    sendMessageArr.push( JSON.parse(orderFlexMsgRes) );
+    // sendMessageArr.push( JSON.parse(orderFlexMsgRes) );
 
     liff.sendMessages(
       sendMessageArr

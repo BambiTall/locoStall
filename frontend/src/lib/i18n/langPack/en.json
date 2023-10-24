@@ -49,24 +49,6 @@
     "alert" : {
         "emptyOrder": "Your order is empty."
     },
-
-
-    "navigation" : {
-        "page": "Page",
-        "product": "Product",
-        "blog": "Blog",
-        "works": "Works",
-        "news": "News",
-        "booking": "Booking",
-        "feed": "Feed",
-        "notify": "Notify",
-        "user": "User",
-        "manager": "Manager",
-        "order": "Order",
-        "discount": "Discount",
-        "setting": "Setting"
-    },
-
     "order": "Order",
     "product": "Product",
     "modalNumber": "Modal Number",
