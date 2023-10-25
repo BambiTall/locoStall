@@ -28,209 +28,209 @@ const calculateTotal = ( orderList ) => {
   return res;
 };
 
-const generateOrderFlexMsg = (orderRes) => {
+// const generateOrderFlexMsg = (orderRes) => {
 
-  const itemArr = JSON.parse(orderRes.item_list)
-  let itemListCode = ``
+//   const itemArr = JSON.parse(orderRes.item_list)
+//   let itemListCode = ``
 
-  for(var i = 0; i < itemArr.length; i++){
-    itemListCode += `{
-          "type": "box",
-          "layout": "baseline",
-          "spacing": "sm",
-          "contents": [
-            {
-              "type": "text",
-              "text": "${itemArr[i].qty}",
-              "weight": "bold",
-              "size": "lg",
-              "color": "#ffc648"
-            },
-            {
-              "type": "text",
-              "text": "${itemArr[i].name}",
-              "wrap": true,
-              "size": "md",
-              "color": "#666666",
-              "flex": 6,
-              "weight": "bold"
-            },
-            {
-              "type": "text",
-              "text": "${itemArr[i].price}",
-              "align": "end",
-              "weight": "bold",
-              "size": "md"
-            }
-          ]
-        },`
-  }
+//   for(var i = 0; i < itemArr.length; i++){
+//     itemListCode += `{
+//           "type": "box",
+//           "layout": "baseline",
+//           "spacing": "sm",
+//           "contents": [
+//             {
+//               "type": "text",
+//               "text": "${itemArr[i].qty}",
+//               "weight": "bold",
+//               "size": "lg",
+//               "color": "#ffc648"
+//             },
+//             {
+//               "type": "text",
+//               "text": "${itemArr[i].name}",
+//               "wrap": true,
+//               "size": "md",
+//               "color": "#666666",
+//               "flex": 6,
+//               "weight": "bold"
+//             },
+//             {
+//               "type": "text",
+//               "text": "${itemArr[i].price}",
+//               "align": "end",
+//               "weight": "bold",
+//               "size": "md"
+//             }
+//           ]
+//         },`
+//   }
 
-  let res = `
-  {
-    "type": "flex",
-    "altText": "Flex Message",
-    "contents": {
-      "type": "bubble",
-      "header": {
-        "type": "box",
-        "layout": "horizontal",
-        "contents": [
-          {
-            "type": "text",
-            "text": "${ t('orderId') }",
-            "weight": "bold",
-            "color": "#3f3b34"
-          },
-          {
-            "type": "text",
-            "text": "${orderRes.id}",
-            "size": "xxl",
-            "align": "end",
-            "weight": "bold",
-            "color": "#ffc648",
-            "action": {
-              "type": "uri",
-              "label": "action",
-              "uri": "https://liff.line.me/2000144386-Ax8WZ8k2/jp/user/order"
-            }
-          }
-        ],
-        "alignItems": "center"
-      },
-      "hero": {
-        "type": "image",
-        "url": "https://raw.githubusercontent.com/BambiTall/locoStall/main/frontend/src/assets/img/tofu.jpg",
-        "size": "full",
-        "aspectRatio": "20:13",
-        "aspectMode": "cover",
-        "align": "center"
-      },
-      "body": {
-        "type": "box",
-        "layout": "vertical",
-        "spacing": "md",
-        "contents": [
-          {
-            "type": "text",
-            "text": "${orderRes.shop_name}",
-            "wrap": true,
-            "weight": "bold",
-            "gravity": "center",
-            "size": "xl"
-          },
-          {
-            "type": "box",
-            "layout": "vertical",
-            "margin": "lg",
-            "spacing": "sm",
-            "contents": [
-              ${itemListCode}
-              {
-                "type": "separator",
-                "margin": "xl"
-              },
-              {
-                "type": "box",
-                "layout": "baseline",
-                "spacing": "sm",
-                "contents": [
-                  {
-                    "type": "text",
-                    "text": "${ t('total') }",
-                    "wrap": true,
-                    "size": "lg",
-                    "color": "#666666"
-                  },
-                  {
-                    "type": "text",
-                    "text": "${calculateTotal(currOrder.value.item_list)}",
-                    "align": "end",
-                    "size": "xl",
-                    "weight": "bold"
-                  }
-                ],
-                "margin": "xl"
-              },
-              {
-                "type": "separator",
-                "margin": "xl"
-              },
-              {
-                "type": "box",
-                "layout": "baseline",
-                "spacing": "sm",
-                "contents": [
-                  {
-                    "type": "text",
-                    "text": "${ t('payment') }",
-                    "color": "#aaaaaa",
-                    "size": "sm"
-                  },
-                  {
-                    "type": "text",
-                    "text": "${ t(orderRes.payment) }",
-                    "wrap": true,
-                    "color": "#666666",
-                    "size": "sm",
-                    "align": "end",
-                    "flex": 3
-                  },
-                  {
-                    "type": "text",
-                    "wrap": true,
-                    "color": "#93c878",
-                    "size": "sm",
-                    "text": "支払済",
-                    "align": "end",
-                    "weight": "bold"
-                  }
-                ],
-                "margin": "xl"
-              },
-              {
-                "type": "box",
-                "layout": "baseline",
-                "spacing": "sm",
-                "contents": [
-                  {
-                    "type": "text",
-                    "text": "${ t('createdAt') }",
-                    "color": "#aaaaaa",
-                    "size": "sm"
-                  },
-                  {
-                    "type": "text",
-                    "text": "${moment(currOrder.value.created_at).format('YYYY/MM/DD HH:mm')}",
-                    "wrap": true,
-                    "color": "#666666",
-                    "size": "sm",
-                    "align": "end"
-                  }
-                ],
-                "margin": "sm"
-              }
-            ]
-          }
-        ]
-      }
-    }
-  }`
+//   let res = `
+//   {
+//     "type": "flex",
+//     "altText": "Flex Message",
+//     "contents": {
+//       "type": "bubble",
+//       "header": {
+//         "type": "box",
+//         "layout": "horizontal",
+//         "contents": [
+//           {
+//             "type": "text",
+//             "text": "${ t('orderId') }",
+//             "weight": "bold",
+//             "color": "#3f3b34"
+//           },
+//           {
+//             "type": "text",
+//             "text": "${orderRes.id}",
+//             "size": "xxl",
+//             "align": "end",
+//             "weight": "bold",
+//             "color": "#ffc648",
+//             "action": {
+//               "type": "uri",
+//               "label": "action",
+//               "uri": "https://liff.line.me/2000144386-Ax8WZ8k2/jp/user/order"
+//             }
+//           }
+//         ],
+//         "alignItems": "center"
+//       },
+//       "hero": {
+//         "type": "image",
+//         "url": "https://raw.githubusercontent.com/BambiTall/locoStall/main/frontend/src/assets/img/tofu.jpg",
+//         "size": "full",
+//         "aspectRatio": "20:13",
+//         "aspectMode": "cover",
+//         "align": "center"
+//       },
+//       "body": {
+//         "type": "box",
+//         "layout": "vertical",
+//         "spacing": "md",
+//         "contents": [
+//           {
+//             "type": "text",
+//             "text": "${orderRes.shop_name}",
+//             "wrap": true,
+//             "weight": "bold",
+//             "gravity": "center",
+//             "size": "xl"
+//           },
+//           {
+//             "type": "box",
+//             "layout": "vertical",
+//             "margin": "lg",
+//             "spacing": "sm",
+//             "contents": [
+//               ${itemListCode}
+//               {
+//                 "type": "separator",
+//                 "margin": "xl"
+//               },
+//               {
+//                 "type": "box",
+//                 "layout": "baseline",
+//                 "spacing": "sm",
+//                 "contents": [
+//                   {
+//                     "type": "text",
+//                     "text": "${ t('total') }",
+//                     "wrap": true,
+//                     "size": "lg",
+//                     "color": "#666666"
+//                   },
+//                   {
+//                     "type": "text",
+//                     "text": "${calculateTotal(currOrder.value.item_list)}",
+//                     "align": "end",
+//                     "size": "xl",
+//                     "weight": "bold"
+//                   }
+//                 ],
+//                 "margin": "xl"
+//               },
+//               {
+//                 "type": "separator",
+//                 "margin": "xl"
+//               },
+//               {
+//                 "type": "box",
+//                 "layout": "baseline",
+//                 "spacing": "sm",
+//                 "contents": [
+//                   {
+//                     "type": "text",
+//                     "text": "${ t('payment') }",
+//                     "color": "#aaaaaa",
+//                     "size": "sm"
+//                   },
+//                   {
+//                     "type": "text",
+//                     "text": "${ t(orderRes.payment) }",
+//                     "wrap": true,
+//                     "color": "#666666",
+//                     "size": "sm",
+//                     "align": "end",
+//                     "flex": 3
+//                   },
+//                   {
+//                     "type": "text",
+//                     "wrap": true,
+//                     "color": "#93c878",
+//                     "size": "sm",
+//                     "text": "支払済",
+//                     "align": "end",
+//                     "weight": "bold"
+//                   }
+//                 ],
+//                 "margin": "xl"
+//               },
+//               {
+//                 "type": "box",
+//                 "layout": "baseline",
+//                 "spacing": "sm",
+//                 "contents": [
+//                   {
+//                     "type": "text",
+//                     "text": "${ t('createdAt') }",
+//                     "color": "#aaaaaa",
+//                     "size": "sm"
+//                   },
+//                   {
+//                     "type": "text",
+//                     "text": "${moment(currOrder.value.created_at).format('YYYY/MM/DD HH:mm')}",
+//                     "wrap": true,
+//                     "color": "#666666",
+//                     "size": "sm",
+//                     "align": "end"
+//                   }
+//                 ],
+//                 "margin": "sm"
+//               }
+//             ]
+//           }
+//         ]
+//       }
+//     }
+//   }`
 
-  // order_detail results
-  /*
-    "created_at": "2023-08-07 23:53:43.167981",
-		"id": 5,
-		"item_list": "[{\"prod_id\": 2, \"qty\": 2, \"name\": \"Thick Meat Soup\", \"price\": 70}, {\"prod_id\": 3, \"qty\": 1, \"name\": \"Oil Rice\", \"price\": 40}]",
-		"payment": "cash",
-		"shop_id": 8,
-		"shop_name": "\u6771\u767c\u865f",
-		"state": "cancel",
-		"updated_at": "2023-08-09 16:16:35.364413",
-		"user_id": 1
-  */
-  return res;
-};
+//   // order_detail results
+//   /*
+//     "created_at": "2023-08-07 23:53:43.167981",
+// 		"id": 5,
+// 		"item_list": "[{\"prod_id\": 2, \"qty\": 2, \"name\": \"Thick Meat Soup\", \"price\": 70}, {\"prod_id\": 3, \"qty\": 1, \"name\": \"Oil Rice\", \"price\": 40}]",
+// 		"payment": "cash",
+// 		"shop_id": 8,
+// 		"shop_name": "\u6771\u767c\u865f",
+// 		"state": "cancel",
+// 		"updated_at": "2023-08-09 16:16:35.364413",
+// 		"user_id": 1
+//   */
+//   return res;
+// };
 
 
 onMounted(async () => {
@@ -246,7 +246,7 @@ onMounted(async () => {
     // state reminder
     let stateTextMsg = {
       'type': 'text',
-      'text': t('order')
+      'text': `[ ${t('order')} ${currOrder.value.id} ] ${t('orderConfirmed')}`
     }
     sendMessageArr.push( stateTextMsg );
     // sendMessageArr.push( JSON.parse(orderFlexMsgRes) );

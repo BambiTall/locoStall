@@ -58,16 +58,6 @@ const runInterval = (order_id) => {
   );
 }
 
-//
-const submitLinepay = async(linepay_params)=>{
-  try {
-    const res = await api.post('/linepay', linepay_params);
-    console.log('@Linepayapi Ok',res);
-  } catch (error) {
-    console.log('@submitOrder ERROR');
-  }
-}
-
 const submitOrder = async( params )=>{
   try {
     const res = await api.post('/send_order', params);
@@ -114,23 +104,7 @@ const sendOrder = () => {
       payment: payment.value,
     }
 
-    const linepay_params = {
-      "amount": 1000,
-      "currency": 'TWD',
-      "packages": [{
-          "id": '20220314I001',
-          "amount": 1000,
-          "name": '六角棒棒堂商店',
-          "products": [{
-              "name": '六角棒棒堂',
-              "quantity": 1,
-              "price": 1000
-          },]
-      }]
-    } 
-    submitLinepay(linepay_params)
-
-    //submitOrder(params)
+    submitOrder(params)
   }
   
 }
