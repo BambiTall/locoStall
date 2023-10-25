@@ -166,7 +166,7 @@ def order_detail_flex_message(
     order_url = f'{liff_url}/{"jp" if langcode=="ja" else langcode}/user/order'
 
     flex_content = json.load(open('static/order_flex.json', 'r'))
-    shoplist = json.load(open('static/shoplist_en.json', 'r'))
+    shoplist = json.load(open(f'static/shoplist_{langcode}.json', 'r'))
     shop = shoplist[shop_id]
 
     flex_content['header']['contents'][0]['text'] = order_number_[langcode]

@@ -248,8 +248,8 @@ You are a question-answering assistant. Find the most likely user question in qa
             TextSendMessage(text=completion.choices[0].message.content),
         )
 
-    elif "訂單" in text or "注文" in text or "order" in text:
-        user = requests.get(f'{backend_url}/line_user/{user_id}')
+    elif "訂單" in text or "注文" in text or "Order" in text:
+        user = requests.get(f'{backend_url}/line_user/{user_id}').json()
         alt_text_ = {'zh': '訂單訊息', 'ja': '注文履歷', 'en': 'User Orders'}
         error_ = {'zh': '訂單未成立，請重新下訂', 'ja': '', 'en': 'Please order again'}
         pattern = r'\d+'
@@ -264,7 +264,7 @@ You are a question-answering assistant. Find the most likely user question in qa
                     order['shop_id'],
                     order['total_price'],
                     order['payment'],
-                    order['created_at'],
+                    order['created_at'][:19],
                     order['item_list'],
                     language,
                 )
