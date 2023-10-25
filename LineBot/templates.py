@@ -54,13 +54,13 @@ def create_carousel_template(langcode):
 
 
 # create shop detail as flex
-def create_flex_message(shop_id, langcode):
+def shop_detail_flex_message(shop_id, langcode):
     global liff_url
     shop_list = json.load(open(f'static/shoplist_en.json', 'r'))
     shop = shop_list[shop_id]
-    recommend_text = {'zh': '推薦餐點', 'ja': 'おすすめ', 'en': 'Best Items'}
-    hours_text = {'zh': '営業時間', 'ja': '営業時間', 'en': 'Hours'}
-    menu_text = {'zh': '菜單', 'ja': 'メニュー', 'en': 'Menu'}
+    recommend_ = {'zh': '推薦餐點', 'ja': 'おすすめ', 'en': 'Best Items'}
+    hours_ = {'zh': '営業時間', 'ja': '営業時間', 'en': 'Hours'}
+    menu_ = {'zh': '菜單', 'ja': 'メニュー', 'en': 'Menu'}
 
     # Hero Image
     hero_image = ImageComponent(
@@ -106,7 +106,7 @@ def create_flex_message(shop_id, langcode):
         spacing="sm",
         contents=[
             TextComponent(
-                text=recommend_text[langcode], color="#aaaaaa", size="sm", flex=2
+                text=recommend_[langcode], color="#aaaaaa", size="sm", flex=2
             ),
             TextComponent(
                 text=shop['recommend'], wrap=True, color="#666666", size="sm", flex=5
@@ -118,9 +118,7 @@ def create_flex_message(shop_id, langcode):
         layout="baseline",
         spacing="sm",
         contents=[
-            TextComponent(
-                text=hours_text[langcode], color="#aaaaaa", size="sm", flex=2
-            ),
+            TextComponent(text=hours_[langcode], color="#aaaaaa", size="sm", flex=2),
             TextComponent(
                 text=shop['hours'], wrap=True, color="#666666", size="sm", flex=5
             ),
@@ -140,7 +138,7 @@ def create_flex_message(shop_id, langcode):
         style="link",
         height="sm",
         action=URIAction(
-            label=menu_text[langcode],
+            label=menu_[langcode],
             uri=f'{liff_url}/{"jp" if langcode=="ja" else langcode}/shop/{shop["id"]}',
         ),
     )
@@ -152,5 +150,68 @@ def create_flex_message(shop_id, langcode):
 
     # Return the Flex Message
     return FlexSendMessage(
-        alt_text=f'{shop["title"]}{menu_text[langcode]}', contents=bubble
+        alt_text=f'{shop["title"]}{menu_[langcode]}', contents=bubble
     )
+
+
+def order_detail_flex_message(
+    order_id, shop_id, total_price, payment, created_at, items, langcode
+):
+    order_number_ = {'zh': '訂單編號', 'ja': '注文番号', 'en': 'Order Number'}
+    total_ = {'zh': '總金額', 'ja': '総額', 'en': 'Total'}
+    payment_ = {'zh': '支付方式', 'ja': '支払い', 'en': 'Payment'}
+    paid_ = {'zh': '已支付', 'ja': '支払済', 'en': 'Paid'}
+    order_time_ = {'zh': '建立時間', 'ja': '注文時間', 'en': 'Order Time'}
+
+    order_url = f'{liff_url}/{"jp" if langcode=="ja" else langcode}/user/order'
+
+    flex_content = json.load(open('static/order_flex.json', 'r'))
+    shoplist = json.load(open('static/shoplist_en.json', 'r'))
+    shop = shoplist[shop_id]
+
+    flex_content['header']['contents'][0]['text'] = order_number_[langcode]
+    flex_content['header']['contents'][1]['text'] = str(order_id)
+    flex_content['header']['contents'][1]['action']['uri'] = order_url
+    flex_content['hero']['url'] = shop['image']
+    flex_content['body']['contents'][0]['text'] = shop['title']
+    flex_content['body']['contents'][1]['contents'] = [
+        {
+            "type": "box",
+            "layout": "baseline",
+            "spacing": "sm",
+            "contents": [
+                {
+                    "type": "text",
+                    "text": str(item['qty']),
+                    "weight": "bold",
+                    "size": "lg",
+                    "color": "#ffc648",
+                },
+                {
+                    "type": "text",
+                    "text": str(item['name']),
+                    "wrap": True,
+                    "size": "md",
+                    "color": "#666666",
+                    "flex": 6,
+                    "weight": "bold",
+                },
+                {
+                    "type": "text",
+                    "text": str(item['price']),
+                    "align": "end",
+                    "weight": "bold",
+                    "size": "md",
+                },
+            ],
+        }
+        for item in items
+    ]
+    flex_content['body']['contents'][3]['contents'][0]['text'] = total_[langcode]
+    flex_content['body']['contents'][3]['contents'][1]['text'] = str(total_price)
+    flex_content['body']['contents'][5]['contents'][0]['text'] = payment_[langcode]
+    flex_content['body']['contents'][5]['contents'][1]['text'] = str(payment)
+    flex_content['body']['contents'][5]['contents'][2]['text'] = paid_[langcode]
+    flex_content['body']['contents'][6]['contents'][0]['text'] = order_time_[langcode]
+    flex_content['body']['contents'][6]['contents'][1]['text'] = str(created_at)
+    return flex_content

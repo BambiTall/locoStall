@@ -124,24 +124,21 @@ def get_orders_detail(lang, order_id):
 def add_order():
     data = request.get_json()
 
-    # To Linepay v3 Request API
-    if data['payment'] == 'linepay':
-        uri = "/v3/payments/request"
-        nonce = str(round(time.time() * 1000))
-        authMacText = linepay_channel_secret + uri + data + nonce
+    item_list_json = json.dumps(data['item_list'])
 
-        headers = {
-            'Content-Type': 'application/json',
-            'X-LINE-ChannelId': linepay_channel_id,
-            'X-LINE-Authorization-Nonce': nonce,
-            'X-LINE-Authorization': base64.b64encode(
-                hmac.new(
-                    str.encode(linepay_channel_secret),
-                    str.encode(authMacText),
-                    digestmod=hashlib.sha256,
-                ).digest()
-            ).decode("utf-8"),
-        }
+    orders = Orders(
+        item_list=item_list_json,
+        user_id=data['user_id'],
+        payment=data['payment'],
+        shop_id=data['shop_id'],
+        state='waiting',
+    )
+
+    db.session.add(orders)
+
+    # Add order to Linepay v3 Request API
+    if data['payment'] == 'linepay':
+        nonce = str(round(time.time() * 1000))
 
         user = User.query.filter_by(id=data['user_id']).first()
         products = []
@@ -178,28 +175,39 @@ def add_order():
             },
         }
 
+        linepay_data = json.dumps(linepay_data)
+
+        authMacText = (
+            linepay_channel_secret + '/v3/payments/request' + linepay_data + nonce
+        )
+
+        headers = {
+            'Content-Type': 'application/json',
+            'X-LINE-ChannelId': linepay_channel_id,
+            'X-LINE-Authorization-Nonce': nonce,
+            'X-LINE-Authorization': base64.b64encode(
+                hmac.new(
+                    str.encode(linepay_channel_secret),
+                    str.encode(authMacText),
+                    digestmod=hashlib.sha256,
+                ).digest()
+            ).decode("utf-8"),
+        }
+
         response = requests.post(
-            linepay_sandbox_url + '/v3/payments/request',
+            url=linepay_sandbox_url + '/v3/payments/request',
             headers=headers,
-            data=json.dumps(linepay_data),
+            data=linepay_data,
         )
 
         response = json.loads(response.text)
 
         if response['returnCode'] != '0000':
             return {'message': '送出訂單失敗', 'data': linepay_data}
+        else:
+            db.session.commit()
+            return redirect(response['info']['paymentUrl']['web'])
 
-    item_list_json = json.dumps(data['item_list'])
-
-    orders = Orders(
-        item_list=item_list_json,
-        user_id=data['user_id'],
-        payment=data['payment'],
-        shop_id=data['shop_id'],
-        state='waiting',
-    )
-
-    db.session.add(orders)
     db.session.commit()
 
     return {'message': '送出訂單成功', 'data': orders.json()}

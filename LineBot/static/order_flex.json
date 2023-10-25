@@ -1,0 +1,145 @@
+{
+	"type": "bubble",
+	"header": {
+		"type": "box",
+		"layout": "horizontal",
+		"contents": [
+			{
+				"type": "text",
+				"text": "Order Number",
+				"weight": "bold",
+				"color": "#3f3b34"
+			},
+			{
+				"type": "text",
+				"text": "order id",
+				"size": "xxl",
+				"align": "end",
+				"weight": "bold",
+				"color": "#ffc648",
+				"action": {
+					"type": "uri",
+					"label": "action",
+					"uri": "liff order url"
+				}
+			}
+		],
+		"alignItems": "center"
+	},
+	"hero": {
+		"type": "image",
+		"url": "cover url",
+		"size": "full",
+		"aspectRatio": "20:13",
+		"aspectMode": "cover",
+		"align": "center"
+	},
+	"body": {
+		"type": "box",
+		"layout": "vertical",
+		"spacing": "md",
+		"contents": [
+			{
+				"type": "text",
+				"text": "shop name",
+				"wrap": true,
+				"weight": "bold",
+				"gravity": "center",
+				"size": "xl"
+			},
+			{
+				"type": "box",
+				"layout": "vertical",
+				"margin": "lg",
+				"spacing": "sm",
+				"contents": []
+			},
+			{
+				"type": "separator",
+				"margin": "xl"
+			},
+			{
+				"type": "box",
+				"layout": "baseline",
+				"spacing": "sm",
+				"contents": [
+					{
+						"type": "text",
+						"text": "Total",
+						"wrap": true,
+						"size": "lg",
+						"color": "#666666"
+					},
+					{
+						"type": "text",
+						"text": "total price",
+						"align": "end",
+						"size": "xl",
+						"weight": "bold"
+					}
+				],
+				"margin": "xl"
+			},
+			{
+				"type": "separator",
+				"margin": "xl"
+			},
+			{
+				"type": "box",
+				"layout": "baseline",
+				"spacing": "sm",
+				"contents": [
+					{
+						"type": "text",
+						"text": "Payment",
+						"color": "#aaaaaa",
+						"size": "sm",
+						"align": "start",
+						"wrap": true
+					},
+					{
+						"type": "text",
+						"text": "payment",
+						"wrap": true,
+						"color": "#666666",
+						"size": "sm",
+						"align": "end",
+						"flex": 3
+					},
+					{
+						"type": "text",
+						"wrap": true,
+						"color": "#93c878",
+						"size": "sm",
+						"text": "Paid",
+						"align": "end",
+						"weight": "bold"
+					}
+				],
+				"margin": "xl"
+			},
+			{
+				"type": "box",
+				"layout": "baseline",
+				"spacing": "sm",
+				"contents": [
+					{
+						"type": "text",
+						"text": "Order Time",
+						"color": "#aaaaaa",
+						"size": "sm"
+					},
+					{
+						"type": "text",
+						"text": "created at",
+						"wrap": true,
+						"color": "#666666",
+						"size": "sm",
+						"align": "end"
+					}
+				],
+				"margin": "sm"
+			}
+		]
+	}
+}

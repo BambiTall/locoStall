@@ -14,16 +14,19 @@ from linebot.models import (
     QuickReply,
     RichMenu,
     ImageMessage,
+    FlexSendMessage,
 )
 from templates import (
-    create_flex_message,
+    shop_detail_flex_message,
     create_carousel_template,
     get_instruction_text,
+    order_detail_flex_message,
 )
 
 import requests
 import json
 import os
+import re
 from dotenv import load_dotenv
 
 import logging
@@ -46,6 +49,7 @@ app = Flask(__name__)
 line_bot_api = LineBotApi(f"{os.environ.get('LINE_ACCESS_TOKEN')}")
 handler = WebhookHandler(f"{os.environ.get('LINE_CHANNEL_SECRET')}")
 openai.api_key = f"{os.environ.get('OPENAI_KEY')}"
+backend_url = f"{os.environ.get('BACKEND_URL')}"
 
 language = "en"  # 預設語言為英文
 
@@ -87,7 +91,6 @@ def reply_text_and_get_user_profile(event):
 
 @handler.add(PostbackEvent)
 def handle_postback(event):
-    global language
     user_id = event.source.user_id
 
     with open("tmp/" + user_id + ".txt", "r") as f:
@@ -156,10 +159,7 @@ def handle_postback(event):
 @handler.add(MessageEvent, message=ImageMessage)
 def handle_image_message(event):
     message_content = line_bot_api.get_message_content(event.message.id)
-    global language
-
-    with open("tmp/" + event.source.user_id + ".txt", "r") as f:
-        language = f.read()
+    language = open("tmp/" + event.source.user_id + ".txt", "r").read()
 
     with open('tmp/' + event.message.id + '.jpg', 'wb') as fd:
         for chunk in message_content.iter_content():
@@ -167,9 +167,7 @@ def handle_image_message(event):
 
     with open('tmp/' + event.message.id + '.jpg', 'rb') as file:
         files = {'file': file}
-        response = requests.post(
-            f'{os.environ.get("BACKEND_URL")}/predict', files=files
-        )
+        response = requests.post(backend_url + '/predict', files=files)
         data = response.json()
         shop_id = data.get('predicted_class')
 
@@ -183,31 +181,54 @@ def handle_image_message(event):
                 event.reply_token, TextSendMessage(text=failed_message[language])
             )
         else:
-            flex_message = create_flex_message(shop_id, language)
+            flex_message = shop_detail_flex_message(shop_id, language)
             line_bot_api.reply_message(event.reply_token, flex_message)
     os.remove('tmp/' + event.message.id + '.jpg')
 
 
-# handle text message with LLM
+def get_order_detail(order_id, language, user_id):
+    response = requests.get(f"{backend_url}/{language}/order_detail/{order_id}")
+
+    if response.status_code == 200:
+        data = response.json()
+        order = data['data']
+        if user_id != order['user_id']:
+            return None
+        item_list = json.loads(order['item_list'])
+
+        order['item_list'] = [
+            {
+                'qty': item['qty'],
+                'name': item['name'],
+                'price': item['price'],
+            }
+            for item in item_list
+        ]
+
+        order['total_price'] = sum(int(item['price']) for item in order['item_list'])
+
+        return order
+    else:
+        return None
+
+
+# 接到訂單訊息後，擷取訊息編號 = order number，如果成功擷取訂單訊息，會發 flex msg，錯誤則有訂單編號錯誤重新下定
 @handler.add(MessageEvent, message=TextMessage)
 def handle_text_message(event):
-    qa = open('qa.csv', 'r').read()
-    prompt = f"""You are a helpful question-answer assistant, you determine which question in qa.csv most possibly is the user question, and return the string of the question's answer in qa.csv.
-    If the user question don't match any question in qa.csv(the highest possibility is less than 30%), you generate an answer within 60 charactors.
-    All your answer must be translated to the same language as user question.
-    qa.csv :
-    {qa}
-    """
-    if event.message.text not in [
-        'Get Started',
-        'Language Setting',
-        'Explore',
-        '使用説明',
-        '言語設定',
-        '探す',
-        '語言設定',
-        '探索更多',
-    ]:
+    user_id = event.source.user_id
+    text = event.message.text
+
+    with open("tmp/" + user_id + ".txt", "r") as f:
+        language = f.read()
+
+    # handle text message with LLM
+    if text[:4] == '@bot':
+        qa = open('qa.csv', 'r').read()
+        prompt = f"""qa.csv: 
+{qa}
+(end of file)
+You are a question-answering assistant. Find the most likely user question in qa.csv and return its answer. If no match (probability < 30%), generate a concise answer within 60 characters, using info from qa.csv for accuracy. Translate all answers to the user's language."""
+
         completion = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[
@@ -226,6 +247,38 @@ def handle_text_message(event):
             event.reply_token,
             TextSendMessage(text=completion.choices[0].message.content),
         )
+
+    elif "訂單" in text or "注文" in text or "order" in text:
+        user = requests.get(f'{backend_url}/line_user/{user_id}')
+        alt_text_ = {'zh': '訂單訊息', 'ja': '注文履歷', 'en': 'User Orders'}
+        error_ = {'zh': '訂單未成立，請重新下訂', 'ja': '', 'en': 'Please order again'}
+        pattern = r'\d+'
+        match = re.search(pattern, text)
+        if match:
+            order_id = int(match.group())
+            order = get_order_detail(order_id, language, user['id'])
+
+            if order:
+                flex_message = order_detail_flex_message(
+                    order['id'],
+                    order['shop_id'],
+                    order['total_price'],
+                    order['payment'],
+                    order['created_at'],
+                    order['item_list'],
+                    language,
+                )
+                line_bot_api.reply_message(
+                    event.reply_token,
+                    FlexSendMessage(
+                        alt_text=alt_text_[language], contents=flex_message
+                    ),
+                )
+                print(language)
+            else:
+                line_bot_api.reply_message(
+                    event.reply_token, TextSendMessage(text=error_[language])
+                )
 
 
 application = app
