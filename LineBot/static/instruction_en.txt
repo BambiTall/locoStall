@@ -9,7 +9,8 @@ Wondering what night market food to eat?
 Click "Explore" to see what popular foods are there!
 
 • Photo Ordering (Bottom Right)📸
-Click the button and open the camera, aim at the merchant's sign,
+Click the button and open the camera,
+Aim at the merchant's sign and snap a pic,
 And get the online ordering link!
 
 • AI Robot🤖
