@@ -63,7 +63,7 @@ const submitOrder = async( params )=>{
     const res = await api.post('/send_order', params);
     store.dispatch('setCurrOrder', res.data.data);
     // console.log('res.data.data',res.data.data);
-    
+    alert('order sent', res.data.data)
     isWaiting.value = true;
     localStorage.setItem('order_id', res.data.data.id);
     runInterval(res.data.data.id)
