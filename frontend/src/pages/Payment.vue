@@ -61,9 +61,9 @@ const runInterval = (order_id) => {
 const submitOrder = async( params )=>{
   try {
     const res = await api.post('/send_order', params);
+    alert('order sent', res.data)
     store.dispatch('setCurrOrder', res.data.data);
     // console.log('res.data.data',res.data.data);
-    alert('order sent', res.data.data)
     isWaiting.value = true;
     localStorage.setItem('order_id', res.data.data.id);
     runInterval(res.data.data.id)
@@ -259,9 +259,15 @@ onMounted(async() => {
   }
 }
 ._payment_card__linepay{
+  span{
+    display: inline-flex;
+    align-items: center;
+  }
   img{
-    max-height: 1.25rem;
+    height: 100%;
     width: 100%;
+    max-height: 1.25rem;
+    max-width: 100%;
   }
 }
 
