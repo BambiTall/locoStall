@@ -227,7 +227,7 @@ def handle_text_message(event):
         prompt = f"""qa.csv: 
 {qa}
 (end of file)
-You are a question-answering assistant. Find the most likely user question in qa.csv and return its answer. If no match (probability < 30%), generate a concise answer within 60 characters, using info from qa.csv for accuracy. Translate all answers to the user's language."""
+You are a question-answering assistant. Find the most likely user question in qa.csv and return its answer. If no match (probability < 30%), generate a concise answer within 60 characters, using info from qa.csv for accuracy. Translate final answer to the user's language."""
 
         completion = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",

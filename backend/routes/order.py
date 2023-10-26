@@ -135,88 +135,86 @@ def add_order():
     )
 
     db.session.add(orders)
+    db.session.commit()
 
-    # Add order to Linepay v3 Request API
-    if data['payment'] == 'linepay':
-        nonce = str(round(time.time() * 1000))
+    return {'message': '送出訂單成功', 'data': orders.json()}
 
-        user = User.query.filter_by(id=data['user_id']).first()
-        products = []
-        amount = 0
-        for item in data['item_list']:
-            menu = Menu.query.filter_by(
-                shop_id=data['shop_id'],
-                prod_id=item['prod_id'],
-                lang=user.native_lang,
-            ).first()
-            products.append(
-                {
-                    'name': menu.name,
-                    'quantity': item['qty'],
-                    'price': menu.price,
-                }
-            )
-            amount += item['qty'] * menu.price
 
-        linepay_data = {
-            'orderId': nonce,
-            'amount': amount,
-            'currency': 'TWD',
-            'packages': [
-                {
-                    'id': nonce + 'u' + data['user_id'] + 's' + data['shop_id'],
-                    'amount': amount,
-                    'products': products,
-                }
-            ],
-            'redirectUrls': {
-                'confirmUrl': f'https://locostall.shop/{user.native_lang}/orderConfirm',
-                'cancelUrl': f'https://locostall.shop/{user.native_lang}/shop/{data["shop_id"]}',
-            },
-        }
+# Add order to Linepay v3 Request API
+@order_bp.route(f'{os.environ["API_BASE"]}/linepay', method=['POST'])
+def add_linepay():
+    data = request.get_json()
 
-        linepay_data = json.dumps(linepay_data)
+    lang_map = {'zh': 'zh_TW', 'jp': 'ja', 'en': 'en'}
+    nonce = str(round(time.time() * 1000))
+    user = User.query.filter_by(id=data['user_id']).first()
+    products = []
+    amount = 0
 
-        authMacText = (
-            linepay_channel_secret + '/v3/payments/request' + linepay_data + nonce
+    for item in data['item_list']:
+        menu = Menu.query.filter_by(
+            shop_id=data['shop_id'],
+            prod_id=item['prod_id'],
+            lang=user.native_lang,
+        ).first()
+        products.append(
+            {
+                'name': menu.name,
+                'quantity': item['qty'],
+                'price': menu.price,
+            }
         )
+        amount += item['qty'] * menu.price
 
-        headers = {
-            'Content-Type': 'application/json',
-            'X-LINE-ChannelId': linepay_channel_id,
-            'X-LINE-Authorization-Nonce': nonce,
-            'X-LINE-Authorization': base64.b64encode(
-                hmac.new(
-                    str.encode(linepay_channel_secret),
-                    str.encode(authMacText),
-                    digestmod=hashlib.sha256,
-                ).digest()
-            ).decode("utf-8"),
-        }
+    linepay_data = {
+        'orderId': nonce,
+        'amount': amount,
+        'currency': 'TWD',
+        'packages': [
+            {
+                'id': nonce + 'u' + data['user_id'] + 's' + data['shop_id'],
+                'amount': amount,
+                'products': products,
+            },
+        ],
+        'redirectUrls': {
+            'confirmUrl': f'https://locostall.shop/{user.native_lang}/orderConfirm',
+            'cancelUrl': f'https://locostall.shop/{user.native_lang}/shop/{data["shop_id"]}',
+        },
+        'options': {
+            'display': {
+                'locale': lang_map[user.native_lang],
+            },
+        },
+    }
 
-        response = requests.post(
-            url=linepay_sandbox_url + '/v3/payments/request',
-            headers=headers,
-            data=linepay_data,
-        ).json()
+    linepay_data = json.dumps(linepay_data)
 
-        print(linepay_data)
+    authMacText = linepay_channel_secret + '/v3/payments/request' + linepay_data + nonce
 
-        print(response)
+    headers = {
+        'Content-Type': 'application/json',
+        'X-LINE-ChannelId': linepay_channel_id,
+        'X-LINE-Authorization-Nonce': nonce,
+        'X-LINE-Authorization': base64.b64encode(
+            hmac.new(
+                str.encode(linepay_channel_secret),
+                str.encode(authMacText),
+                digestmod=hashlib.sha256,
+            ).digest()
+        ).decode("utf-8"),
+    }
 
-        if response['returnCode'] != '0000':
-            return {'message': '送出訂單失敗', 'data': linepay_data}
-        else:
-            db.session.commit()
-            transaction_id = response['info']['transactionId']
-            print(response['info']['paymentUrl']['web'], transaction_id)
-            # return redirect(response['info']['paymentUrl']['web'])
-            # return {'message': response['info']['transactionId']}
-            return {'paymentUrl': response['info']['paymentUrl']['web']}
+    response = requests.post(
+        url=linepay_sandbox_url + '/v3/payments/request',
+        headers=headers,
+        data=linepay_data,
+    ).json()
+
+    if response['returnCode'] == '0000':
+        return {'paymentUrl': response['info']['paymentUrl']['web']}
     else:
-        db.session.commit()
-
-        return {'message': '送出訂單成功', 'data': orders.json()}
+        return {'message': '送出訂單失敗', 'data': linepay_data}
 
 
 # Update order (require datas : order's id, state)
