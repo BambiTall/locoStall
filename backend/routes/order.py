@@ -198,15 +198,16 @@ def add_order():
             url=linepay_sandbox_url + '/v3/payments/request',
             headers=headers,
             data=linepay_data,
-        )
-
-        response = json.loads(response.text)
+        ).json()
 
         if response['returnCode'] != '0000':
             return {'message': '送出訂單失敗', 'data': linepay_data}
         else:
             db.session.commit()
+            transaction_id = response['info']['transactionId']
+            print(response['info']['paymentUrl']['web'], transaction_id)
             return redirect(response['info']['paymentUrl']['web'])
+            # return {'data': response['info']['paymentUrl']['web']}
 
     db.session.commit()
 

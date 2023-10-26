@@ -18,8 +18,8 @@ from linebot.models import (
 )
 from templates import (
     shop_detail_flex_message,
-    create_carousel_template,
-    get_instruction_text,
+    shoplist_carousel_template,
+    instruction_text,
     order_detail_flex_message,
 )
 
@@ -98,7 +98,7 @@ def handle_postback(event):
 
     # Get Started 功能
     if event.postback.data == 'data1':
-        reply_text = get_instruction_text(language)
+        reply_text = instruction_text(language)
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
         return
 
@@ -119,7 +119,7 @@ def handle_postback(event):
 
     # explore 清單
     elif event.postback.data == 'data3':
-        carousel_template = create_carousel_template(language)
+        carousel_template = shoplist_carousel_template(language)
         template_message = TemplateSendMessage(
             alt_text='Carousel Template', template=carousel_template
         )

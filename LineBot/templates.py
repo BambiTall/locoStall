@@ -19,17 +19,12 @@ liff_url = f"{os.environ.get('LIFF_URL')}"
 
 
 # 根據語言回傳引導指示文案
-def get_instruction_text(langcode):
-    if langcode == "zh":
-        return "【使用說明】\n\n• 拍照點單\n點擊按鈕，開起相機，拍攝招牌以獲得點餐連結\n\n• 語言設定\n選擇中文、日文或英文\n\n• 探索\n尋找更多夜市美食 "
-    elif langcode == "ja":
-        return "【使用説明】\n\n• 画像検索\nボタンをタップしてカメラを起動し、看板を撮影して注文リンクをゲットしよう\n\n• 言語\n中国語、日本語、英語から選択\n\n• 探す\nもっと夜市の美味しいものを見つけよう！"
-    else:
-        return "Instructions:\n\n• Snap-to-Order\nJust tap the button, open your camera, snap a photo of the sign, and get the ordering link.\n\n• Language\nChoose from Chinese, Japanese, or English.\n\n• Explore\nDiscover more night market delights!"
+def instruction_text(langcode):
+    return open(f'static/instruction_{langcode}.txt', 'r').read()
 
 
 # create shop list as carousel
-def create_carousel_template(langcode):
+def shoplist_carousel_template(langcode):
     global liff_url
     carousel_columns = []
     shops = json.load(open(f'static/shoplist_{langcode}.json', 'r'))
@@ -161,6 +156,7 @@ def order_detail_flex_message(
     total_ = {'zh': '總金額', 'ja': '総額', 'en': 'Total'}
     payment_ = {'zh': '支付方式', 'ja': '支払い', 'en': 'Payment'}
     paid_ = {'zh': '已支付', 'ja': '支払済', 'en': 'Paid'}
+    not_paid_ = {'zh': '未支付', 'ja': '未払い', 'en': 'Not Paid'}
     order_time_ = {'zh': '建立時間', 'ja': '注文時間', 'en': 'Order Time'}
 
     order_url = f'{liff_url}/{"jp" if langcode=="ja" else langcode}/user/order'
@@ -211,7 +207,12 @@ def order_detail_flex_message(
     flex_content['body']['contents'][3]['contents'][1]['text'] = str(total_price)
     flex_content['body']['contents'][5]['contents'][0]['text'] = payment_[langcode]
     flex_content['body']['contents'][5]['contents'][1]['text'] = str(payment)
-    flex_content['body']['contents'][5]['contents'][2]['text'] = paid_[langcode]
+    flex_content['body']['contents'][5]['contents'][2]['text'] = (
+        paid_[langcode] if payment == 'linepay' else not_paid_[langcode]
+    )
+    flex_content['body']['contents'][5]['contents'][2]['color'] = (
+        '#93c878' if payment == 'linepay' else '#e06666'
+    )
     flex_content['body']['contents'][6]['contents'][0]['text'] = order_time_[langcode]
     flex_content['body']['contents'][6]['contents'][1]['text'] = str(created_at)
     return flex_content

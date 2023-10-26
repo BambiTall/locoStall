@@ -95,11 +95,12 @@
 						"color": "#aaaaaa",
 						"size": "sm",
 						"align": "start",
-						"wrap": true
+						"wrap": true,
+						"flex": 2
 					},
 					{
 						"type": "text",
-						"text": "payment",
+						"text": "payment method",
 						"wrap": true,
 						"color": "#666666",
 						"size": "sm",
@@ -111,7 +112,7 @@
 						"wrap": true,
 						"color": "#93c878",
 						"size": "sm",
-						"text": "Paid",
+						"text": "Paid or not paid",
 						"align": "end",
 						"weight": "bold"
 					}
@@ -127,6 +128,7 @@
 						"type": "text",
 						"text": "Order Time",
 						"color": "#aaaaaa",
+						"align": "start",
 						"size": "sm"
 					},
 					{
@@ -138,7 +140,7 @@
 						"align": "end"
 					}
 				],
-				"margin": "sm"
+				"margin": "md"
 			}
 		]
 	}
