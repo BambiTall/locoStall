@@ -1,10 +1,20 @@
-Instructions:
+Locostall Menu Button & Service Instructions:
 
-• Snap-to-Order
-Just tap the button, open your camera, snap a photo of the sign, and get the ordering link.
+• Language Setting (Bottom Left)🌐
+Choose Chinese, Japanese or English,
+Easily switch the screen language!
 
-• Language
-Choose from Chinese, Japanese, or English.
+• Explore (Middle)🔍
+Wondering what night market food to eat?
+Click "Explore" to see what popular foods are there!
 
-• Explore
-Discover more night market delights!
+• Photo Ordering (Bottom Right)📸
+Click the button and open the camera, aim at the merchant's sign,
+And get the online ordering link!
+
+• AI Robot🤖
+Enter "@bot+question"
+And the AI robot will answer any travel questions.
+First time using? Try the reference questions below:
+@bot What are some popular night markets in Taipei?
+@bot What are the operating hours for Taipei night markets?
