@@ -61,7 +61,8 @@ const runInterval = (order_id) => {
 const submitOrder = async( params )=>{
   try {
     const res = await api.post('/send_order', params);
-    alert('RETURN', res)
+    console.log('RETURN', res.data);
+    window.location.href = res.data.paymentUrl;
     // store.dispatch('setCurrOrder', res.data.data);
     // console.log('res.data.data',res.data.data);
     // isWaiting.value = true;
