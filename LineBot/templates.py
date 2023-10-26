@@ -51,7 +51,7 @@ def shoplist_carousel_template(langcode):
 # create shop detail as flex
 def shop_detail_flex_message(shop_id, langcode):
     global liff_url
-    shop_list = json.load(open(f'static/shoplist_en.json', 'r'))
+    shop_list = json.load(open(f'static/shoplist_{langcode}.json', 'r'))
     shop = shop_list[shop_id]
     recommend_ = {'zh': '推薦餐點', 'ja': 'おすすめ', 'en': 'Best Items'}
     hours_ = {'zh': '営業時間', 'ja': '営業時間', 'en': 'Hours'}

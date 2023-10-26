@@ -170,7 +170,7 @@ def add_order():
                 }
             ],
             'redirectUrls': {
-                'confirmUrl': f'https://locostall.shop/{user.native_lang}',
+                'confirmUrl': f'https://locostall.shop/{user.native_lang}/orderConfirm',
                 'cancelUrl': f'https://locostall.shop/{user.native_lang}/shop/{data["shop_id"]}',
             },
         }
@@ -200,18 +200,23 @@ def add_order():
             data=linepay_data,
         ).json()
 
+        print(linepay_data)
+
+        print(response)
+
         if response['returnCode'] != '0000':
             return {'message': '送出訂單失敗', 'data': linepay_data}
         else:
             db.session.commit()
             transaction_id = response['info']['transactionId']
             print(response['info']['paymentUrl']['web'], transaction_id)
-            return redirect(response['info']['paymentUrl']['web'])
-            # return {'data': response['info']['paymentUrl']['web']}
+            # return redirect(response['info']['paymentUrl']['web'])
+            # return {'message': response['info']['transactionId']}
+            return {'paymentUrl': response['info']['paymentUrl']['web']}
+    else:
+        db.session.commit()
 
-    db.session.commit()
-
-    return {'message': '送出訂單成功', 'data': orders.json()}
+        return {'message': '送出訂單成功', 'data': orders.json()}
 
 
 # Update order (require datas : order's id, state)
