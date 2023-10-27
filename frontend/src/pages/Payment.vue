@@ -67,6 +67,12 @@ const sendOrderToDB = async( params )=>{
     store.dispatch('setCurrOrder', res.data.data);
     // runInterval(res.data.data.id)
     if(res.data.data.payment=='linepay'){
+      let params = {
+          'order_id': res.data.data.id,
+          'state': 'cooking',
+      }
+      const updateRes = await api.post('/update_order', params);
+      
       linepayAuth(res.data.data)
     } else {
       // Automatically change state for demo
