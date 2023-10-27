@@ -168,7 +168,7 @@ def add_linepay():
         'currency': 'TWD',
         'packages': [
             {
-                'id': nonce + 'u' + data['user_id'] + 's' + data['shop_id'],
+                'id': nonce + 'u' + str(data['user_id']) + 's' + str(data['shop_id']),
                 'amount': amount,
                 'products': products,
             },
@@ -212,12 +212,13 @@ def add_linepay():
         }
 
 
-# Update order (require datas : order's id, state)
+# Update order (require datas : order's id, [state or paid])
 @order_bp.route(f'{os.environ["API_BASE"]}/update_order', methods=['POST'])
 def update_order():
     data = request.get_json()
     order = db.get_or_404(entity=Orders, ident=data['order_id'])
-    order.state = data['state']
+    order.state = data['state'] if data['state'] != None else order.state
+    order.paid = data['paid'] if data['paid'] != None else order.paid
     # order.waiting = data['waiting']
     db.session.commit()
 

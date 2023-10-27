@@ -266,6 +266,7 @@ You are a question-answering assistant. Find the most likely user question in qa
                     order['payment'],
                     order['created_at'][:19],
                     order['item_list'],
+                    order['paid'],
                     language,
                 )
                 line_bot_api.reply_message(

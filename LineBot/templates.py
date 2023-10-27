@@ -150,7 +150,7 @@ def shop_detail_flex_message(shop_id, langcode):
 
 
 def order_detail_flex_message(
-    order_id, shop_id, total_price, payment, created_at, items, langcode
+    order_id, shop_id, total_price, payment, created_at, items, paid, langcode
 ):
     order_number_ = {'zh': '訂單編號', 'ja': '注文番号', 'en': 'Order Number'}
     total_ = {'zh': '總金額', 'ja': '総額', 'en': 'Total'}
@@ -208,10 +208,10 @@ def order_detail_flex_message(
     flex_content['body']['contents'][5]['contents'][0]['text'] = payment_[langcode]
     flex_content['body']['contents'][5]['contents'][1]['text'] = str(payment)
     flex_content['body']['contents'][5]['contents'][2]['text'] = (
-        paid_[langcode] if payment == 'linepay' else not_paid_[langcode]
+        paid_[langcode] if paid else not_paid_[langcode]
     )
     flex_content['body']['contents'][5]['contents'][2]['color'] = (
-        '#93c878' if payment == 'linepay' else '#e06666'
+        '#93c878' if paid else '#e06666'
     )
     flex_content['body']['contents'][6]['contents'][0]['text'] = order_time_[langcode]
     flex_content['body']['contents'][6]['contents'][1]['text'] = str(created_at)
