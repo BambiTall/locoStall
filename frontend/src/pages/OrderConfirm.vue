@@ -252,19 +252,13 @@ onMounted(async () => {
     currOrder.value = orderDetailRes.data.data;
     console.log('orderDetailRes.data.data',orderDetailRes.data.data);
     
-    // if (orderDetailRes.data.data.state == 'cooking') {
-    //   isWaiting.value = false;
-    // } else if ( orderDetailRes.data.data.state == 'waiting' ) {
-    //   // Automatically change state for demo
-    //   setTimeout(async() => {
-    //     let params = {
-    //       'order_id': orderId.value,
-    //       'state': 'cooking',
-    //     }
-    //     const updateRes = await api.post('/update_order', params);
-    //     location.reload();
-    //   }, 3000);
-    // }
+    if(currOrder.value.payment=='linepay'){
+      let params = {
+        'order_id': orderId.value,
+        'paid': 1,
+      }
+      const updateRes = await api.post('/update_order', params);
+    }
 
     // Ganerate Flex message
     // const orderFlexMsgRes = generateOrderFlexMsg(currOrder.value);

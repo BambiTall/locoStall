@@ -65,7 +65,7 @@ const sendOrderToDB = async( params )=>{
 
     localStorage.setItem('order_id', res.data.data.id);
     store.dispatch('setCurrOrder', res.data.data);
-    // runInterval(res.data.data.id)
+    runInterval(res.data.data.id)
     if(res.data.data.payment=='linepay'){
       linepayAuth(res.data.data)
     } else {
