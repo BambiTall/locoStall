@@ -16,6 +16,7 @@ const route = useRoute()
 const router = useRouter()
 
 let currOrder = ref()
+// const isWaiting = ref(true);
 
 const urlLang = route.params.lang;
 const orderId = ref(localStorage.getItem('order_id'));
@@ -238,6 +239,21 @@ onMounted(async () => {
     let orderDetailRes = await api.get(`/${urlLang}/order_detail/${orderId.value}`);
     
     currOrder.value = orderDetailRes.data.data;
+    console.log('orderDetailRes.data.data',orderDetailRes.data.data);
+    
+    // if (orderDetailRes.data.data.state == 'cooking') {
+    //   isWaiting.value = false;
+    // } else if ( orderDetailRes.data.data.state == 'waiting' ) {
+    //   // Automatically change state for demo
+    //   setTimeout(async() => {
+    //     let params = {
+    //       'order_id': orderId.value,
+    //       'state': 'cooking',
+    //     }
+    //     const updateRes = await api.post('/update_order', params);
+    //     location.reload();
+    //   }, 3000);
+    // }
 
     // Ganerate Flex message
     // const orderFlexMsgRes = generateOrderFlexMsg(currOrder.value);
@@ -269,6 +285,15 @@ onMounted(async () => {
 
 <template>
   <div class="_orderConfirm">
+    <!-- <div class="_orderConfirm_waiting" v-if="isWaiting">
+      <div class="_orderConfirm_waiting__card">
+        <div class="_orderConfirm_waiting__img">
+          <img src="@/assets/locostall_ani.gif"/>
+        </div>
+        <div class="_orderConfirm_waiting__text">Waiting for confirmation ...</div>
+      </div>
+      
+    </div> -->
     <a-typography-title class="_orderConfirm_h1">{{ t('orderConfirmed') }}</a-typography-title>
     <div class="_orderConfirm_card" v-if="currOrder">
       <div class="_orderConfirm_no">
@@ -433,4 +458,44 @@ onMounted(async () => {
   margin: auto;
   margin-top: 2rem;
 }
+// wiating
+// ._orderConfirm_waiting{
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   z-index: 100;
+//   width: 100vw;
+//   height: 100vh;
+//   background-color: rgba($color: $color-secondary, $alpha: .9);
+// }
+// ._orderConfirm_waiting__card{
+//   text-align: center;
+//   z-index: 101;
+//   position: relative;
+//   left: auto;
+//   top: 25%;
+//   background-color: white;
+//   width: 90%;
+//   height: 50%;
+//   padding: $padding-m;
+//   border-radius: $border-radius;
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: center;
+//   margin: auto;
+// }
+// ._orderConfirm_waiting__img{
+//   font-size: 5rem;
+  
+//   img{
+//     width: 50%;
+//   }
+// }
+// ._orderConfirm_waiting__text{
+//   font-size: 1.5rem;
+//   width: 80%;
+//   line-height: 1.5;
+//   color: $color-primary;
+// }
 </style>

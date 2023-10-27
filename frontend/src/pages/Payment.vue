@@ -58,30 +58,39 @@ const runInterval = (order_id) => {
   );
 }
 
-const submitOrder = async( params )=>{
+const sendOrderToDB = async( params )=>{
   try {
     const res = await api.post('/send_order', params);
-    console.log('RETURN', res.data);
-    window.location.href = res.data.paymentUrl;
-    // store.dispatch('setCurrOrder', res.data.data);
-    // console.log('res.data.data',res.data.data);
-    // isWaiting.value = true;
-    // localStorage.setItem('order_id', res.data.data.id);
-    // runInterval(res.data.data.id)
 
-    // // Automatically change state for demo
-    // setTimeout(async() => {
-    //   let params = {
-    //     'order_id': res.data.data.id,
-    //     'state': 'cooking',
-    //   }
-    //   const updateRes = await api.post('/update_order', params);
-    //   setTimeout(async() => {
-    //     isWaiting.value = false;
-    //   }, 3000);
-    // }, 3000);
+    localStorage.setItem('order_id', res.data.data.id);
+    store.dispatch('setCurrOrder', res.data.data);
+    runInterval(res.data.data.id)
+
+    // Automatically change state for demo
+    setTimeout(async() => {
+      let params = {
+        'order_id': res.data.data.id,
+        'state': 'cooking',
+      }
+      const updateRes = await api.post('/update_order', params);
+      setTimeout(async() => {
+        isWaiting.value = false;
+      }, 3000);
+    }, 3000);
   } catch (error) {
-    console.log('@submitOrder ERROR');
+    console.log('@sendOrderToDB ERROR');
+  }
+}
+
+const linepayAuth = async( params )=>{
+  try {
+    const res = await api.post('/linepay', params);
+    console.log('linepayAuth res.data',res.data);
+    // alert(res.data);
+    
+    window.location.href = res.data.paymentUrl;
+  } catch (error) {
+    console.log('@linepayAuth ERROR');
   }
 }
 
@@ -105,9 +114,15 @@ const sendOrder = () => {
       payment: payment.value,
     }
 
-    submitOrder(params)
+    if (params.payment=='cash') {
+      isWaiting.value = true;
+      sendOrderToDB(params)
+    } else if(params.payment=='linepay') {
+      isWaiting.value = true;
+      linepayAuth(params)
+      console.log('pay by line pay');
+    }
   }
-  
 }
 const goShopDetail = () => {
   router.push({ name: 'ShopDetail', params: { lang: lang, id: orderData.value.shop_id } })
@@ -119,6 +134,11 @@ onBeforeMount(() => {
 });
 onMounted(async() => {
   total.value = calculateTotal();
+  if(isWaiting.value) {
+    // for linepay after redirection
+    isWaiting.value = false;
+    alert("line pay finished!")
+  }
 });
 
 </script>
@@ -265,9 +285,10 @@ onMounted(async() => {
     align-items: center;
   }
   img{
+    display:block;
     height: 100%;
-    width: 100%;
-    max-height: 1.25rem;
+    // width: 100%;
+    // max-height: 1.25rem;
     // max-width: 100%;
   }
 }
