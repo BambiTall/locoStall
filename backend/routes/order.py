@@ -174,17 +174,14 @@ def add_linepay():
             },
         ],
         'redirectUrls': {
-            'confirmUrl': f'https://locostall.shop/{user.native_lang}/orderConfirm',
-            'cancelUrl': f'https://locostall.shop/{user.native_lang}/shop/{data["shop_id"]}',
+            'confirmUrl': f'https://liff.line.me/2000144386-Ax8WZ8k2/{user.native_lang}/payment',
+            'cancelUrl': f'https://liff.line.me/2000144386-Ax8WZ8k2/{user.native_lang}/shop/{data["shop_id"]}',
         },
     }
 
-    authMacText = (
-        linepay_channel_secret
-        + '/v3/payments/request'
-        + json.dumps(linepay_data)
-        + nonce
-    )
+    linepay_data = json.dumps(linepay_data)
+
+    authMacText = linepay_channel_secret + '/v3/payments/request' + linepay_data + nonce
 
     headers = {
         'Content-Type': 'application/json',
@@ -208,7 +205,11 @@ def add_linepay():
     if response['returnCode'] == '0000':
         return {'paymentUrl': response['info']['paymentUrl']['web']}
     else:
-        return {'message': '送出訂單失敗', 'data': linepay_data}
+        return {
+            'message': '送出訂單失敗',
+            'data': linepay_data,
+            'returnMessage': response['returnMessage'],
+        }
 
 
 # Update order (require datas : order's id, state)
