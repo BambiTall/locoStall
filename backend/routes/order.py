@@ -16,9 +16,6 @@ import hashlib
 import hmac
 import requests
 from dotenv import load_dotenv
-from concurrent.futures import ThreadPoolExecutor
-
-executor = ThreadPoolExecutor(2)
 
 load_dotenv()
 
@@ -141,11 +138,10 @@ def add_order():
 
 
 # Add order to Linepay v3 Request API
-@order_bp.route(f'{os.environ["API_BASE"]}/linepay', method=['POST'])
+@order_bp.route(f'{os.environ["API_BASE"]}/linepay', methods=['POST'])
 def add_linepay():
     data = request.get_json()
 
-    lang_map = {'zh': 'zh_TW', 'jp': 'ja', 'en': 'en'}
     nonce = str(round(time.time() * 1000))
     user = User.query.filter_by(id=data['user_id']).first()
     products = []
@@ -181,16 +177,14 @@ def add_linepay():
             'confirmUrl': f'https://locostall.shop/{user.native_lang}/orderConfirm',
             'cancelUrl': f'https://locostall.shop/{user.native_lang}/shop/{data["shop_id"]}',
         },
-        'options': {
-            'display': {
-                'locale': lang_map[user.native_lang],
-            },
-        },
     }
 
-    linepay_data = json.dumps(linepay_data)
-
-    authMacText = linepay_channel_secret + '/v3/payments/request' + linepay_data + nonce
+    authMacText = (
+        linepay_channel_secret
+        + '/v3/payments/request'
+        + json.dumps(linepay_data)
+        + nonce
+    )
 
     headers = {
         'Content-Type': 'application/json',
