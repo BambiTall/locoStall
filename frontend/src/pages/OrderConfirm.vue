@@ -233,9 +233,27 @@ const calculateTotal = ( orderList ) => {
 //   return res;
 // };
 
+// onBeforeMount(async () => {
+//   try{
+//     let params = {
+//       'order_id': res.data.data.id,
+//       'state': 'cooking',
+//     }
+//     const updateRes = await api.post('/update_order', params);
+//   } catch {
+
+//   }
+// });
 
 onMounted(async () => {
   try {
+    // change order state
+    let params = {
+      'order_id': orderId.value,
+      'state': 'cooking',
+    }
+    const updateRes = await api.post('/update_order', params);
+
     let orderDetailRes = await api.get(`/${urlLang}/order_detail/${orderId.value}`);
     
     currOrder.value = orderDetailRes.data.data;
