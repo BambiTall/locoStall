@@ -24,6 +24,7 @@ class Orders(db.Model):
         server_default=db.func.now(),
         server_onupdate=db.func.now(),
     )
+    paid = db.Column(db.Boolean, default=False)
 
     def json(self):
         return {
@@ -36,4 +37,5 @@ class Orders(db.Model):
             # 'waiting': self.waiting,
             'created_at': self.created_at,
             'updated_at': self.updated_at,
+            'paid': self.paid,
         }
