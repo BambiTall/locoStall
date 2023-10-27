@@ -391,7 +391,7 @@ onMounted(async () => {
 }
 ._orderConfirm_no__num{
   line-height: 1;
-  font-size: 1.5rem;
+  font-size: 1.15rem;
   color: $color-primary;
   background-color: $color-secondary;
   padding: .5rem;
