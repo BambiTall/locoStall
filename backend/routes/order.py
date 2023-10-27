@@ -174,7 +174,7 @@ def add_linepay():
             },
         ],
         'redirectUrls': {
-            'confirmUrl': f'https://liff.line.me/2000144386-Ax8WZ8k2/{user.native_lang}/payment',
+            'confirmUrl': f'https://liff.line.me/2000144386-Ax8WZ8k2/{user.native_lang}/orderConfirm',
             'cancelUrl': f'https://liff.line.me/2000144386-Ax8WZ8k2/{user.native_lang}/shop/{data["shop_id"]}',
         },
     }

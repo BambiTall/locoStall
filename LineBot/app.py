@@ -187,6 +187,7 @@ def handle_image_message(event):
 
 
 def get_order_detail(order_id, language, user_id):
+    language = 'jp' if language == 'ja' else language
     response = requests.get(f"{backend_url}/{language}/order_detail/{order_id}")
 
     if response.status_code == 200:
@@ -218,9 +219,6 @@ def handle_text_message(event):
     user_id = event.source.user_id
     text = event.message.text
 
-    with open("tmp/" + user_id + ".txt", "r") as f:
-        language = f.read()
-
     # handle text message with LLM
     if text[:4] == '@bot':
         qa = open('qa.csv', 'r').read()
@@ -249,9 +247,14 @@ You are a question-answering assistant. Find the most likely user question in qa
         )
 
     elif "訂單" in text or "注文" in text or "Order" in text:
+        language = open('tmp/' + user_id + '.txt', 'r').read()
         user = requests.get(f'{backend_url}/line_user/{user_id}').json()
-        alt_text_ = {'zh': '訂單訊息', 'ja': '注文履歷', 'en': 'User Orders'}
-        error_ = {'zh': '訂單未成立，請重新下訂', 'ja': '', 'en': 'Please order again'}
+        alt_text_ = {'zh': '訂單訊息', 'ja': '注文履歷', 'en': 'User Order'}
+        error_ = {
+            'zh': '訂單未成立，請重新下訂',
+            'ja': 'Please order again(Japanese)',
+            'en': 'Please order again',
+        }
         pattern = r'\d+'
         match = re.search(pattern, text)
         if match:
@@ -275,7 +278,6 @@ You are a question-answering assistant. Find the most likely user question in qa
                         alt_text=alt_text_[language], contents=flex_message
                     ),
                 )
-                print(language)
             else:
                 line_bot_api.reply_message(
                     event.reply_token, TextSendMessage(text=error_[language])

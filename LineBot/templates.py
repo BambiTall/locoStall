@@ -159,7 +159,7 @@ def order_detail_flex_message(
     not_paid_ = {'zh': '未支付', 'ja': '未払い', 'en': 'Not Paid'}
     order_time_ = {'zh': '建立時間', 'ja': '注文時間', 'en': 'Order Time'}
 
-    order_url = f'{liff_url}/{"jp" if langcode=="ja" else langcode}/user/order'
+    order_url = f'{liff_url}/{"jp" if langcode == "ja" else langcode}/user/order'
 
     flex_content = json.load(open('static/order_flex.json', 'r'))
     shoplist = json.load(open(f'static/shoplist_{langcode}.json', 'r'))
