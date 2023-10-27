@@ -89,6 +89,9 @@ const sendOrderToDB = async( params )=>{
 
 const linepayAuth = async( params )=>{
   try {
+    // str to json
+    params.item_list = JSON.parse(params.item_list);
+    // console.log(' params', params);
     const res = await api.post('/linepay', params);
     console.log('linepayAuth res.data',res.data);
     // alert(res.data);
