@@ -128,7 +128,7 @@ def add_order():
         user_id=data['user_id'],
         payment=data['payment'],
         shop_id=data['shop_id'],
-        state='waiting',
+        state='cooking',
     )
 
     db.session.add(orders)
@@ -212,13 +212,14 @@ def add_linepay():
         }
 
 
-# Update order (require datas : order's id, [state or paid])
+# Update order (require datas : order's id, state, paid)
 @order_bp.route(f'{os.environ["API_BASE"]}/update_order', methods=['POST'])
 def update_order():
     data = request.get_json()
     order = db.get_or_404(entity=Orders, ident=data['order_id'])
-    order.state = data['state'] if data['state'] != None else order.state
-    order.paid = data['paid'] if data['paid'] != None else order.paid
+
+    order.state = data['state'] if 'state' in data else order.state
+    order.paid = data['paid'] if 'paid' in data else order.paid
     # order.waiting = data['waiting']
     db.session.commit()
 

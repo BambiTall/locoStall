@@ -246,6 +246,13 @@ You are a question-answering assistant. Find the most likely user question in qa
             TextSendMessage(text=completion.choices[0].message.content),
         )
 
+    elif text[:5] == '@menu' and event.source.type == 'group':
+        flex_message = json.load(open('static/group_menu_flex.json', 'r'))
+        line_bot_api.reply_message(
+            event.reply_token,
+            FlexSendMessage(alt_text='Group Menu', contents=flex_message),
+        )
+
     elif "訂單" in text or "注文" in text or "Order" in text:
         language = open('tmp/' + user_id + '.txt', 'r').read()
         user = requests.get(f'{backend_url}/line_user/{user_id}').json()

@@ -1,0 +1,96 @@
+{
+	"type": "bubble",
+	"body": {
+		"type": "box",
+		"layout": "vertical",
+		"contents": [
+			{
+				"type": "box",
+				"layout": "vertical",
+				"contents": [
+					{
+						"type": "button",
+						"action": {
+							"type": "postback",
+							"label": "Get Started",
+							"data": "data1"
+						},
+						"color": "#3F3A36"
+					}
+				],
+				"backgroundColor": "#FFC749",
+				"cornerRadius": "md"
+			},
+			{
+				"type": "box",
+				"layout": "vertical",
+				"contents": [],
+				"height": "10px"
+			},
+			{
+				"type": "box",
+				"layout": "vertical",
+				"contents": [
+					{
+						"type": "button",
+						"action": {
+							"type": "postback",
+							"label": "Language",
+							"data": "data2"
+						},
+						"color": "#FFC749"
+					}
+				],
+				"backgroundColor": "#514D42",
+				"cornerRadius": "md"
+			},
+			{
+				"type": "box",
+				"layout": "vertical",
+				"contents": [],
+				"height": "10px"
+			},
+			{
+				"type": "box",
+				"layout": "vertical",
+				"contents": [
+					{
+						"type": "button",
+						"action": {
+							"type": "postback",
+							"label": "Explore",
+							"data": "data3"
+						},
+						"color": "#FFC749"
+					}
+				],
+				"backgroundColor": "#514D42",
+				"cornerRadius": "md"
+			},
+			{
+				"type": "box",
+				"layout": "vertical",
+				"contents": [],
+				"height": "10px"
+			},
+			{
+				"type": "box",
+				"layout": "vertical",
+				"contents": [
+					{
+						"type": "button",
+						"action": {
+							"type": "uri",
+							"label": "Snap to Order",
+							"uri": "https://line.me/R/nv/camera/"
+						},
+						"color": "#FFC749"
+					}
+				],
+				"backgroundColor": "#514D42",
+				"cornerRadius": "md"
+			}
+		],
+		"backgroundColor": "#3F3A36"
+	}
+}
